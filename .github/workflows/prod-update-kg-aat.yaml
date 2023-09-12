@@ -1,4 +1,4 @@
-name: Update the Knowledge Graph with data from dataset 'AAT', based on IRIs in the Knowledge Graph
+name: [production] Update the Knowledge Graph with data from dataset 'AAT', based on IRIs in the Knowledge Graph
 
 on:
   schedule:

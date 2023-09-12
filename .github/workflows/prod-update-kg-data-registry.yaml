@@ -1,4 +1,4 @@
-name: Update the Knowledge Graph with data from the data registry
+name: [production] Update the Knowledge Graph with data from the data registry
 
 on:
   push:
