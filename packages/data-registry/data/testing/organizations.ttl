@@ -4,7 +4,6 @@
 
 @prefix schema: <https://schema.org/> .
 
-
 <https://museum.example.org/>
   a schema:Organization ;
   schema:name "Museum" .

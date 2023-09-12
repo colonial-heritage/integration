@@ -6,7 +6,7 @@ on:
     paths: ["packages/data-registry/data/production/**", "packages/data-registry/data/testing/**"]
 
 jobs:
-  update-kg-with-data-registry:
+  update-kg:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
