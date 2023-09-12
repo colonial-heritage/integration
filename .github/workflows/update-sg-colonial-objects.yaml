@@ -43,7 +43,7 @@ jobs:
             --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
             --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_PRODUCTION }}" \
-            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_PRODUCTION }}" \
+            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_SG_PRODUCTION }}" \
             --triplydb-service-name "search" \
             --triplydb-service-type "elasticsearch" \
             --rdf-file ./data/colonial-objects.nt \
