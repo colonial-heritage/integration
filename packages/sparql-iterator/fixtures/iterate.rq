@@ -4,8 +4,7 @@ WHERE {
     SELECT ?iri
     WHERE {
       ?s ?p ?iri ;
-      FILTER(isIRI(?iri))
-      FILTER(STRSTARTS(STR(?iri), "http://vocab.getty.edu/aat/"))
+      FILTER(isIRI(?iri) && STRSTARTS(STR(?iri), "http://vocab.getty.edu/aat/"))
     }
   }
 }
