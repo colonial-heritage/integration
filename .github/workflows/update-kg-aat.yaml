@@ -1,13 +1,9 @@
 name: Update the Knowledge Graph with data from dataset 'AAT', based on IRIs in the Knowledge Graph
 
-# on:
-#   schedule:
-#     # Run every day at 5:15 UTC
-#     - cron: "15 5 * * *"
-
 on:
-  push:
-    branches: ["main"]
+  schedule:
+    # Run every day at 5:15 UTC
+    - cron: "15 5 * * *"
 
 jobs:
   update-kg:
