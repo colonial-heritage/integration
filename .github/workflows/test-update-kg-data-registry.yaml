@@ -1,4 +1,4 @@
-name: [testing] Update the Knowledge Graph with data from the data registry
+name: Testing - update the Knowledge Graph with data from the data registry
 
 on:
   push:
