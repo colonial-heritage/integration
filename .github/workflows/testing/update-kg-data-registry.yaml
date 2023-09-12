@@ -1,0 +1,35 @@
+name: Update the Knowledge Graph with data from the data registry
+
+on:
+  push:
+    branches: ["main"]
+    paths: ["packages/data-registry/data/testing/**"]
+
+jobs:
+  update-kg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - run: npm ci
+      - run: npm run build
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            testing:
+              - "packages/data-registry/data/testing/**"
+      # Run only if testing files were changed
+      - name: Update testing Knowledge Graph
+        if: steps.changes.outputs.testing == 'true'
+        run: |
+          ./packages/data-registry/dist/cli.js upload \
+            --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
+            --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
+            --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_TESTING }}" \
+            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_KG_TESTING }}" \
+            --triplydb-service-name "kg" \
+            --triplydb-service-type "virtuoso" \
+            --file-pattern "packages/data-registry/data/testing/**/*.ttl"
