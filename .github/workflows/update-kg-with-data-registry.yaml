@@ -31,7 +31,7 @@ jobs:
             --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
             --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_PRODUCTION }}" \
-            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_PRODUCTION }}" \
+            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_KG_PRODUCTION }}" \
             --triplydb-service-name "kg" \
             --triplydb-service-type "virtuoso" \
             --file-pattern "packages/data-registry/data/production/**/*.ttl"
@@ -43,7 +43,7 @@ jobs:
             --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
             --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_TESTING }}" \
-            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_TESTING }}" \
+            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_KG_TESTING }}" \
             --triplydb-service-name "kg" \
             --triplydb-service-type "virtuoso" \
             --file-pattern "packages/data-registry/data/testing/**/*.ttl"
