@@ -1,16 +1,16 @@
-name: Update the Search Graph with data from dataset 'Colonial Objects' in the Knowledge Graph
+name: Update the Knowledge Graph with data from dataset 'AAT', based on IRIs in the Knowledge Graph
 
 # on:
 #   schedule:
-#     # Run every day at 4:10 UTC
-#     - cron: "10 4 * * *"
+#     # Run every day at 5:15 UTC
+#     - cron: "15 5 * * *"
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  update-sg:
+  update-kg:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,7 +43,7 @@ jobs:
             --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
             --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_PRODUCTION }}" \
-            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_SG_PRODUCTION }}" \
+            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_KG_PRODUCTION }}" \
             --triplydb-service-name "search" \
             --triplydb-service-type "elasticsearch" \
             --rdf-file ./data/aat.nt \
