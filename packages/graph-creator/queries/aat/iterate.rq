@@ -1,0 +1,13 @@
+SELECT ?iri
+WHERE {
+  {
+    SELECT ?iri
+    WHERE {
+      ?s ?p ?iri
+      FILTER(isIRI(?iri) && STRSTARTS(STR(?iri), "http://vocab.getty.edu/aat/"))
+    }
+  }
+}
+GROUP BY ?iri
+LIMIT ?_limit
+OFFSET ?_offset

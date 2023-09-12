@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "paths": {
+      // This is necessary for the tests to find local packages and for compilation to work in any order of packages.
+      "@colonial-collections/*": ["./packages/*/src"]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@colonial-collections/triplydb",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest --coverage",
+    "test:once": "vitest --run"
+  },
+  "dependencies": {
+    "@triply/triplydb": "6.0.8",
+    "pino": "8.15.0",
+    "zod": "3.22.2"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "tsconfig": "tsconfig.build.json",
+    "format": "esm",
+    "splitting": false,
+    "sourcemap": false,
+    "clean": true,
+    "dts": true
+  }
+}

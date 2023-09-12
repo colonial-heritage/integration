@@ -1,0 +1,27 @@
+{
+  "name": "@colonial-collections/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest --coverage --passWithNoTests",
+    "test:once": "vitest --run --passWithNoTests"
+  },
+  "dependencies": {
+    "pino": "8.15.0"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "tsconfig": "tsconfig.build.json",
+    "format": "esm",
+    "splitting": false,
+    "sourcemap": false,
+    "clean": true,
+    "dts": true
+  }
+}

@@ -1,0 +1,145 @@
+###############################
+# Query for generating a search graph from object descriptions in dataset 'Colonial Objects'
+###############################
+
+PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dig: <http://www.ics.forth.gr/isl/CRMdig/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX la: <https://linked.art/ns/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skolem: <https://triplydb.com/.well-known/genid/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT {
+  ?object a cc:HeritageObject ;
+    cc:additionalType ?typeName ;
+    cc:identifier ?identifier ;
+    cc:name ?name ;
+    cc:description ?description ;
+    cc:isPartOf ?datasetName ;
+    cc:material ?materialName ;
+    cc:creator ?creatorName ;
+    cc:image ?contentUrl .
+}
+WHERE {
+  VALUES ?object {
+    ?_iris
+  }
+
+  ?object a crm:E22_Human-Made_Object .
+
+  ####################
+  # Type
+  ####################
+
+  OPTIONAL {
+    ?object crm:P2_has_type ?type .
+    ?type rdfs:label ?typeName .
+  }
+
+  ####################
+  # Subject
+  ####################
+  # TBD: not in the KG yet (crm:P62_depicts)
+
+  ####################
+  # Material
+  ####################
+
+  OPTIONAL {
+    ?object crm:P45_consists_of ?material .
+    ?material rdfs:label ?materialName .
+  }
+
+  ####################
+  # Identifier
+  ####################
+
+  OPTIONAL {
+    ?object crm:P1_is_identified_by [
+      a crm:E42_Identifier ;
+      crm:P2_has_type <http://vocab.getty.edu/aat/300404626> ; # Identification number
+      crm:P190_has_symbolic_content ?tmpIdentifier
+    ] ;
+  }
+
+  BIND(IF(BOUND(?tmpIdentifier), ?tmpIdentifier, "Unknown"@en) AS ?identifier)
+
+  ####################
+  # Name
+  ####################
+
+  OPTIONAL {
+    ?object crm:P1_is_identified_by [
+      a crm:E33_E41_Linguistic_Appellation ;
+      # FIXME: should be: crm:P2_has_type <http://vocab.getty.edu/aat/300404670> ; # Name
+      crm:P2_has_type <http://vocab.getty.edu/aat/300417210> ; # Name
+      crm:P190_has_symbolic_content ?name
+    ] ;
+  }
+
+  ####################
+  # Description
+  ####################
+
+  OPTIONAL {
+    ?object crm:P67i_is_referred_to_by [
+      crm:P2_has_type <http://vocab.getty.edu/aat/300435416> ; # Description
+      crm:P190_has_symbolic_content ?description
+    ] ;
+  }
+
+  ####################
+  # Inscription
+  ####################
+  # TBD: not in the KG yet (crm:P128_carries)
+
+  ####################
+  # Technique
+  ####################
+  # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P32_used_general_technique)
+
+  ####################
+  # Part of dataset
+  ####################
+
+  ?object la:member_of ?dataset .
+
+  # Required property, but it may not exist in a specific language
+  OPTIONAL {
+    ?dataset dct:title ?tmpTitle
+    FILTER(LANG(?tmpTitle) = "" || LANGMATCHES(LANG(?tmpTitle), "en"))
+  }
+
+  # TBD: add multi-language support?
+  BIND(COALESCE(?tmpTitle, "Colonial Objects"@en) AS ?datasetName)
+
+  ####################
+  # Creator
+  ####################
+
+  OPTIONAL {
+    ?object crm:P108i_was_produced_by/crm:P14_carried_out_by ?creator .
+    ?creator rdfs:label ?creatorName .
+  }
+
+  ####################
+  # Date created
+  ####################
+  # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82a_begin_of_the_begin, crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82b_end_of_the_end)
+
+  ####################
+  # Image
+  ####################
+
+  OPTIONAL {
+    ?object crm:P65_shows_visual_item/la:digitally_shown_by [
+      a dig:D1_Digital_Object ;
+      crm:P2_has_type <http://vocab.getty.edu/aat/300215302> ; # Digital image
+      la:access_point ?contentUrl
+    ] ;
+  }
+}

@@ -1,0 +1,19 @@
+###############################
+# Organizations, e.g. data providers
+# This data will eventually come from NDE's Dataset Register.
+# It's here because not all dataset descriptions are being accepted by the Register yet (e.g due to missing licenses)
+###############################
+
+@prefix schema: <https://schema.org/> .
+
+<https://collectie.wereldculturen.nl>
+  a schema:Organization ;
+  schema:name "Nationaal Museum van Wereldculturen" .
+
+<https://linkeddata.cultureelerfgoed.nl/colonialheritage>
+  a schema:Organization ;
+  schema:name "Rijksdienst voor het Cultureel Erfgoed" .
+
+<https://colonial-heritage.triply.cc/Bronbeek>
+  a schema:Organization ;
+  schema:name "Museum Bronbeek" .

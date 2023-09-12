@@ -1,0 +1,103 @@
+###############################
+# Query for generating a search graph from person descriptions in dataset 'Stamboeken'
+###############################
+
+PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX pnv: <https://w3id.org/pnv#>
+PREFIX schema: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT {
+  ?person a cc:Person ;
+    cc:name ?name ;
+    cc:birthPlace ?birthPlaceName ;
+    cc:birthDate ?birthDate ;
+    cc:birthYear ?birthYear ;
+    cc:deathPlace ?deathPlaceName ;
+    cc:deathDate ?deathDate ;
+    cc:deathYear ?deathYear ;
+    cc:isPartOf ?datasetName .
+}
+WHERE {
+  VALUES ?person {
+    ?_iris
+  }
+
+  ?person a schema:Person .
+
+  ####################
+  # Name
+  ####################
+
+  ?person pnv:hasName/pnv:literalName ?name .
+
+  ####################
+  # Birth place
+  ####################
+
+  OPTIONAL {
+    ?person schema:birthPlace ?birthPlace .
+    ?birthPlace schema:name ?birthPlaceName .
+  }
+
+  ####################
+  # Birth date
+  ####################
+
+  OPTIONAL {
+    ?person schema:birthDate ?birthDate .
+    # Ignore invalid dates - TBD: should we do this?
+    FILTER(DATATYPE(?birthDate) = xsd:date || DATATYPE(?birthDate) = xsd:gYear || DATATYPE(?birthDate) = xsd:gYearMonth)
+    # Values can have an xsd date type but not be a valid date (!) - ignore these
+    FILTER(COALESCE(xsd:date(STR(?birthDate)), '!') != '!')
+  }
+
+  ####################
+  # Birth year
+  ####################
+
+  BIND(IF(BOUND(?birthDate), YEAR(?birthDate), ?null) AS ?birthYear)
+
+  ####################
+  # Death place
+  ####################
+
+  OPTIONAL {
+    ?person schema:deathPlace ?deathPlace .
+    ?deathPlace schema:name ?deathPlaceName .
+  }
+
+  ####################
+  # Death date
+  ####################
+
+  OPTIONAL {
+    ?person schema:deathDate ?deathDate .
+    # Ignore invalid dates - TBD: should we do this?
+    FILTER(DATATYPE(?deathDate) = xsd:date || DATATYPE(?deathDate) = xsd:gYear || DATATYPE(?deathDate) = xsd:gYearMonth)
+    # Values can have an xsd date type but not be a valid date (!) - ignore these
+    FILTER(COALESCE(xsd:date(STR(?deathDate)), '!') != '!')
+  }
+
+  ####################
+  # Death year
+  ####################
+
+  BIND(IF(BOUND(?deathDate), YEAR(?deathDate), ?null) AS ?deathYear)
+
+  ####################
+  # Part of dataset
+  ####################
+
+  ?person schema:isPartOf ?dataset .
+
+  # Required property, but it may not exist in a specific language
+  OPTIONAL {
+    ?dataset dct:title ?tmpTitle
+    FILTER(LANG(?tmpTitle) = "" || LANGMATCHES(LANG(?tmpTitle), "en"))
+  }
+
+  # TBD: add multi-language support?
+  BIND(COALESCE(?tmpTitle, "Stamboeken"@en) AS ?datasetName)
+}

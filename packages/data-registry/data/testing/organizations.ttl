@@ -1,0 +1,22 @@
+###############################
+# Organizations, e.g. data providers, for testing
+###############################
+
+@prefix schema: <https://schema.org/> .
+
+<https://museum.example.org/>
+  a schema:Organization ;
+  schema:name "Museum" .
+
+<https://archive.example.org/>
+  a schema:Organization ;
+  schema:name "Archive"@en . # Only English
+
+<https://library.example.org/>
+  a schema:Organization ;
+  schema:name "Library" . # No language indicator
+
+<https://research.example.org/>
+  a schema:Organization ;
+  schema:name "Research Organisation"@en,
+            "Onderzoeksinstelling"@nl .

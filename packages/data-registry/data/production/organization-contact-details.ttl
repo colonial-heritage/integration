@@ -1,0 +1,36 @@
+###############################
+# Contact details of organizations
+###############################
+
+@prefix schema: <https://schema.org/> .
+
+<https://collectie.wereldculturen.nl>
+  schema:url <http://www.wereldculturen.nl> ;
+  schema:address [
+    a schema:PostalAddress ;
+    schema:streetAddress "Steenstraat 1" ;
+    schema:postalCode "2312 BS" ;
+    schema:addressLocality "Leiden" ;
+    schema:addressCountry "Nederland"@nl, "Netherlands"@en
+  ] .
+
+<https://linkeddata.cultureelerfgoed.nl/colonialheritage>
+  schema:url <https://www.cultureelerfgoed.nl/> ;
+  schema:address [
+    a schema:PostalAddress ;
+    schema:streetAddress "Smallepad 5" ;
+    schema:postalCode "3811 MG" ;
+    schema:addressLocality "Amersfoort" ;
+    schema:addressCountry "Nederland"@nl, "Netherlands"@en
+  ] .
+
+
+<https://colonial-heritage.triply.cc/Bronbeek>
+  schema:url <http://museumbronbeek.nl/> ;
+  schema:address [
+    a schema:PostalAddress ;
+    schema:streetAddress "Velperweg 147" ;
+    schema:postalCode "6824 MB" ;
+    schema:addressLocality "Arnhem" ;
+    schema:addressCountry "Nederland"@nl, "Netherlands"@en
+  ] .

@@ -1,0 +1,43 @@
+<http://vocab.getty.edu/aat/300379098> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://vocab.getty.edu/aat/300379098> <http://www.w3.org/2004/02/skos/core#prefLabel> "centimeters"@en-us .
+<http://vocab.getty.edu/aat/300379098> <http://www.w3.org/2004/02/skos/core#prefLabel> "centimeter"@nl .
+<http://vocab.getty.edu/aat/300379098> <http://www.w3.org/2004/02/skos/core#prefLabel> "centimetres"@en-gb .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "digital images"@en .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "數位影像"@zh-hant .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "shǔ wèi yǐng xiàng"@zh-latn-pinyin-x-hanyu .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "shu wei ying xiang"@zh-latn-pinyin-x-notone .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "shu wei ying hsiang"@zh-latn-wadegile .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "digitale afbeeldingen"@nl .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "images numérisées"@fr .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "immagini digitali"@it .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "digitalt bilde"@nb .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "digitalt bilde"@nn .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "imagens digitais"@pt .
+<http://vocab.getty.edu/aat/300215302> <http://www.w3.org/2004/02/skos/core#prefLabel> "imágenes digitales"@es .
+<http://vocab.getty.edu/aat/300055647> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://vocab.getty.edu/aat/300055647> <http://www.w3.org/2004/02/skos/core#prefLabel> "width"@en .
+<http://vocab.getty.edu/aat/300055647> <http://www.w3.org/2004/02/skos/core#prefLabel> "breedte"@nl .
+<http://vocab.getty.edu/aat/300055647> <http://www.w3.org/2004/02/skos/core#prefLabel> "寬度"@zh-hant .
+<http://vocab.getty.edu/aat/300055647> <http://www.w3.org/2004/02/skos/core#prefLabel> "kuān dù"@zh-latn-pinyin-x-hanyu .
+<http://vocab.getty.edu/aat/300055647> <http://www.w3.org/2004/02/skos/core#prefLabel> "kuan du"@zh-latn-pinyin-x-notone .
+<http://vocab.getty.edu/aat/300055647> <http://www.w3.org/2004/02/skos/core#prefLabel> "k'uan tu"@zh-latn-wadegile .
+<http://vocab.getty.edu/aat/300055647> <http://www.w3.org/2004/02/skos/core#prefLabel> "anchura"@es .
+<http://vocab.getty.edu/aat/300055644> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://vocab.getty.edu/aat/300055644> <http://www.w3.org/2004/02/skos/core#prefLabel> "height"@en .
+<http://vocab.getty.edu/aat/300055644> <http://www.w3.org/2004/02/skos/core#prefLabel> "高度"@zh-hant .
+<http://vocab.getty.edu/aat/300055644> <http://www.w3.org/2004/02/skos/core#prefLabel> "gāo dù"@zh-latn-pinyin-x-hanyu .
+<http://vocab.getty.edu/aat/300055644> <http://www.w3.org/2004/02/skos/core#prefLabel> "gao du"@zh-latn-pinyin-x-notone .
+<http://vocab.getty.edu/aat/300055644> <http://www.w3.org/2004/02/skos/core#prefLabel> "kao tu"@zh-latn-wadegile .
+<http://vocab.getty.edu/aat/300055644> <http://www.w3.org/2004/02/skos/core#prefLabel> "hoogte"@nl .
+<http://vocab.getty.edu/aat/300055644> <http://www.w3.org/2004/02/skos/core#prefLabel> "altura"@es .
+<http://vocab.getty.edu/aat/300417210> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://vocab.getty.edu/aat/300417210> <http://www.w3.org/2004/02/skos/core#prefLabel> "abbreviated titles"@en .
+<http://vocab.getty.edu/aat/300404670> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://vocab.getty.edu/aat/300404670> <http://www.w3.org/2004/02/skos/core#prefLabel> "preferred terms"@en .
+<http://vocab.getty.edu/aat/300404670> <http://www.w3.org/2004/02/skos/core#prefLabel> "voorkeurstermen"@nl .
+<http://vocab.getty.edu/aat/300404626> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://vocab.getty.edu/aat/300404626> <http://www.w3.org/2004/02/skos/core#prefLabel> "identification numbers"@en .
+<http://vocab.getty.edu/aat/300404626> <http://www.w3.org/2004/02/skos/core#prefLabel> "identificatienummers"@nl .
+<http://vocab.getty.edu/aat/300435416> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://vocab.getty.edu/aat/300435416> <http://www.w3.org/2004/02/skos/core#prefLabel> "descriptive note"@en .
