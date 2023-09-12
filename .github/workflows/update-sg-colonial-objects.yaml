@@ -47,4 +47,4 @@ jobs:
             --triplydb-service-name "search" \
             --triplydb-service-type "elasticsearch" \
             --rdf-file ./data/colonial-objects.nt \
-            --graph "https://data.colonialcollections.nl/colonial-objects"
+            --graph-name "https://data.colonialcollections.nl/colonial-objects"
