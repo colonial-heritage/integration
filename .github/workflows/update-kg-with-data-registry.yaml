@@ -32,6 +32,8 @@ jobs:
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
             --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_PRODUCTION }}" \
             --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_PRODUCTION }}" \
+            --triplydb-service-name "kg" \
+            --triplydb-service-type "virtuoso" \
             --file-pattern "packages/data-registry/data/production/**/*.ttl"
       # Run only if testing files were changed
       - name: Update testing Knowledge Graph
@@ -42,4 +44,6 @@ jobs:
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
             --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_TESTING }}" \
             --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_TESTING }}" \
+            --triplydb-service-name "kg" \
+            --triplydb-service-type "virtuoso" \
             --file-pattern "packages/data-registry/data/testing/**/*.ttl"

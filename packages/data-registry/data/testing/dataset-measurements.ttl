@@ -12,7 +12,6 @@
   dqv:hasQualityMeasurement <https://example.org/datasets/1/measurements/1> ,
                             <https://example.org/datasets/1/measurements/2> .
 
-
 <https://example.org/datasets/1/measurements/1>
   a dqv:QualityMeasurement ;
   dqv:computedOn <https://example.org/datasets/1> ;
