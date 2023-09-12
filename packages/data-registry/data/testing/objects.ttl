@@ -206,8 +206,7 @@
     a crm:E33_Linguistic_Object ;
     crm:P2_has_type <http://vocab.getty.edu/aat/300028702> ; # Inscription
     crm:P190_has_symbolic_content "Maecenas commodo est neque" ;
-  ] ;
-.
+  ] .
 
 # An object with only required data, for testing
 <https://example.org/objects/4>

@@ -30,9 +30,7 @@
     pnv:surname "de Ruyter" ;
     pnv:literalName "Michiel Adriaensz. de Ruyter" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/1> ;
-.
-
+  schema:isPartOf <https://example.org/datasets/1> .
 
 <https://example.org/persons/2>
   a schema:Person, pnv:Person, crm:E21_Person ;
@@ -55,8 +53,7 @@
     pnv:surname "de Vries" ;
     pnv:literalName "Jan de Vries" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/1> ;
-.
+  schema:isPartOf <https://example.org/datasets/1> .
 
 <https://example.org/persons/3>
   a schema:Person, pnv:Person, crm:E21_Person ;
@@ -77,8 +74,7 @@
     pnv:surname "Jansen" ;
     pnv:literalName "Kees Jansen" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/3> ;
-.
+  schema:isPartOf <https://example.org/datasets/3> .
 
 <https://example.org/persons/4>
   a schema:Person, pnv:Person, crm:E21_Person ;
@@ -95,8 +91,7 @@
     pnv:surname "Nooitgedacht" ;
     pnv:literalName "Gert Nooitgedacht" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/3> ;
-.
+  schema:isPartOf <https://example.org/datasets/3> .
 
 <https://example.org/persons/5>
   a schema:Person, pnv:Person, crm:E21_Person ;
@@ -112,8 +107,7 @@
     pnv:surname "Vlieger" ;
     pnv:literalName "Beatrice Vlieger" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/4> ;
-.
+  schema:isPartOf <https://example.org/datasets/4> .
 
 <https://example.org/persons/6>
   a schema:Person, pnv:Person, crm:E21_Person ;
@@ -130,8 +124,7 @@
     pnv:surname "van Châtellerault" ;
     pnv:literalName "Geeske van Châtellerault" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/4> ;
-.
+  schema:isPartOf <https://example.org/datasets/4> .
 
 <https://example.org/persons/7>
   a schema:Person, pnv:Person, crm:E21_Person ;
@@ -143,8 +136,7 @@
     pnv:surname "Noord" ;
     pnv:literalName "Theodora Noord" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/5> ;
-.
+  schema:isPartOf <https://example.org/datasets/5> .
 
 <https://example.org/persons/8>
   a schema:Person, pnv:Person, crm:E21_Person ;
@@ -156,8 +148,7 @@
     pnv:surname "Zuid" ;
     pnv:literalName "Welmoed Zuid" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/5> ;
-.
+  schema:isPartOf <https://example.org/datasets/5> .
 
 <https://example.org/persons/9>
   a schema:Person, pnv:Person, crm:E21_Person ;
@@ -180,8 +171,7 @@
     pnv:surname "van 't Westen" ;
     pnv:literalName "Karel van 't Westen" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/1> ;
-.
+  schema:isPartOf <https://example.org/datasets/1> .
 
 <https://example.org/persons/10>
   a schema:Person, pnv:Person, crm:E21_Person ;
@@ -194,8 +184,7 @@
     pnv:surname "Oost" ;
     pnv:literalName "Ida Oost" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/1> ;
-.
+  schema:isPartOf <https://example.org/datasets/1> .
 
 <https://example.org/persons/11>
   a schema:Person, pnv:Person, crm:E21_Person ;
@@ -208,5 +197,4 @@
     pnv:surname "Noordwest" ;
     pnv:literalName "Julienne Noordwest" ;
   ] ;
-  schema:isPartOf <https://example.org/datasets/3> ;
-.
+  schema:isPartOf <https://example.org/datasets/3> .
