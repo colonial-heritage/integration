@@ -44,7 +44,7 @@ jobs:
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
             --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_PRODUCTION }}" \
             --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_KG_PRODUCTION }}" \
-            --triplydb-service-name "search" \
-            --triplydb-service-type "elasticsearch" \
+            --triplydb-service-name "kg" \
+            --triplydb-service-type "virtuoso" \
             --rdf-file ./data/aat.nt \
             --graph-name "https://data.colonialcollections.nl/aat"
