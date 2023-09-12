@@ -22,7 +22,7 @@ jobs:
             testing:
               - "packages/data-registry/data/testing/**"
       # Run only if testing files were changed
-      - name: Update testing Knowledge Graph
+      - name: Update Knowledge Graph
         if: steps.changes.outputs.testing == 'true'
         run: |
           ./packages/data-registry/dist/cli.js upload \

@@ -22,7 +22,7 @@ jobs:
             production:
               - "packages/data-registry/data/production/**"
       # Run only if production files were changed
-      - name: Update production Knowledge Graph
+      - name: Update Knowledge Graph
         if: steps.changes.outputs.production == 'true'
         run: |
           ./packages/data-registry/dist/cli.js upload \
