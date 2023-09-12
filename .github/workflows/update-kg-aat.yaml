@@ -1,0 +1,50 @@
+name: Update the Search Graph with data from dataset 'Colonial Objects' in the Knowledge Graph
+
+# on:
+#   schedule:
+#     # Run every day at 4:10 UTC
+#     - cron: "10 4 * * *"
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  update-sg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - run: npm ci
+      - run: npm run build
+      - name: Iterate
+        run: |
+          ./packages/graph-creator/dist/cli.js iterate \
+            --endpoint-url "${{ secrets.SPARQL_ENDPOINT_KG }}" \
+            --query-file ./packages/graph-creator/queries/aat/iterate.rq \
+            --number-of-iris-per-request 10000 \
+            --wait-between-requests 500 \
+            --iri-file ./data/aat.txt
+      - name: Generate
+        run: |
+          ./packages/graph-creator/dist/cli.js generate \
+            --endpoint-url "https://vocab.getty.edu/sparql" \
+            --query-file ./packages/graph-creator/queries/aat/generate.rq \
+            --number-of-resources-per-request 25 \
+            --number-of-concurrent-requests 1 \
+            --wait-between-requests 500 \
+            --iri-file ./data/aat.txt \
+            --rdf-file ./data/aat.nt
+      - name: Upload
+        run: |
+          ./packages/graph-creator/dist/cli.js upload \
+            --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
+            --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
+            --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_PRODUCTION }}" \
+            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_SG_PRODUCTION }}" \
+            --triplydb-service-name "search" \
+            --triplydb-service-type "elasticsearch" \
+            --rdf-file ./data/aat.nt \
+            --graph-name "https://data.colonialcollections.nl/aat"
