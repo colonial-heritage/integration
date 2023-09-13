@@ -1,4 +1,4 @@
-name: Production -update the Search Graph with data from dataset 'Colonial Objects' in the Knowledge Graph
+name: Production - update the Search Graph with data from dataset 'Colonial Objects' in the Knowledge Graph
 
 on:
   schedule:
