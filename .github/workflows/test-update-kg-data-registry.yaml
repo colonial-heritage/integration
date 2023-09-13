@@ -15,15 +15,7 @@ jobs:
           node-version: "18"
       - run: npm ci
       - run: npm run build
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            testing:
-              - "packages/data-registry/data/testing/**"
-      # Run only if testing files were changed
       - name: Update Knowledge Graph
-        if: steps.changes.outputs.testing == 'true'
         run: |
           ./packages/data-registry/dist/cli.js upload \
             --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \

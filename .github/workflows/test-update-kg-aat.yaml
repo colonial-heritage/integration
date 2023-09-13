@@ -15,13 +15,6 @@ jobs:
           node-version: "18"
       - run: npm ci
       - run: npm run build
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            testing:
-              - "packages/data-registry/data/testing/**"
-      # Run only if testing files were changed
       - name: Iterate
         run: |
           ./packages/graph-creator/dist/cli.js iterate \
