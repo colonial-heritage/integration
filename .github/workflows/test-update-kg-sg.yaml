@@ -101,7 +101,7 @@ jobs:
             --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
             --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_TESTING }}" \
-            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_KG_TESTING }}" \
+            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_SG_TESTING }}" \
             --triplydb-service-name "search" \
             --triplydb-service-type "elasticsearch" \
             --rdf-file ./data/persons.nt \
@@ -141,7 +141,7 @@ jobs:
             --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
             --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_TESTING }}" \
-            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_KG_TESTING }}" \
+            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_SG_TESTING }}" \
             --triplydb-service-name "search" \
             --triplydb-service-type "elasticsearch" \
             --rdf-file ./data/objects.nt \
