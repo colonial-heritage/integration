@@ -19,7 +19,7 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js iterate \
             --endpoint-url "${{ secrets.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
-            --query-file ./packages/graph-creator/queries/colonial-objects/iterate.rq \
+            --query-file ./packages/graph-creator/queries/production/colonial-objects/iterate.rq \
             --number-of-iris-per-request 10000 \
             --wait-between-requests 500 \
             --iri-file ./data/colonial-objects.txt
@@ -27,7 +27,7 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js generate \
             --endpoint-url "${{ secrets.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
-            --query-file ./packages/graph-creator/queries/colonial-objects/generate.rq \
+            --query-file ./packages/graph-creator/queries/production/colonial-objects/generate.rq \
             --number-of-resources-per-request 25 \
             --number-of-concurrent-requests 1 \
             --wait-between-requests 500 \

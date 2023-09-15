@@ -19,7 +19,7 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js iterate \
             --endpoint-url "${{ secrets.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
-            --query-file ./packages/graph-creator/queries/stamboeken/iterate.rq \
+            --query-file ./packages/graph-creator/queries/production/stamboeken/iterate.rq \
             --number-of-iris-per-request 10000 \
             --wait-between-requests 500 \
             --iri-file ./data/stamboeken.txt
@@ -27,7 +27,7 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js generate \
             --endpoint-url "${{ secrets.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
-            --query-file ./packages/graph-creator/queries/stamboeken/generate.rq \
+            --query-file ./packages/graph-creator/queries/production/stamboeken/generate.rq \
             --number-of-resources-per-request 50 \
             --number-of-concurrent-requests 10 \
             --wait-between-requests 500 \
