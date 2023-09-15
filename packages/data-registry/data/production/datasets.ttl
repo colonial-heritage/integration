@@ -34,7 +34,8 @@ This is the acceptance dataset for NMVW."""@en ;
 
 # Dataset 'Colonial Objects'
 
-<https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects>
+# TBD: use https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects instead?
+<https://colonial-heritage.triply.cc/rce-colonial-objects/colonialobjects>
   a dcat:Dataset ;
   dct:title "Colonial Objects"@en ;
   dct:publisher <https://linkeddata.cultureelerfgoed.nl/colonialheritage> ;
