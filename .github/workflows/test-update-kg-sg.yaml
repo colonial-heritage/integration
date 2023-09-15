@@ -6,7 +6,7 @@ on:
     paths: ["packages/data-registry/data/testing/**"]
 
 jobs:
-  update-kg:
+  update-kg-with-data-registry:
     strategy:
       max-parallel: 1
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
             --triplydb-service-name "kg" \
             --triplydb-service-type "virtuoso" \
             --file-pattern "packages/data-registry/data/testing/**/*.ttl"
-  update-kg:
+  update-kg-with-aat:
     strategy:
       max-parallel: 1
     runs-on: ubuntu-latest
