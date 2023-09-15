@@ -17,8 +17,8 @@ Changes made to the Turtle files in `data` are automatically propagated to the K
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
       --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
-      --triplydb-account "$TRIPLYDB_ACCOUNT" \
-      --triplydb-dataset "$TRIPLYDB_DATASET" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_TESTING" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_KG_TESTING" \
       --triplydb-service-name "kg" \
       --triplydb-service-type "virtuoso" \
       --file-pattern "data/testing/**/*.ttl"
@@ -28,8 +28,8 @@ Changes made to the Turtle files in `data` are automatically propagated to the K
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
       --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
-      --triplydb-account "$TRIPLYDB_ACCOUNT" \
-      --triplydb-dataset "$TRIPLYDB_DATASET" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_TESTING" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_KG_TESTING" \
       --triplydb-service-name "kg" \
       --triplydb-service-type "virtuoso" \
       --file-pattern "data/testing/datasets.ttl"
