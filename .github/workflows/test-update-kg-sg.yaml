@@ -1,4 +1,4 @@
-name: Testing - update the Knowledge Graph and Search Graph as soon as the Data Registry changes
+name: Testing - update the Knowledge Graph and Search Graph when the Data Registry changes
 
 on:
   push:

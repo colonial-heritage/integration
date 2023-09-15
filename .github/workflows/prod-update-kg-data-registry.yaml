@@ -1,4 +1,4 @@
-name: Production - update the Knowledge Graph with data from the data registry
+name: Production - update the Knowledge Graph when the Data Registry changes
 
 on:
   push:
