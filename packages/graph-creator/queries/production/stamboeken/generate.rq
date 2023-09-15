@@ -17,7 +17,8 @@ CONSTRUCT {
     cc:deathPlace ?deathPlaceName ;
     cc:deathDate ?deathDate ;
     cc:deathYear ?deathYear ;
-    cc:isPartOf ?datasetName .
+    cc:isPartOf ?datasetName ;
+    cc:publisher ?publisherName .
 }
 WHERE {
   VALUES ?person {
@@ -92,12 +93,18 @@ WHERE {
 
   ?person schema:isPartOf ?dataset .
 
-  # Required property, but it may not exist in a specific language
   OPTIONAL {
-    ?dataset dct:title ?tmpTitle
-    FILTER(LANG(?tmpTitle) = "" || LANGMATCHES(LANG(?tmpTitle), "en"))
+    ?dataset dct:title ?datasetName
+    FILTER(LANG(?datasetName) = "" || LANGMATCHES(LANG(?datasetName), "en"))
   }
 
-  # TBD: add multi-language support?
-  BIND(COALESCE(?tmpTitle, "Stamboeken"@en) AS ?datasetName)
+  ####################
+  # Publisher of dataset
+  ####################
+
+  OPTIONAL {
+    ?dataset dct:publisher [
+      schema:name ?publisherName ;
+    ] ;
+  }
 }

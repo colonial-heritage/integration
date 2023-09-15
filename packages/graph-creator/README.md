@@ -8,18 +8,90 @@ Create a graph from a SPARQL endpoint
 
 ## Commands
 
-### AAT
+### Testing
 
-#### Collect IRIs from a SPARQL endpoint
+#### Objects
+
+##### Collect IRIs from a SPARQL endpoint
 
     ./dist/cli.js iterate \
-      --endpoint-url "$SPARQL_ENDPOINT_KG" \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
+      --query-file ./queries/testing/objects/iterate.rq \
+      --number-of-iris-per-request 10000 \
+      --wait-between-requests 100 \
+      --iri-file ./tmp/testing-objects.txt
+
+##### Generate graph from a SPARQL endpoint
+
+    ./dist/cli.js generate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
+      --query-file ./queries/testing/objects/generate.rq \
+      --number-of-resources-per-request 50 \
+      --number-of-concurrent-requests 10 \
+      --wait-between-requests 500 \
+      --iri-file ./tmp/testing-objects.txt \
+      --rdf-file ./tmp/testing-objects.nt
+
+##### Upload RDF file to TriplyDB
+
+    ./dist/cli.js upload \
+      --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
+      --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_TESTING" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_SG_TESTING" \
+      --triplydb-service-name "search" \
+      --triplydb-service-type "elasticsearch" \
+      --rdf-file ./tmp/testing-objects.nt \
+      --graph-name "https://data.colonialcollections.nl/objects"
+
+#### Persons
+
+##### Collect IRIs from a SPARQL endpoint
+
+    ./dist/cli.js iterate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
+      --query-file ./queries/testing/persons/iterate.rq \
+      --number-of-iris-per-request 10000 \
+      --wait-between-requests 100 \
+      --iri-file ./tmp/testing-persons.txt
+
+##### Generate graph from a SPARQL endpoint
+
+    ./dist/cli.js generate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
+      --query-file ./queries/testing/persons/generate.rq \
+      --number-of-resources-per-request 50 \
+      --number-of-concurrent-requests 10 \
+      --wait-between-requests 500 \
+      --iri-file ./tmp/testing-persons.txt \
+      --rdf-file ./tmp/testing-persons.nt
+
+##### Upload RDF file to TriplyDB
+
+    ./dist/cli.js upload \
+      --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
+      --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_TESTING" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_SG_TESTING" \
+      --triplydb-service-name "search" \
+      --triplydb-service-type "elasticsearch" \
+      --rdf-file ./tmp/testing-persons.nt \
+      --graph-name "https://data.colonialcollections.nl/persons"
+
+### Production
+
+#### AAT
+
+##### Collect IRIs from a SPARQL endpoint
+
+    ./dist/cli.js iterate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/aat/iterate.rq \
       --number-of-iris-per-request 2 \
       --wait-between-requests 500 \
       --iri-file ./tmp/aat.txt
 
-#### Generate graph from a SPARQL endpoint
+##### Generate graph from a SPARQL endpoint
 
     ./dist/cli.js generate \
       --endpoint-url "https://vocab.getty.edu/sparql" \
@@ -30,116 +102,116 @@ Create a graph from a SPARQL endpoint
       --number-of-concurrent-requests 1 \
       --rdf-file ./tmp/aat.nt
 
-#### Upload RDF file to TriplyDB
+##### Upload RDF file to TriplyDB
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
       --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
-      --triplydb-account "$TRIPLYDB_ACCOUNT" \
-      --triplydb-dataset "$TRIPLYDB_DATASET" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_PRODUCTION" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_SG_PRODUCTION" \
       --triplydb-service-name "kg" \
       --triplydb-service-type "virtuoso" \
       --rdf-file ./tmp/aat.nt \
       --graph-name "https://data.colonialcollections.nl/aat"
 
-### Associations
+#### Associations
 
-#### Collect IRIs from a SPARQL endpoint
+##### Collect IRIs from a SPARQL endpoint
 
     ./dist/cli.js iterate \
-      --endpoint-url "$SPARQL_ENDPOINT_KG" \
-      --query-file ./queries/associations/iterate.rq \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
+      --query-file ./queries/production/associations/iterate.rq \
       --number-of-iris-per-request 10000 \
       --wait-between-requests 100 \
       --iri-file ./tmp/associations.txt
 
-#### Generate graph from a SPARQL endpoint
+##### Generate graph from a SPARQL endpoint
 
     ./dist/cli.js generate \
-      --endpoint-url "$SPARQL_ENDPOINT_KG" \
-      --query-file ./queries/associations/generate.rq \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
+      --query-file ./queries/production/associations/generate.rq \
       --number-of-resources-per-request 50 \
       --number-of-concurrent-requests 10 \
       --wait-between-requests 500 \
       --iri-file ./tmp/associations.txt \
       --rdf-file ./tmp/associations.nt
 
-#### Upload RDF file to TriplyDB
+##### Upload RDF file to TriplyDB
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
       --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
-      --triplydb-account "$TRIPLYDB_ACCOUNT" \
-      --triplydb-dataset "$TRIPLYDB_DATASET" \
-      --triplydb-service-name "elasticsearch" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_PRODUCTION" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_SG_PRODUCTION" \
+      --triplydb-service-name "search" \
       --triplydb-service-type "elasticsearch" \
       --rdf-file ./tmp/associations.nt \
       --graph-name "https://data.colonialcollections.nl/associations"
 
-### Colonial objects
+#### Colonial objects
 
-#### Collect IRIs from a SPARQL endpoint
+##### Collect IRIs from a SPARQL endpoint
 
     ./dist/cli.js iterate \
-      --endpoint-url "$SPARQL_ENDPOINT_KG" \
-      --query-file ./queries/colonial-objects/iterate.rq \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
+      --query-file ./queries/production/colonial-objects/iterate.rq \
       --number-of-iris-per-request 10000 \
       --wait-between-requests 500 \
       --iri-file ./tmp/colonial-objects.txt
 
-#### Generate graph from a SPARQL endpoint
+##### Generate graph from a SPARQL endpoint
 
     ./dist/cli.js generate \
-      --endpoint-url "$SPARQL_ENDPOINT_KG" \
-      --query-file ./queries/colonial-objects/generate.rq \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
+      --query-file ./queries/production/colonial-objects/generate.rq \
       --number-of-resources-per-request 25 \
       --number-of-concurrent-requests 1 \
       --wait-between-requests 500 \
       --iri-file ./tmp/colonial-objects.txt \
       --rdf-file ./tmp/colonial-objects.nt
 
-#### Upload RDF file to TriplyDB
+##### Upload RDF file to TriplyDB
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
       --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
-      --triplydb-account "$TRIPLYDB_ACCOUNT" \
-      --triplydb-dataset "$TRIPLYDB_DATASET" \
-      --triplydb-service-name "elasticsearch" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_PRODUCTION" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_SG_PRODUCTION" \
+      --triplydb-service-name "search" \
       --triplydb-service-type "elasticsearch" \
       --rdf-file ./tmp/colonial-objects.nt \
       --graph-name "https://data.colonialcollections.nl/colonial-objects"
 
-### Stamboeken
+#### Stamboeken
 
-#### Collect IRIs from a SPARQL endpoint
+##### Collect IRIs from a SPARQL endpoint
 
     ./dist/cli.js iterate \
-      --endpoint-url "$SPARQL_ENDPOINT_KG" \
-      --query-file ./queries/stamboeken/iterate.rq \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
+      --query-file ./queries/production/stamboeken/iterate.rq \
       --number-of-iris-per-request 10000 \
       --wait-between-requests 100 \
       --iri-file ./tmp/stamboeken.txt
 
-#### Generate graph from a SPARQL endpoint
+##### Generate graph from a SPARQL endpoint
 
     ./dist/cli.js generate \
-      --endpoint-url "$SPARQL_ENDPOINT_KG" \
-      --query-file ./queries/stamboeken/generate.rq \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
+      --query-file ./queries/production/stamboeken/generate.rq \
       --number-of-resources-per-request 50 \
       --number-of-concurrent-requests 10 \
       --wait-between-requests 500 \
       --iri-file ./tmp/stamboeken.txt \
       --rdf-file ./tmp/stamboeken.nt
 
-#### Upload RDF file to TriplyDB
+##### Upload RDF file to TriplyDB
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
       --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
-      --triplydb-account "$TRIPLYDB_ACCOUNT" \
-      --triplydb-dataset "$TRIPLYDB_DATASET" \
-      --triplydb-service-name "elasticsearch" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_PRODUCTION" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_SG_PRODUCTION" \
+      --triplydb-service-name "search" \
       --triplydb-service-type "elasticsearch" \
       --rdf-file ./tmp/stamboeken.nt \
       --graph-name "https://data.colonialcollections.nl/stamboeken"

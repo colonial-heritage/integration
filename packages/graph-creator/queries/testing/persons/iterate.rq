@@ -1,0 +1,14 @@
+PREFIX schema: <https://schema.org/>
+
+# Use a 'scrollable cursor' - https://vos.openlinksw.com/owiki/wiki/VOS/VirtTipsAndTricksHowToHandleBandwidthLimitExceed
+SELECT *
+WHERE {
+  {
+    SELECT ?iri
+    WHERE {
+      ?iri a schema:Person
+    }
+  }
+}
+LIMIT ?_limit
+OFFSET ?_offset

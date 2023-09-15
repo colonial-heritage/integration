@@ -1,5 +1,5 @@
 ###############################
-# Query for generating a search graph from object descriptions in dataset 'Colonial Objects'
+# Query for generating a search graph from object descriptions in dataset 'objects.ttl' from the Data Registry
 ###############################
 
 PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
@@ -9,20 +9,22 @@ PREFIX dig: <http://www.ics.forth.gr/isl/CRMdig/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX la: <https://linked.art/ns/terms/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
 PREFIX skolem: <https://triplydb.com/.well-known/genid/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT {
   ?object a cc:HeritageObject ;
-    cc:additionalType ?typeName ;
     cc:identifier ?identifier ;
     cc:name ?name ;
     cc:description ?description ;
+    cc:inscription ?inscription ;
     cc:isPartOf ?datasetName ;
+    cc:publisher ?publisherName ;
     cc:material ?materialName ;
-    cc:creator ?creatorName ;
-    cc:image ?contentUrl .
+    cc:dateCreatedStart ?beginOfTheBegin ;
+    cc:dateCreatedEnd ?endOfTheEnd .
 }
 WHERE {
   VALUES ?object {
@@ -34,11 +36,7 @@ WHERE {
   ####################
   # Type
   ####################
-
-  OPTIONAL {
-    ?object crm:P2_has_type ?type .
-    ?type rdfs:label ?typeName .
-  }
+  # TBD: not in the KG yet (crm:P2_has_type)
 
   ####################
   # Subject
@@ -62,11 +60,9 @@ WHERE {
     ?object crm:P1_is_identified_by [
       a crm:E42_Identifier ;
       crm:P2_has_type <http://vocab.getty.edu/aat/300404626> ; # Identification number
-      crm:P190_has_symbolic_content ?tmpIdentifier
+      crm:P190_has_symbolic_content ?identifier
     ] ;
   }
-
-  BIND(IF(BOUND(?tmpIdentifier), ?tmpIdentifier, "Unknown"@en) AS ?identifier)
 
   ####################
   # Name
@@ -75,8 +71,7 @@ WHERE {
   OPTIONAL {
     ?object crm:P1_is_identified_by [
       a crm:E33_E41_Linguistic_Appellation ;
-      # FIXME: should be: crm:P2_has_type <http://vocab.getty.edu/aat/300404670> ; # Name
-      crm:P2_has_type <http://vocab.getty.edu/aat/300417210> ; # Name
+      crm:P2_has_type <http://vocab.getty.edu/aat/300404670> ; # Name
       crm:P190_has_symbolic_content ?name
     ] ;
   }
@@ -95,7 +90,13 @@ WHERE {
   ####################
   # Inscription
   ####################
-  # TBD: not in the KG yet (crm:P128_carries)
+
+  OPTIONAL {
+    ?object crm:P128_carries [
+      crm:P2_has_type <http://vocab.getty.edu/aat/300028702> ; # Inscription
+      crm:P190_has_symbolic_content ?inscription ;
+    ] ;
+  }
 
   ####################
   # Technique
@@ -108,38 +109,42 @@ WHERE {
 
   ?object la:member_of ?dataset .
 
-  # Required property, but it may not exist in a specific language
   OPTIONAL {
-    ?dataset dct:title ?tmpTitle
-    FILTER(LANG(?tmpTitle) = "" || LANGMATCHES(LANG(?tmpTitle), "en"))
+    ?dataset dct:title ?datasetName
+    FILTER(LANG(?datasetName) = "" || LANGMATCHES(LANG(?datasetName), "en"))
   }
 
-  # TBD: add multi-language support?
-  BIND(COALESCE(?tmpTitle, "Colonial Objects"@en) AS ?datasetName)
+  ####################
+  # Publisher of dataset
+  ####################
+
+  OPTIONAL {
+    ?dataset dct:publisher [
+      schema:name ?publisherName ;
+    ] ;
+  }
 
   ####################
   # Creator
   ####################
-
-  OPTIONAL {
-    ?object crm:P108i_was_produced_by/crm:P14_carried_out_by ?creator .
-    ?creator rdfs:label ?creatorName .
-  }
+  # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P14_carried_out_by)
 
   ####################
   # Date created
   ####################
-  # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82a_begin_of_the_begin, crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82b_end_of_the_end)
+
+  OPTIONAL {
+    ?object crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82a_begin_of_the_begin ?beginOfTheBegin .
+    # TBD: add a FILTER() to remove invalid dates?
+  }
+
+  OPTIONAL {
+    ?object crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82b_end_of_the_end ?endOfTheEnd .
+    # TBD: add a FILTER() to remove invalid dates?
+  }
 
   ####################
   # Image
   ####################
-
-  OPTIONAL {
-    ?object crm:P65_shows_visual_item/la:digitally_shown_by [
-      a dig:D1_Digital_Object ;
-      crm:P2_has_type <http://vocab.getty.edu/aat/300215302> ; # Digital image
-      la:access_point ?contentUrl
-    ] ;
-  }
+  # TBD: not in the KG yet (crm:P65_shows_visual_item/la:digitally_shown_by)
 }

@@ -9,19 +9,28 @@ PREFIX dig: <http://www.ics.forth.gr/isl/CRMdig/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX la: <https://linked.art/ns/terms/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
 PREFIX skolem: <https://triplydb.com/.well-known/genid/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT {
   ?object a cc:HeritageObject ;
+    cc:additionalType ?typeName ;
+    cc:about ?subjectName ;
     cc:identifier ?identifier ;
     cc:name ?name ;
     cc:description ?description ;
+    cc:inscription ?inscription ;
     cc:isPartOf ?datasetName ;
     cc:material ?materialName ;
+    cc:technique ?techniqueName ;
+    cc:creator ?creatorName ;
+    cc:owner ?ownerName ;
+    cc:publisher ?publisherName ;
     cc:dateCreatedStart ?beginOfTheBegin ;
-    cc:dateCreatedEnd ?endOfTheEnd .
+    cc:dateCreatedEnd ?endOfTheEnd ;
+    cc:image ?contentUrl . # TBD: fetch from triplestore instead?
 }
 WHERE {
   VALUES ?object {
@@ -33,20 +42,31 @@ WHERE {
   ####################
   # Type
   ####################
-  # TBD: not in the KG yet (crm:P2_has_type)
+
+  OPTIONAL {
+    ?object crm:P2_has_type [
+      rdfs:label ?typeName
+    ] ;
+  }
 
   ####################
   # Subject
   ####################
-  # TBD: not in the KG yet (crm:P62_depicts)
+
+  OPTIONAL {
+    ?object crm:P62_depicts [
+      rdfs:label ?subjectName
+    ] ;
+  }
 
   ####################
   # Material
   ####################
 
   OPTIONAL {
-    ?object crm:P45_consists_of ?material .
-    ?material rdfs:label ?materialName .
+    ?object crm:P45_consists_of [
+      rdfs:label ?materialName
+    ] ;
   }
 
   ####################
@@ -89,12 +109,23 @@ WHERE {
   ####################
   # Inscription
   ####################
-  # TBD: not in the KG yet (crm:P128_carries)
+
+  OPTIONAL {
+    ?object crm:P128_carries [
+      crm:P2_has_type <http://vocab.getty.edu/aat/300028702> ; # Inscription
+      crm:P190_has_symbolic_content ?inscription ;
+    ] ;
+  }
 
   ####################
   # Technique
   ####################
-  # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P32_used_general_technique)
+
+  OPTIONAL {
+    ?object crm:P108i_was_produced_by/crm:P32_used_general_technique [
+      rdfs:label ?techniqueName
+    ] ;
+  }
 
   ####################
   # Part of dataset
@@ -102,19 +133,40 @@ WHERE {
 
   ?object la:member_of ?dataset .
 
-  # Required property, but it may not exist in a specific language
   OPTIONAL {
-    ?dataset dct:title ?tmpTitle
-    FILTER(LANG(?tmpTitle) = "" || LANGMATCHES(LANG(?tmpTitle), "en"))
+    ?dataset dct:title ?datasetName
+    FILTER(LANG(?datasetName) = "" || LANGMATCHES(LANG(?datasetName), "en"))
   }
 
-  # TBD: add multi-language support?
-  BIND(COALESCE(?tmpTitle, "Associations"@en) AS ?datasetName)
+  ####################
+  # Publisher of dataset
+  ####################
+
+  OPTIONAL {
+    ?dataset dct:publisher [
+      schema:name ?publisherName ;
+    ] ;
+  }
+
+  ####################
+  # Owner
+  ####################
+
+  OPTIONAL {
+    ?object crm:P52_has_current_owner ?owner .
+    ?owner schema:name ?ownerName .
+    FILTER(LANG(?ownerName) = "" || LANGMATCHES(LANG(?ownerName), "en"))
+  }
 
   ####################
   # Creator
   ####################
-  # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P14_carried_out_by)
+
+  OPTIONAL {
+    ?object crm:P108i_was_produced_by/crm:P14_carried_out_by [
+      rdfs:label ?creatorName
+    ] ;
+  }
 
   ####################
   # Date created
@@ -133,5 +185,12 @@ WHERE {
   ####################
   # Image
   ####################
-  # TBD: not in the KG yet (crm:P65_shows_visual_item/la:digitally_shown_by)
+
+  OPTIONAL {
+    ?object crm:P65_shows_visual_item/la:digitally_shown_by [
+      a dig:D1_Digital_Object ;
+      crm:P2_has_type <http://vocab.getty.edu/aat/300215302> ; # Digital image
+      la:access_point ?contentUrl
+    ] ;
+  }
 }

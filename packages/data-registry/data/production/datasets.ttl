@@ -15,12 +15,12 @@
 
 <https://colonial-heritage.triply.cc/nmvw/associations>
   a dcat:Dataset ;
-  dct:title "Associations Acceptance"@en ;
+  dct:title "NMVW Associations"@en ;
   dct:publisher <https://collectie.wereldculturen.nl> ;
   dct:license cc-licences:no-license ;
   dct:description """This dataset is published by a TriplyETL pipeline: [internal link](https://git.triply.cc/customers/nmvw/associations/-/pipelines)
 
-This is the acceptance dataset for NMVW."""@en ;
+This is the dataset for NMVW."""@en ;
   dct:created "2023-01-31"^^xsd:date ;
   dct:modified "2023-05-07"^^xsd:date ;
   dct:issued "2023-01-31"^^xsd:date ;
