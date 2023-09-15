@@ -1,13 +1,9 @@
 name: Production - update the Search Graph with data from dataset 'Datasets' in the Knowledge Graph
 
-# on:
-#   schedule:
-#     # Run every day at 4:30 UTC
-#     - cron: "30 4 * * *"
-
 on:
-  push:
-    branches: ["main"]
+  schedule:
+    # Run every day at 4:15 UTC
+    - cron: "15 4 * * *"
 
 jobs:
   update-sg:
