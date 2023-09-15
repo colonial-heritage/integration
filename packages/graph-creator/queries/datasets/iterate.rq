@@ -1,0 +1,14 @@
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+
+# Use a 'scrollable cursor' - https://vos.openlinksw.com/owiki/wiki/VOS/VirtTipsAndTricksHowToHandleBandwidthLimitExceed
+SELECT *
+WHERE {
+  {
+    SELECT ?iri
+    WHERE {
+      ?iri a dcat:Dataset .
+    }
+  }
+}
+LIMIT ?_limit
+OFFSET ?_offset

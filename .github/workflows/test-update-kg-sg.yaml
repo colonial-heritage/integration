@@ -67,8 +67,8 @@ jobs:
             --rdf-file ./data/aat.nt \
             --graph-name "https://data.colonialcollections.nl/aat"
   update-sg-with-persons:
-    name: Update Search Graph with data from persons dataset
-    needs: [update-kg-with-data-registry, update-kg-with-aat]
+    name: Update Search Graph with data from the 'persons' dataset
+    needs: [update-kg-with-aat]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -107,8 +107,8 @@ jobs:
             --rdf-file ./data/persons.nt \
             --graph-name "https://data.colonialcollections.nl/persons"
   update-sg-with-objects:
-    name: Update Search Graph with data from objects dataset
-    needs: [update-kg-with-data-registry, update-kg-with-aat, update-sg-with-persons]
+    name: Update Search Graph with data from the 'objects' dataset
+    needs: [update-sg-with-persons]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -146,3 +146,43 @@ jobs:
             --triplydb-service-type "elasticsearch" \
             --rdf-file ./data/objects.nt \
             --graph-name "https://data.colonialcollections.nl/objects"
+  update-sg-with-datasets:
+    name: Update Search Graph with data from the 'datasets' dataset
+    needs: [update-sg-with-objects]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - run: npm ci
+      - run: npm run build
+      - name: Iterate
+        run: |
+          ./packages/graph-creator/dist/cli.js iterate \
+            --endpoint-url "${{ secrets.SPARQL_ENDPOINT_KG_TESTING }}" \
+            --query-file ./packages/graph-creator/queries/datasets/iterate.rq \
+            --number-of-iris-per-request 10000 \
+            --wait-between-requests 500 \
+            --iri-file ./data/datasets.txt
+      - name: Generate
+        run: |
+          ./packages/graph-creator/dist/cli.js generate \
+            --endpoint-url "${{ secrets.SPARQL_ENDPOINT_KG_TESTING }}" \
+            --query-file ./packages/graph-creator/queries/datasets/generate.rq \
+            --number-of-resources-per-request 50 \
+            --number-of-concurrent-requests 10 \
+            --wait-between-requests 500 \
+            --iri-file ./data/datasets.txt \
+            --rdf-file ./data/datasets.nt
+      - name: Upload
+        run: |
+          ./packages/graph-creator/dist/cli.js upload \
+            --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
+            --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
+            --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_TESTING }}" \
+            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_SG_TESTING }}" \
+            --triplydb-service-name "search" \
+            --triplydb-service-type "elasticsearch" \
+            --rdf-file ./data/datasets.nt \
+            --graph-name "https://data.colonialcollections.nl/datasets"

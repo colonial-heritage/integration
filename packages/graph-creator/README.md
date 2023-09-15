@@ -10,6 +10,74 @@ Create a graph from a SPARQL endpoint
 
 ### Testing
 
+#### AAT
+
+##### Collect IRIs from a SPARQL endpoint
+
+    ./dist/cli.js iterate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
+      --query-file ./queries/aat/iterate.rq \
+      --number-of-iris-per-request 2 \
+      --wait-between-requests 500 \
+      --iri-file ./tmp/aat.txt
+
+##### Generate graph from a SPARQL endpoint
+
+    ./dist/cli.js generate \
+      --endpoint-url "https://vocab.getty.edu/sparql" \
+      --query-file ./queries/aat/generate.rq \
+      --iri-file ./tmp/iris.txt \
+      --number-of-resources-per-request 10 \
+      --wait-between-requests 500 \
+      --number-of-concurrent-requests 1 \
+      --rdf-file ./tmp/aat.nt
+
+##### Upload RDF file to TriplyDB
+
+    ./dist/cli.js upload \
+      --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
+      --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_TESTING" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_KG_TESTING" \
+      --triplydb-service-name "kg" \
+      --triplydb-service-type "virtuoso" \
+      --rdf-file ./tmp/aat.nt \
+      --graph-name "https://data.colonialcollections.nl/aat"
+
+#### Datasets
+
+##### Collect IRIs from a SPARQL endpoint
+
+    ./dist/cli.js iterate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
+      --query-file ./queries/datasets/iterate.rq \
+      --number-of-iris-per-request 10000 \
+      --wait-between-requests 100 \
+      --iri-file ./tmp/testing-datasets.txt
+
+##### Generate graph from a SPARQL endpoint
+
+    ./dist/cli.js generate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
+      --query-file ./queries/datasets/generate.rq \
+      --number-of-resources-per-request 50 \
+      --number-of-concurrent-requests 10 \
+      --wait-between-requests 500 \
+      --iri-file ./tmp/testing-datasets.txt \
+      --rdf-file ./tmp/testing-datasets.nt
+
+##### Upload RDF file to TriplyDB
+
+    ./dist/cli.js upload \
+      --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
+      --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_TESTING" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_SG_TESTING" \
+      --triplydb-service-name "search" \
+      --triplydb-service-type "elasticsearch" \
+      --rdf-file ./tmp/testing-datasets.nt \
+      --graph-name "https://data.colonialcollections.nl/datasets"
+
 #### Objects
 
 ##### Collect IRIs from a SPARQL endpoint
@@ -108,11 +176,45 @@ Create a graph from a SPARQL endpoint
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
       --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
       --triplydb-account "$TRIPLYDB_ACCOUNT_PRODUCTION" \
-      --triplydb-dataset "$TRIPLYDB_DATASET_SG_PRODUCTION" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_KG_PRODUCTION" \
       --triplydb-service-name "kg" \
       --triplydb-service-type "virtuoso" \
       --rdf-file ./tmp/aat.nt \
       --graph-name "https://data.colonialcollections.nl/aat"
+
+#### Datasets
+
+##### Collect IRIs from a SPARQL endpoint
+
+    ./dist/cli.js iterate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
+      --query-file ./queries/datasets/iterate.rq \
+      --number-of-iris-per-request 10000 \
+      --wait-between-requests 100 \
+      --iri-file ./tmp/datasets.txt
+
+##### Generate graph from a SPARQL endpoint
+
+    ./dist/cli.js generate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
+      --query-file ./queries/datasets/generate.rq \
+      --number-of-resources-per-request 50 \
+      --number-of-concurrent-requests 10 \
+      --wait-between-requests 500 \
+      --iri-file ./tmp/datasets.txt \
+      --rdf-file ./tmp/datasets.nt
+
+##### Upload RDF file to TriplyDB
+
+    ./dist/cli.js upload \
+      --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
+      --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_PRODUCTION" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_SG_PRODUCTION" \
+      --triplydb-service-name "search" \
+      --triplydb-service-type "elasticsearch" \
+      --rdf-file ./tmp/datasets.nt \
+      --graph-name "https://data.colonialcollections.nl/datasets"
 
 #### Associations
 

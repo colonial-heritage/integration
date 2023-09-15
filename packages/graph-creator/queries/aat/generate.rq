@@ -1,14 +1,14 @@
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 CONSTRUCT {
-  ?iri a skos:Concept ;
+  ?term a skos:Concept ;
     skos:prefLabel ?prefLabel .
 }
 WHERE {
-  VALUES ?iri {
+  VALUES ?term {
     ?_iris
   }
 
-  ?iri a skos:Concept ;
+  ?term a skos:Concept ;
     skos:prefLabel ?prefLabel .
 }
