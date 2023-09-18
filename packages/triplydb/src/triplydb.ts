@@ -83,7 +83,8 @@ export class TriplyDb {
 
     this.logger.info(`Restarting service "${opts.name}"`);
 
-    // Create service if it doesn't exist
+    // Create service if it doesn't exist.
+    // This doesn't work for an Elasticsearch service though - a bug?
     const service = await this.dataset.ensureService(opts.name, {
       type: opts.type,
     });

@@ -8,8 +8,8 @@ describe('run', () => {
       run({
         triplydbInstanceUrl: env.TRIPLYDB_INSTANCE_URL as string,
         triplydbApiToken: env.TRIPLYDB_API_TOKEN as string,
-        triplydbAccount: env.TRIPLYDB_ACCOUNT as string,
-        triplydbDataset: env.TRIPLYDB_DATASET as string,
+        triplydbAccount: env.TRIPLYDB_ACCOUNT_DEVELOPMENT as string,
+        triplydbDataset: env.TRIPLYDB_DATASET_KG_DEVELOPMENT as string,
         triplydbServiceName: 'kg',
         triplydbServiceType: 'virtuoso',
         filePattern: './fixtures/files/deep/*',

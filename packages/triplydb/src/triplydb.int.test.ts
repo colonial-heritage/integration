@@ -6,13 +6,12 @@ import {env} from 'node:process';
 let triplyDb: TriplyDb;
 
 beforeAll(async () => {
-  const logger = pino();
   triplyDb = await TriplyDb.new({
-    logger,
+    logger: pino(),
     instanceUrl: env.TRIPLYDB_INSTANCE_URL as string,
     apiToken: env.TRIPLYDB_API_TOKEN as string,
-    account: env.TRIPLYDB_ACCOUNT as string,
-    dataset: env.TRIPLYDB_DATASET as string,
+    account: env.TRIPLYDB_ACCOUNT_DEVELOPMENT as string,
+    dataset: env.TRIPLYDB_DATASET_KG_DEVELOPMENT as string,
   });
 });
 
@@ -31,8 +30,8 @@ describe('restartService', () => {
   it('restarts a service', async () => {
     await expect(
       triplyDb.restartService({
-        name: 'elasticsearch',
-        type: 'elasticsearch',
+        name: 'kg',
+        type: 'virtuoso',
       })
     ).resolves.toBeUndefined();
   });

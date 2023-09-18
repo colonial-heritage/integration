@@ -1,9 +1,8 @@
 import {Iterator} from './iterator.js';
-import {beforeEach, describe, expect, it} from 'vitest';
-import {readFile} from 'node:fs/promises';
 import {WriteStream, createWriteStream} from 'node:fs';
+import {readFile} from 'node:fs/promises';
 import {EOL} from 'node:os';
-import {env} from 'node:process';
+import {beforeEach, describe, expect, it} from 'vitest';
 
 async function readFileAsString(fileName: string) {
   return readFile(fileName, {encoding: 'utf-8'});
@@ -40,9 +39,10 @@ describe('untilDone', () => {
 
   it('iterates until done', async () => {
     const iterator = new Iterator({
-      endpointUrl: env.SPARQL_ENDPOINT_KG as string,
+      endpointUrl: 'https://query.wikidata.org/sparql',
       query,
       writeStream,
+      numberOfIrisPerRequest: 2,
     });
 
     let numberOfEmits = 0;
@@ -50,22 +50,20 @@ describe('untilDone', () => {
 
     await iterator.untilDone();
 
-    expect(numberOfEmits).toBe(10);
+    // This can change if the source data changes
+    expect(numberOfEmits).toBe(2);
 
     const data = await readFileAsString(iriFile);
-    const iris = data.split(EOL).filter(iri => iri.length > 0); // Skip empty lines
+    const iris = data
+      .split(EOL)
+      .filter(iri => iri.length > 0) // Skip empty lines
+      .sort();
 
+    // This can change if the source data changes
     expect(iris).toEqual([
-      'http://vocab.getty.edu/aat/300111999',
-      'http://vocab.getty.edu/aat/300027200',
-      'http://vocab.getty.edu/aat/300043196',
-      'http://vocab.getty.edu/aat/300043196',
-      'http://vocab.getty.edu/aat/300048715',
-      'http://vocab.getty.edu/aat/300048715',
-      'http://vocab.getty.edu/aat/300386957',
-      'http://vocab.getty.edu/aat/300404198',
-      'http://vocab.getty.edu/aat/300417586',
-      'http://vocab.getty.edu/aat/300431978',
+      'http://www.wikidata.org/entity/Q9918',
+      'http://www.wikidata.org/entity/Q9920',
+      'http://www.wikidata.org/entity/Q9974',
     ]);
   });
 });
