@@ -254,6 +254,7 @@
   dcat:keyword "Hendrerit", "Suspendisse" ;
   dcat:distribution <https://example.org/datasets/14/distributions/1> .
 
+
 <https://example.org/datasets/14/distributions/1>
   a dcat:Distribution ;
   dct:title "Microsoft Word distribution of the dataset" ;

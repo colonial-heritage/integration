@@ -6,6 +6,7 @@ on:
     paths: ["packages/data-registry/data/testing/**"]
 
 jobs:
+
   update-kg-with-data-registry:
     name: Update Knowledge Graph with data from Data Registry
     runs-on: ubuntu-latest
@@ -26,6 +27,7 @@ jobs:
             --triplydb-service-name "kg" \
             --triplydb-service-type "virtuoso" \
             --file-pattern "packages/data-registry/data/testing/**/*.ttl"
+
   update-kg-with-aat:
     name: Update Knowledge Graph with data from AAT
     needs: [update-kg-with-data-registry]
@@ -66,6 +68,7 @@ jobs:
             --triplydb-service-type "virtuoso" \
             --rdf-file ./data/aat.nt \
             --graph-name "https://data.colonialcollections.nl/aat"
+
   update-sg-with-persons:
     name: Update Search Graph with data from the 'persons' dataset
     needs: [update-kg-with-aat]
@@ -106,6 +109,7 @@ jobs:
             --triplydb-service-type "elasticsearch" \
             --rdf-file ./data/persons.nt \
             --graph-name "https://data.colonialcollections.nl/persons"
+
   update-sg-with-objects:
     name: Update Search Graph with data from the 'objects' dataset
     needs: [update-sg-with-persons]
@@ -146,6 +150,7 @@ jobs:
             --triplydb-service-type "elasticsearch" \
             --rdf-file ./data/objects.nt \
             --graph-name "https://data.colonialcollections.nl/objects"
+
   update-sg-with-datasets:
     name: Update Search Graph with data from the 'datasets' dataset
     needs: [update-sg-with-objects]
