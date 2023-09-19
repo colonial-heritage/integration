@@ -105,8 +105,7 @@ WHERE {
   OPTIONAL {
     ?dataset dct:type ?genre .
     ?genre a skos:Concept ;
-      skos:prefLabel ?genreName ;
-      skos:inScheme <http://vocab.getty.edu/aat/> .
+      skos:prefLabel ?genreName .
     FILTER(LANG(?genreName) = "" || LANGMATCHES(LANG(?genreName), "en"))
   }
 
