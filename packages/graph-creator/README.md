@@ -26,7 +26,7 @@ Create a graph from a SPARQL endpoint
     ./dist/cli.js generate \
       --endpoint-url "https://vocab.getty.edu/sparql" \
       --query-file ./queries/aat/generate.rq \
-      --iri-file ./tmp/iris.txt \
+      --iri-file ./tmp/aat.txt \
       --number-of-resources-per-request 10 \
       --wait-between-requests 500 \
       --number-of-concurrent-requests 1 \

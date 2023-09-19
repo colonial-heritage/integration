@@ -2,7 +2,8 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 CONSTRUCT {
   ?term a skos:Concept ;
-    skos:prefLabel ?prefLabel .
+    skos:prefLabel ?prefLabel ;
+    skos:inScheme ?scheme .
 }
 WHERE {
   VALUES ?term {
@@ -10,5 +11,7 @@ WHERE {
   }
 
   ?term a skos:Concept ;
-    skos:prefLabel ?prefLabel .
+    skos:prefLabel ?prefLabel ;
+    skos:inScheme ?scheme .
+  FILTER(?scheme = <http://vocab.getty.edu/aat/>)
 }
