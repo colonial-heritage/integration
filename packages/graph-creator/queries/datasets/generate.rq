@@ -7,6 +7,7 @@ PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
 PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX schema: <https://schema.org/>
+PREFIX skolem: <https://triplydb.com/.well-known/genid/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 CONSTRUCT {
@@ -19,7 +20,8 @@ CONSTRUCT {
     cc:dateCreated ?created ;
     cc:dateModified ?modified ;
     cc:datePublished ?issued ;
-    cc:genre ?genreName .
+    cc:genre ?genreName ;
+    cc:mainEntityOfPage ?landingPage . # TODO: remove later
 }
 WHERE {
   VALUES ?dataset {
@@ -106,5 +108,16 @@ WHERE {
       skos:prefLabel ?genreName ;
       skos:inScheme <http://vocab.getty.edu/aat/> .
     FILTER(LANG(?genreName) = "" || LANGMATCHES(LANG(?genreName), "en"))
+  }
+
+  ####################
+  # Landing page
+  ####################
+
+  OPTIONAL {
+    ?dataset dcat:landingPage ?landingPage
+    # The NDE Dataset Register allows blank nodes for the landing page.
+    # TriplyDB turns these into skolemized IRIs. Remove these for Elasticsearch
+    FILTER(!STRSTARTS(STR(?landingPage), STR(skolem:)))
   }
 }
