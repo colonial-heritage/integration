@@ -9,7 +9,7 @@ import {setTimeout as wait} from 'node:timers/promises';
 import rdfSerializer from 'rdf-serialize';
 import {z} from 'zod';
 
-// ESM shenanigans
+// Required to use ESM in both TypeScript and JavaScript
 const serializer =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   'default' in rdfSerializer ? (rdfSerializer.default as any) : rdfSerializer;

@@ -7,13 +7,16 @@ const cli = cac();
 
 cli
   .command('upload', 'Upload RDF files to TriplyDB')
-  .option('--triplydb-instance-url', 'TriplyDB instance URL')
-  .option('--triplydb-api-token', 'TriplyDB API token')
-  .option('--triplydb-account', 'TriplyDB account')
-  .option('--triplydb-dataset', 'TriplyDB dataset')
-  .option('--triplydb-service-name', 'TriplyDB service name')
-  .option('--triplydb-service-type', 'TriplyDB service type')
-  .option('--file-pattern', 'File pattern, matching the files to upload')
+  .option('--triplydb-instance-url <string>', 'TriplyDB instance URL')
+  .option('--triplydb-api-token <string>', 'TriplyDB API token')
+  .option('--triplydb-account <string>', 'TriplyDB account')
+  .option('--triplydb-dataset <string>', 'TriplyDB dataset')
+  .option('--triplydb-service-name <string>', 'TriplyDB service name')
+  .option('--triplydb-service-type <string>', 'TriplyDB service type')
+  .option(
+    '--file-pattern <string>',
+    'File pattern, matching the files to upload'
+  )
   .action(async (options: UploadRunOptions) => {
     import('./uploader.js').then(action => action.run(options));
   });

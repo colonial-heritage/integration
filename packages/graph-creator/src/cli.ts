@@ -9,52 +9,64 @@ const cli = cac();
 
 cli
   .command('iterate', 'Collect IRIs from a SPARQL endpoint')
-  .option('--endpoint-url', 'SPARQL endpoint URL')
-  .option('--query-file', 'Iterate query file')
+  .option('--endpoint-url <string>', 'SPARQL endpoint URL')
+  .option('--query-file <string>', 'Iterate query file')
   .option(
-    '--number-of-iris-per-request',
+    '--number-of-iris-per-request [number]',
     'Number of IRIs to collect per request',
     {default: 1}
   )
-  .option('--wait-between-requests', 'Wait between requests, in milliseconds', {
-    default: 500,
-  })
-  .option('--iri-file', 'File for storing collected IRIs')
+  .option(
+    '--wait-between-requests [number]',
+    'Wait between requests, in milliseconds',
+    {
+      default: 500,
+    }
+  )
+  .option('--iri-file <string>', 'File for storing collected IRIs')
   .action(async (options: IterateRunOptions) => {
     import('./iterator.js').then(action => action.run(options));
   });
 
 cli
   .command('generate', 'Generate graph from a SPARQL endpoint')
-  .option('--endpoint-url', 'SPARQL endpoint URL')
-  .option('--query-file', 'Generate query file')
+  .option('--endpoint-url <string>', 'SPARQL endpoint URL')
+  .option('--query-file <string>', 'Generate query file')
   .option(
-    '--number-of-resources-per-request',
+    '--number-of-resources-per-request [number]',
     'Number of resources to generate per request',
     {default: 1}
   )
-  .option('--wait-between-requests', 'Wait between requests, in milliseconds', {
-    default: 500,
-  })
-  .option('--number-of-concurrent-requests', 'Number of concurrent requests', {
-    default: 1,
-  })
-  .option('--iri-file', 'File for retrieving the collected IRIs')
-  .option('--rdf-file', 'File for storing the generated resources')
+  .option(
+    '--wait-between-requests [number]',
+    'Wait between requests, in milliseconds',
+    {
+      default: 500,
+    }
+  )
+  .option(
+    '--number-of-concurrent-requests [number]',
+    'Number of concurrent requests',
+    {
+      default: 1,
+    }
+  )
+  .option('--iri-file <string>', 'File for retrieving the collected IRIs')
+  .option('--rdf-file <string>', 'File for storing the generated resources')
   .action(async (options: GenerateRunOptions) => {
     import('./generator.js').then(action => action.run(options));
   });
 
 cli
   .command('upload', 'Upload graph to TriplyDB')
-  .option('--triplydb-instance-url', 'TriplyDB instance URL')
-  .option('--triplydb-api-token', 'TriplyDB API token')
-  .option('--triplydb-account', 'TriplyDB account')
-  .option('--triplydb-dataset', 'TriplyDB dataset')
-  .option('--triplydb-service-name', 'TriplyDB service name')
-  .option('--triplydb-service-type', 'TriplyDB service type')
-  .option('--rdf-file', 'RDF file to upload')
-  .option('--graph-name', 'Name of the graph to upload the file to')
+  .option('--triplydb-instance-url <string>', 'TriplyDB instance URL')
+  .option('--triplydb-api-token <string>', 'TriplyDB API token')
+  .option('--triplydb-account <string>', 'TriplyDB account')
+  .option('--triplydb-dataset <string>', 'TriplyDB dataset')
+  .option('--triplydb-service-name <string>', 'TriplyDB service name')
+  .option('--triplydb-service-type <string>', 'TriplyDB service type')
+  .option('--rdf-file <string>', 'RDF file to upload')
+  .option('--graph-name <string>', 'Name of the graph to upload the file to')
   .action(async (options: UploadRunOptions) => {
     import('./uploader.js').then(action => action.run(options));
   });
