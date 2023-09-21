@@ -1,0 +1,37 @@
+{
+  "name": "@colonial-collections/change-run-manager",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest --coverage",
+    "test:once": "vitest --run"
+  },
+  "dependencies": {
+    "glob": "10.3.4",
+    "mkdirp": "3.0.1",
+    "rdf-data-factory": "1.1.2",
+    "rdf-parse": "2.3.2",
+    "rdf-serialize": "2.2.2",
+    "rdf-store-stream": "2.0.0",
+    "rdf-stores": "1.0.0",
+    "zod": "3.22.2"
+  },
+  "devDependencies": {
+    "rimraf": "5.0.1"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "tsconfig": "tsconfig.build.json",
+    "format": "esm",
+    "splitting": false,
+    "sourcemap": false,
+    "clean": true,
+    "dts": true
+  }
+}

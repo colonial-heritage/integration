@@ -1,0 +1,5 @@
+@prefix schema: <https://schema.org/> .
+
+<http://localhost/resource1> a schema:CreativeWork ;
+  schema:name "Zonnebloemen" ;
+  schema:creator: "Vincent van Gogh" .
