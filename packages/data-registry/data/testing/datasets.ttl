@@ -35,7 +35,7 @@
   a dcat:Dataset ;
   dct:type <http://vocab.getty.edu/aat/300417586> , # Art
            <http://vocab.getty.edu/aat/300043196> ; # Tableware
-  dct:title "Dataset 2"@nl ;
+  dct:title "Dataset 2" ;
   dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
   dct:publisher <https://museum.example.org/> ;
   dct:description "Vivamus vitae elit eget ligula efficitur rhoncus. Donec ut urna consequat, tempor leo sed, iaculis erat. Fusce at quam nisi. Ut convallis quam pellentesque, euismod augue at, finibus nibh."@nl ;
@@ -104,7 +104,7 @@
 
 <https://example.org/datasets/6>
   a dcat:Dataset ;
-  dct:title "Dataset 6"@nl ;
+  dct:title "Dataset 6" ;
   dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
   dct:publisher <https://archive.example.org/> ;
   dct:description "Vivamus vitae elit eget ligula efficitur rhoncus. Donec ut urna consequat, tempor leo sed, iaculis erat. Fusce at quam nisi. Ut convallis quam pellentesque, euismod augue at, finibus nibh."@nl ;
@@ -171,7 +171,7 @@
 
 <https://example.org/datasets/10>
   a dcat:Dataset ;
-  dct:title "Dataset 10"@nl ;
+  dct:title "Dataset 10" ;
   dct:license <https://example.org/custom-license> ;
   dct:publisher <https://library.example.org/> ;
   dct:description "Vivamus vitae elit eget ligula efficitur rhoncus. Donec ut urna consequat, tempor leo sed, iaculis erat. Fusce at quam nisi. Ut convallis quam pellentesque, euismod augue at, finibus nibh."@nl ;
