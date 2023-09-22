@@ -39,7 +39,7 @@ export async function run(options: RunOptions) {
   });
 
   for (const fileAndGraph of filesAndGraphs) {
-    await triplyDb.upsertGraphFromRdfFile({
+    await triplyDb.upsertGraphFromFile({
       graph: fileAndGraph.graph,
       file: fileAndGraph.file,
     });

@@ -12,13 +12,13 @@ const constructorOptionsSchema = z.object({
 
 export type ConstructorOptions = z.infer<typeof constructorOptionsSchema>;
 
-const upsertGraphFromRdfFileOptionsSchema = z.object({
+const upsertGraphFromFileOptionsSchema = z.object({
   file: z.string(),
   graph: z.string(),
 });
 
-export type UpsertGraphFromRdfFileOptions = z.infer<
-  typeof upsertGraphFromRdfFileOptionsSchema
+export type UpsertGraphFromFileOptions = z.infer<
+  typeof upsertGraphFromFileOptionsSchema
 >;
 
 const restartServiceOptionsSchema = z.object({
@@ -55,8 +55,8 @@ export class TriplyDb {
     return triplyDb;
   }
 
-  async upsertGraphFromRdfFile(options: UpsertGraphFromRdfFileOptions) {
-    const opts = upsertGraphFromRdfFileOptionsSchema.parse(options);
+  async upsertGraphFromFile(options: UpsertGraphFromFileOptions) {
+    const opts = upsertGraphFromFileOptionsSchema.parse(options);
 
     this.logger.info(`Deleting graph "${opts.graph}"`);
 
@@ -71,7 +71,7 @@ export class TriplyDb {
       }
     }
 
-    this.logger.info(`Adding RDF file "${opts.file}" to graph "${opts.graph}"`);
+    this.logger.info(`Adding file "${opts.file}" to graph "${opts.graph}"`);
 
     await this.dataset.importFromFiles([opts.file], {
       defaultGraphName: opts.graph,

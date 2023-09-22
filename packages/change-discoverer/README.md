@@ -18,7 +18,7 @@ CLI for discovering and processing changes.
       --wait-between-requests 100 \
       --number-of-concurrent-requests 5
 
-#### Upload RDF files to TriplyDB
+#### Upload changes to the RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \

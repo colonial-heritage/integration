@@ -15,10 +15,10 @@ beforeAll(async () => {
   });
 });
 
-describe('upsertGraphFromRdfFile', () => {
-  it('upserts a graph from an RDF file', async () => {
+describe('upsertGraphFromFile', () => {
+  it('upserts a graph from a file', async () => {
     await expect(
-      triplyDb.upsertGraphFromRdfFile({
+      triplyDb.upsertGraphFromFile({
         file: './fixtures/graph.nt',
         graph: 'https://example.org/integration-test',
       })

@@ -10,7 +10,21 @@ describe('run', () => {
         triplydbApiToken: env.TRIPLYDB_API_TOKEN as string,
         triplydbAccount: env.TRIPLYDB_ACCOUNT_DEVELOPMENT as string,
         triplydbDataset: env.TRIPLYDB_DATASET_KG_DEVELOPMENT as string,
-        dir: './fixtures/uploader',
+        dir: './fixtures/uploader/files',
+        graphName:
+          'https://data.colonialcollections.nl/change-discoverer-integration-test',
+      })
+    ).resolves.toBeUndefined();
+  });
+
+  it('does not upload if there are no files in the target directory', async () => {
+    await expect(
+      run({
+        triplydbInstanceUrl: env.TRIPLYDB_INSTANCE_URL as string,
+        triplydbApiToken: env.TRIPLYDB_API_TOKEN as string,
+        triplydbAccount: env.TRIPLYDB_ACCOUNT_DEVELOPMENT as string,
+        triplydbDataset: env.TRIPLYDB_DATASET_KG_DEVELOPMENT as string,
+        dir: './fixtures/uploader/no-files',
         graphName:
           'https://data.colonialcollections.nl/change-discoverer-integration-test',
       })

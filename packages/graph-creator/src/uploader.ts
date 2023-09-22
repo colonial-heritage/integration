@@ -31,7 +31,7 @@ export async function run(options: RunOptions) {
     dataset: opts.triplydbDataset,
   });
 
-  await triplyDb.upsertGraphFromRdfFile({
+  await triplyDb.upsertGraphFromFile({
     graph: opts.graphName,
     file: opts.rdfFile,
   });
