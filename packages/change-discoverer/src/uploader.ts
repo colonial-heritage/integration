@@ -14,7 +14,7 @@ const runOptionsSchema = z.object({
   triplydbApiToken: z.string(),
   triplydbAccount: z.string(),
   triplydbDataset: z.string(),
-  dir: z.string(),
+  dirWithChanges: z.string(),
   graphName: z.string(),
 });
 
@@ -28,19 +28,19 @@ export async function run(options: RunOptions) {
   const tarFilename = join(tmpdir(), `${Date.now()}.tgz`);
 
   // Scan for some common RDF file extensions
-  const files = await glob(`${opts.dir}/**/*.{nt,nq,trig,ttl}`, {
+  const files = await glob(`${opts.dirWithChanges}/**/*.{nt,nq,trig,ttl}`, {
     nodir: true,
   });
 
   if (files.length === 0) {
-    logger.info(`No files found in "${opts.dir}" - aborting run`);
+    logger.info(`No files found in "${opts.dirWithChanges}" - aborting run`);
     return;
   }
 
-  // TODO: add check - are there changes? If not, do not compress and upload
+  // TODO: add check - are there changes? If not, do not upload.
   // E.g. create a hash of all the files, compare with the hash of the last run?
   logger.info(
-    `Compressing and uploading ${files.length} files in "${opts.dir}"`
+    `Compressing and uploading ${files.length} files in "${opts.dirWithChanges}"`
   );
 
   const logWarning = (code: string, message: string) =>
@@ -70,6 +70,8 @@ export async function run(options: RunOptions) {
   const finishTime = performance.now();
   const runtime = finishTime - startTime;
   logger.info(
-    `Uploaded files in "${opts.dir}" in ${PrettyMilliseconds(runtime)}`
+    `Uploaded files in "${opts.dirWithChanges}" in ${PrettyMilliseconds(
+      runtime
+    )}`
   );
 }

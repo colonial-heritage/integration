@@ -10,7 +10,7 @@ describe('run', () => {
         triplydbApiToken: env.TRIPLYDB_API_TOKEN as string,
         triplydbAccount: env.TRIPLYDB_ACCOUNT_DEVELOPMENT as string,
         triplydbDataset: env.TRIPLYDB_DATASET_KG_DEVELOPMENT as string,
-        dir: './fixtures/uploader/files',
+        dirWithChanges: './fixtures/uploader/files',
         graphName:
           'https://data.colonialcollections.nl/change-discoverer-integration-test',
       })
@@ -24,7 +24,7 @@ describe('run', () => {
         triplydbApiToken: env.TRIPLYDB_API_TOKEN as string,
         triplydbAccount: env.TRIPLYDB_ACCOUNT_DEVELOPMENT as string,
         triplydbDataset: env.TRIPLYDB_DATASET_KG_DEVELOPMENT as string,
-        dir: './fixtures/uploader/no-files',
+        dirWithChanges: './fixtures/uploader/no-files',
         graphName:
           'https://data.colonialcollections.nl/change-discoverer-integration-test',
       })

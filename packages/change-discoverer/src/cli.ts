@@ -9,7 +9,8 @@ const cli = cac();
 cli
   .command('discover', 'Discover, fetch and store changes')
   .option('--collection-iri <string>', 'Collection IRI')
-  .option('--dir <string>', 'Directory for storing the runs and changes')
+  .option('--dir-with-runs <string>', 'Directory for storing the runs')
+  .option('--dir-with-changes <string>', 'Directory for storing the changes')
   .option(
     '--wait-between-requests [number]',
     'Wait between requests, in milliseconds',
@@ -34,7 +35,10 @@ cli
   .option('--triplydb-api-token <string>', 'TriplyDB API token')
   .option('--triplydb-account <string>', 'TriplyDB account')
   .option('--triplydb-dataset <string>', 'TriplyDB dataset')
-  .option('--dir <string>', 'Directory containing the RDF files to upload')
+  .option(
+    '--dir-with-changes <string>',
+    'Directory containing the changes to upload'
+  )
   .option(
     '--graph-name <string>',
     'Name of the graph to upload the RDF files to'

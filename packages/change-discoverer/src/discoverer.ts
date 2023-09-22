@@ -1,14 +1,14 @@
-import {ChangeRunManager, Run} from '@colonial-collections/change-run-manager';
+import {ChangeRunManager} from '@colonial-collections/change-run-manager';
 import {IiifChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {RdfFileStore} from '@colonial-collections/rdf-file-store';
 import {getLogger} from '@colonial-collections/shared';
 import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
-import {join} from 'path';
 
 const runOptionsSchema = z.object({
   collectionIri: z.string().url(),
-  dir: z.string(),
+  dirWithRuns: z.string(),
+  dirWithChanges: z.string(),
   waitBetweenRequests: z.number().min(0).optional(),
   numberOfConcurrentRequests: z.number().min(1).optional(),
 });
@@ -20,14 +20,12 @@ export async function run(options: RunOptions) {
 
   const startTime = Date.now();
 
-  const dirWithRuns = join(opts.dir, 'runs');
-  const changeRunManager = new ChangeRunManager({dir: dirWithRuns});
+  const changeRunManager = new ChangeRunManager({dir: opts.dirWithRuns});
   const lastRun = await changeRunManager.getLastRun();
   const logger = getLogger();
 
-  const dirWithChanges = join(opts.dir, 'changes');
   const store = new RdfFileStore({
-    dir: dirWithChanges,
+    dir: opts.dirWithChanges,
     waitBetweenRequests: opts.waitBetweenRequests,
     numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
   });
@@ -54,30 +52,42 @@ export async function run(options: RunOptions) {
       dateLastRun instanceof Date ? dateLastRun.toISOString() : 'the beginning';
     logger.info(`Processing changes in page "${iri}" changed since ${date}`);
   });
-  discoverer.on('add', async iri => store.save({iri, type: 'upsert'}));
-  discoverer.on('create', async iri => store.save({iri, type: 'upsert'}));
-  discoverer.on('update', async iri => store.save({iri, type: 'upsert'}));
-  discoverer.on('delete', async iri => store.save({iri, type: 'delete'}));
-  discoverer.on('remove', async iri => store.save({iri, type: 'delete'}));
-  discoverer.on('move-delete', async iri => store.save({iri, type: 'delete'}));
-  discoverer.on('move-create', async iri => store.save({iri, type: 'upsert'}));
   discoverer.on('only-delete', () =>
     logger.info('Refresh found; only processing delete activities')
   );
+
+  let discoveredChange = false;
+
+  const upsertChange = async (iri: string) => {
+    discoveredChange = true;
+    store.save({iri, type: 'upsert'});
+  };
+  const deleteChange = async (iri: string) => {
+    discoveredChange = true;
+    store.save({iri, type: 'delete'});
+  };
+
+  discoverer.on('add', upsertChange);
+  discoverer.on('create', upsertChange);
+  discoverer.on('update', upsertChange);
+  discoverer.on('delete', deleteChange);
+  discoverer.on('remove', deleteChange);
+  discoverer.on('move-delete', deleteChange);
+  discoverer.on('move-create', upsertChange);
 
   const runStartedAt = new Date();
   await discoverer.run();
   const runEndedAt = new Date();
   await store.untilDone();
 
-  // TBD: only store the run if at least 1 object has been changed?
-  const currentRun: Run = {
-    id: 'http://example.org/' + Date.now(),
-    startedAt: runStartedAt,
-    endedAt: runEndedAt,
-  };
-
-  await changeRunManager.saveRun(currentRun);
+  // Only store the run if at least 1 change has been discovered
+  if (discoveredChange) {
+    await changeRunManager.saveRun({
+      id: 'http://example.org/' + Date.now(),
+      startedAt: runStartedAt,
+      endedAt: runEndedAt,
+    });
+  }
 
   const finishTime = Date.now();
   const runtime = finishTime - startTime;

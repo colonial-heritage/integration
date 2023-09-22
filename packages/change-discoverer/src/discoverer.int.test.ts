@@ -8,22 +8,28 @@ import {beforeEach, describe, expect, it} from 'vitest';
 
 describe('run', () => {
   const dir = './tmp/integration-test';
+  const dirWithRuns = join(dir, 'runs');
+  const dirWithChanges = join(dir, 'changes');
 
   beforeEach(async () => {
     await rimraf(dir);
-    await mkdirp(join(dir, 'runs'));
-    await copyFile('./fixtures/20230906.nt', join(dir, 'runs', '20230906.nt'));
+    await mkdirp(dirWithRuns);
+    await copyFile(
+      './fixtures/1695397847847.nt',
+      join(dirWithRuns, '1695397847847.nt')
+    );
   });
 
   it('runs', async () => {
     await run({
       collectionIri: 'https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes',
-      dir,
+      dirWithRuns,
+      dirWithChanges,
       waitBetweenRequests: 500,
       numberOfConcurrentRequests: 1,
     });
 
-    const files = await glob(`${dir}/**/*.nt`, {nodir: true});
+    const files = await glob(`${dirWithChanges}/**/*.nt`, {nodir: true});
 
     // This outcome could fail at some point, if the owner of the collection
     // deletes all of its records

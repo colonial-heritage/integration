@@ -14,7 +14,8 @@ CLI for discovering and processing changes.
 
     ./dist/cli.js discover \
       --collection-iri "https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes" \
-      --dir "./tmp/bodleian" \
+      --dir-with-runs "./tmp/bodleian/runs" \
+      --dir-with-changes "./tmp/bodleian/changes" \
       --wait-between-requests 100 \
       --number-of-concurrent-requests 5
 
@@ -25,5 +26,5 @@ CLI for discovering and processing changes.
       --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
       --triplydb-account "$TRIPLYDB_ACCOUNT_DEVELOPMENT" \
       --triplydb-dataset "$TRIPLYDB_DATASET_KG_DEVELOPMENT" \
-      --dir "./tmp/bodleian" \
+      --dir-with-changes "./tmp/bodleian/changes" \
       --graph-name "https://data.colonialcollections.nl/bodleian"
