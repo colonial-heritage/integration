@@ -32,7 +32,7 @@ Create a graph from a SPARQL endpoint
       --number-of-concurrent-requests 1 \
       --rdf-file ./tmp/aat.nt
 
-##### Upload RDF file to TriplyDB
+##### Upload file to RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -66,7 +66,7 @@ Create a graph from a SPARQL endpoint
       --iri-file ./tmp/testing-datasets.txt \
       --rdf-file ./tmp/testing-datasets.nt
 
-##### Upload RDF file to TriplyDB
+##### Upload file to RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -100,7 +100,7 @@ Create a graph from a SPARQL endpoint
       --iri-file ./tmp/testing-objects.txt \
       --rdf-file ./tmp/testing-objects.nt
 
-##### Upload RDF file to TriplyDB
+##### Upload file to RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -134,7 +134,7 @@ Create a graph from a SPARQL endpoint
       --iri-file ./tmp/testing-persons.txt \
       --rdf-file ./tmp/testing-persons.nt
 
-##### Upload RDF file to TriplyDB
+##### Upload file to RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -170,7 +170,7 @@ Create a graph from a SPARQL endpoint
       --number-of-concurrent-requests 1 \
       --rdf-file ./tmp/aat.nt
 
-##### Upload RDF file to TriplyDB
+##### Upload file to RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -204,7 +204,7 @@ Create a graph from a SPARQL endpoint
       --iri-file ./tmp/datasets.txt \
       --rdf-file ./tmp/datasets.nt
 
-##### Upload RDF file to TriplyDB
+##### Upload file to RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -238,7 +238,7 @@ Create a graph from a SPARQL endpoint
       --iri-file ./tmp/associations.txt \
       --rdf-file ./tmp/associations.nt
 
-##### Upload RDF file to TriplyDB
+##### Upload file to RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -272,7 +272,7 @@ Create a graph from a SPARQL endpoint
       --iri-file ./tmp/colonial-objects.txt \
       --rdf-file ./tmp/colonial-objects.nt
 
-##### Upload RDF file to TriplyDB
+##### Upload file to RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -306,7 +306,7 @@ Create a graph from a SPARQL endpoint
       --iri-file ./tmp/stamboeken.txt \
       --rdf-file ./tmp/stamboeken.nt
 
-##### Upload RDF file to TriplyDB
+##### Upload file to RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
