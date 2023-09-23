@@ -100,6 +100,7 @@ export class RdfFileStore extends EventEmitter {
       const error = err as Error;
       const isGoneError = error.message.includes('HTTP status 410');
       if (!isGoneError) {
+        // TBD: send IRI to a dead letter queue?
         throw err;
       }
 

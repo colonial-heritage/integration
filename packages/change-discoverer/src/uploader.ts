@@ -37,8 +37,6 @@ export async function run(options: RunOptions) {
     return;
   }
 
-  // TODO: add check - are there changes? If not, do not upload.
-  // E.g. create a hash of all the files, compare with the hash of the last run?
   logger.info(
     `Compressing and uploading ${files.length} files in "${opts.dirWithChanges}"`
   );
