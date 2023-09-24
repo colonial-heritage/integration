@@ -1,13 +1,13 @@
 #!/bin/env node
 
 import {cac} from 'cac';
-import type {RunOptions as DiscoverRunOptions} from './discoverer.js';
+import type {RunOptions as FetchRunOptions} from './fetcher.js';
 import type {RunOptions as UploadRunOptions} from './uploader.js';
 
 const cli = cac();
 
 cli
-  .command('discover', 'Discover, fetch and store changes')
+  .command('fetch', 'Fetch changes')
   .option('--collection-iri <string>', 'Collection IRI')
   .option('--dir-with-runs <string>', 'Directory for storing the runs')
   .option('--dir-with-changes <string>', 'Directory for storing the changes')
@@ -25,8 +25,8 @@ cli
       default: 1,
     }
   )
-  .action(async (options: DiscoverRunOptions) => {
-    import('./discoverer.js').then(action => action.run(options));
+  .action(async (options: FetchRunOptions) => {
+    import('./fetcher.js').then(action => action.run(options));
   });
 
 cli

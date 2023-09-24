@@ -1,4 +1,4 @@
-import {run} from './discoverer.js';
+import {run} from './fetcher.js';
 import {glob} from 'glob';
 import {mkdirp} from 'mkdirp';
 import {copyFile} from 'node:fs/promises';

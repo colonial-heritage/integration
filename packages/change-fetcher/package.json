@@ -1,5 +1,5 @@
 {
-  "name": "@colonial-collections/change-discoverer",
+  "name": "@colonial-collections/change-fetcher",
   "version": "1.0.0",
   "type": "module",
   "private": true,

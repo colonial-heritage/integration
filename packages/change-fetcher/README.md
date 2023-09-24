@@ -1,6 +1,6 @@
-# Change Discoverer
+# Change Fetcher
 
-CLI for discovering and processing changes.
+CLI for fetching changes from a remote service
 
 ## Build
 
@@ -10,16 +10,16 @@ CLI for discovering and processing changes.
 
 ### Development
 
-#### Discover, fetch and store changes
+#### Fetch changes
 
-    ./dist/cli.js discover \
+    ./dist/cli.js fetch \
       --collection-iri "https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes" \
       --dir-with-runs "./tmp/bodleian/runs" \
       --dir-with-changes "./tmp/bodleian/changes" \
-      --wait-between-requests 100 \
-      --number-of-concurrent-requests 5
+      --wait-between-requests 500 \
+      --number-of-concurrent-requests 25
 
-#### Upload changes to the RDF store
+#### Upload changes to RDF store
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
