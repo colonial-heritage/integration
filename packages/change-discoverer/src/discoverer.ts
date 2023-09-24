@@ -40,7 +40,7 @@ export async function run(options: RunOptions) {
 
   const discoverer = new IiifChangeDiscoverer({
     collectionIri: opts.collectionIri,
-    dateLastRun: lastRun !== undefined ? lastRun.endedAt : undefined,
+    dateLastRun: lastRun !== undefined ? lastRun.startedAt : undefined,
     waitBetweenRequests: opts.waitBetweenRequests,
   });
 
@@ -83,7 +83,7 @@ export async function run(options: RunOptions) {
   // Only store the run if at least 1 change has been discovered
   if (discoveredChange) {
     await changeRunManager.saveRun({
-      id: 'http://example.org/' + Date.now(),
+      id: 'https://data.colonialcollections.nl/' + Date.now(),
       startedAt: runStartedAt,
       endedAt: runEndedAt,
     });

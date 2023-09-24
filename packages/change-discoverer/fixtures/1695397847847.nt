@@ -1,3 +1,0 @@
-<http://example.org/1695397959901> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> .
-<http://example.org/1695397959901> <http://www.w3.org/ns/prov#startedAtTime> "2023-09-22T15:50:46.410Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-<http://example.org/1695397959901> <http://www.w3.org/ns/prov#endedAtTime> "2023-09-22T15:50:47.847Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .

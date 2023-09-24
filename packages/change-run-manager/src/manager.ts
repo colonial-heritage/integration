@@ -150,7 +150,7 @@ export class ChangeRunManager {
     );
 
     await mkdirp(this.dir);
-    const filename = join(this.dir, opts.endedAt.getTime() + '.nt');
+    const filename = join(this.dir, opts.startedAt.getTime() + '.nt');
     const writeStream = createWriteStream(filename);
     const quadStream = store.match(); // All quads
     const dataStream = serializer.serialize(quadStream, {path: filename});

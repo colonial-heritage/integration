@@ -15,8 +15,8 @@ describe('run', () => {
     await rimraf(dir);
     await mkdirp(dirWithRuns);
     await copyFile(
-      './fixtures/1695397847847.nt',
-      join(dirWithRuns, '1695397847847.nt')
+      './fixtures/1695583064271.nt',
+      join(dirWithRuns, '1695583064271.nt')
     );
   });
 
