@@ -25,6 +25,7 @@ CLI for fetching changes from a remote service
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
       --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
       --triplydb-account "$TRIPLYDB_ACCOUNT_DEVELOPMENT" \
-      --triplydb-dataset "$TRIPLYDB_DATASET_KG_DEVELOPMENT" \
+      --triplydb-dataset "change-discovery-bodleian" \
       --dir-with-changes "./tmp/bodleian/changes" \
+      --dir-temp "./tmp/bodleian" \
       --graph-name "https://data.colonialcollections.nl/bodleian"

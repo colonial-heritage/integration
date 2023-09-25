@@ -2,7 +2,6 @@ import {getLogger} from '@colonial-collections/shared';
 import {TriplyDb} from '@colonial-collections/triplydb';
 import {glob} from 'glob';
 import {unlink} from 'node:fs/promises';
-import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {performance} from 'node:perf_hooks';
 import PrettyMilliseconds from 'pretty-ms';
@@ -15,6 +14,7 @@ const runOptionsSchema = z.object({
   triplydbAccount: z.string(),
   triplydbDataset: z.string(),
   dirWithChanges: z.string(),
+  dirTemp: z.string(), // For storing temporary files
   graphName: z.string(),
 });
 
@@ -25,7 +25,7 @@ export async function run(options: RunOptions) {
 
   const startTime = performance.now();
   const logger = getLogger();
-  const tarFilename = join(tmpdir(), `${Date.now()}.tgz`);
+  const tarFilename = join(opts.dirTemp, `${Date.now()}.tgz`);
 
   // Scan for some common RDF file extensions
   const files = await glob(`${opts.dirWithChanges}/**/*.{nt,nq,trig,ttl}`, {
@@ -38,7 +38,7 @@ export async function run(options: RunOptions) {
   }
 
   logger.info(
-    `Compressing and uploading ${files.length} files in "${opts.dirWithChanges}"`
+    `Creating "${tarFilename}" with ${files.length} files from "${opts.dirWithChanges}"`
   );
 
   const logWarning = (code: string, message: string) =>

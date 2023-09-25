@@ -39,6 +39,7 @@ cli
     '--dir-with-changes <string>',
     'Directory containing the changes to upload'
   )
+  .option('--dir-temp <string>', 'Directory for storing temporary files')
   .option(
     '--graph-name <string>',
     'Name of the graph to upload the RDF files to'

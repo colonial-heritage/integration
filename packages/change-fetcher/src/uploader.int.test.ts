@@ -11,6 +11,7 @@ describe('run', () => {
         triplydbAccount: env.TRIPLYDB_ACCOUNT_DEVELOPMENT as string,
         triplydbDataset: env.TRIPLYDB_DATASET_KG_DEVELOPMENT as string,
         dirWithChanges: './fixtures/uploader/files',
+        dirTemp: './tmp/integration-test',
         graphName:
           'https://data.colonialcollections.nl/change-discoverer-integration-test',
       })
@@ -25,6 +26,7 @@ describe('run', () => {
         triplydbAccount: env.TRIPLYDB_ACCOUNT_DEVELOPMENT as string,
         triplydbDataset: env.TRIPLYDB_DATASET_KG_DEVELOPMENT as string,
         dirWithChanges: './fixtures/uploader/no-files',
+        dirTemp: './tmp/integration-test',
         graphName:
           'https://data.colonialcollections.nl/change-discoverer-integration-test',
       })
