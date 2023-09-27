@@ -2,8 +2,7 @@ name: Production - update the Search Graph with data from dataset 'Colonial Obje
 
 on:
   schedule:
-    # Run every day at 4:30 UTC
-    - cron: "30 4 * * *"
+    - cron: "30 4 * * 1"
 
 jobs:
   update-sg:

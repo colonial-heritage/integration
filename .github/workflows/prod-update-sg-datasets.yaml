@@ -2,8 +2,7 @@ name: Production - update the Search Graph with data from dataset 'Datasets' in 
 
 on:
   schedule:
-    # Run every day at 4:15 UTC
-    - cron: "15 4 * * *"
+    - cron: "15 4 * * 1"
 
 jobs:
   update-sg:
