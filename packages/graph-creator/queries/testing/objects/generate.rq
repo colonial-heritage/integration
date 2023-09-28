@@ -80,6 +80,7 @@ WHERE {
     ] ;
   }
 
+  # TBD: necessary to have in the search graph?
   BIND(IF(BOUND(?tmpIdentifier), ?tmpIdentifier, "Unknown"@en) AS ?identifier)
 
   ####################
