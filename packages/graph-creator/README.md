@@ -70,6 +70,14 @@ Create a graph from a SPARQL endpoint
       --query-file ./queries/geonames/countries.rq \
       --iri-file ./tmp/geonames/countries.txt
 
+##### Dereference IRIs of countries
+
+    ./dist/cli.js dereference \
+      --iri-file ./tmp/geonames/countries.txt \
+      --wait-between-requests 1000 \
+      --number-of-concurrent-requests 1 \
+      --output-dir ./tmp/geonames/countries
+
 #### Datasets
 
 ##### Collect IRIs from a SPARQL endpoint

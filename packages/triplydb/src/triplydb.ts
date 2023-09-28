@@ -1,5 +1,11 @@
 import App from '@triply/triplydb';
+import {glob} from 'glob';
+import {mkdirp} from 'mkdirp';
+import {unlink} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {pino} from 'pino';
+import tar from 'tar';
 import {z} from 'zod';
 
 const constructorOptionsSchema = z.object({
@@ -19,6 +25,16 @@ const upsertGraphFromFileOptionsSchema = z.object({
 
 export type UpsertGraphFromFileOptions = z.infer<
   typeof upsertGraphFromFileOptionsSchema
+>;
+
+const upsertGraphFromDirectoryOptionsSchema = z.object({
+  dir: z.string(),
+  graph: z.string(),
+  dirTemp: z.string().optional(), // For storing temporary files
+});
+
+export type UpsertGraphFromDirectoryOptions = z.infer<
+  typeof upsertGraphFromDirectoryOptionsSchema
 >;
 
 const restartServiceOptionsSchema = z.object({
@@ -76,6 +92,35 @@ export class TriplyDb {
     await this.dataset.importFromFiles([opts.file], {
       defaultGraphName: opts.graph,
     });
+  }
+
+  async upsertGraphFromDirectory(options: UpsertGraphFromDirectoryOptions) {
+    const opts = upsertGraphFromDirectoryOptionsSchema.parse(options);
+
+    // Scan for some common RDF file extensions
+    const files = await glob(`${opts.dir}/**/*.{nt,nq,trig,ttl}`, {
+      nodir: true,
+    });
+
+    if (files.length === 0) {
+      this.logger.warn(`No files found in "${opts.dir}"`);
+      return;
+    }
+
+    const dirTemp = opts.dirTemp ?? tmpdir();
+    await mkdirp(dirTemp);
+    const filename = join(dirTemp, `${Date.now()}.tgz`);
+
+    this.logger.info(
+      `Creating "${filename}" with ${files.length} files from "${opts.dir}"`
+    );
+
+    const logWarning = (code: string, message: string) =>
+      this.logger.warn(`${message} (code: ${code})`);
+
+    await tar.create({gzip: true, onwarn: logWarning, file: filename}, files);
+    await this.upsertGraphFromFile({file: filename, graph: opts.graph});
+    await unlink(filename);
   }
 
   async restartService(options: RestartServiceOptions) {

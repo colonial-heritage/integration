@@ -12,8 +12,14 @@
   },
   "dependencies": {
     "@triply/triplydb": "6.0.8",
+    "glob": "10.3.4",
+    "mkdirp": "3.0.1",
     "pino": "8.15.1",
+    "tar": "6.2.0",
     "zod": "3.22.2"
+  },
+  "devDependencies": {
+    "@types/tar": "6.1.6"
   },
   "tsup": {
     "entry": [

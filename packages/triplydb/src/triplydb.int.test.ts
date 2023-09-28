@@ -20,7 +20,27 @@ describe('upsertGraphFromFile', () => {
     await expect(
       triplyDb.upsertGraphFromFile({
         file: './fixtures/graph.nt',
-        graph: 'https://example.org/integration-test',
+        graph: 'https://example.org/file-integration-test',
+      })
+    ).resolves.toBeUndefined();
+  });
+});
+
+describe('upsertGraphFromDirectory', () => {
+  it('upserts a graph from a directory', async () => {
+    await expect(
+      triplyDb.upsertGraphFromDirectory({
+        dir: './fixtures/files',
+        graph: 'https://example.org/dir-integration-test',
+      })
+    ).resolves.toBeUndefined();
+  });
+
+  it('does not upsert a graph from a directory if there are no files', async () => {
+    await expect(
+      triplyDb.upsertGraphFromDirectory({
+        dir: './fixtures/no-files',
+        graph: 'https://example.org/dir-integration-test',
       })
     ).resolves.toBeUndefined();
   });
