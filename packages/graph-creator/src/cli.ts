@@ -98,7 +98,9 @@ cli
   .option('--triplydb-dataset <string>', 'TriplyDB dataset')
   .option('--triplydb-service-name <string>', 'TriplyDB service name')
   .option('--triplydb-service-type <string>', 'TriplyDB service type')
-  .option('--rdf-file <string>', 'RDF file to upload')
+  .option('--rdf-file [string]', 'RDF file to upload')
+  .option('--dir [string]', 'Directory with RDF files to upload')
+  .option('--dir-temp [string]', 'Directory for storing temporary files')
   .option('--graph-name <string>', 'Name of the graph to upload the file to')
   .action(async (options: UploadRunOptions) => {
     import('./uploader.js').then(action => action.run(options));

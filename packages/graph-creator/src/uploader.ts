@@ -4,16 +4,27 @@ import {performance} from 'node:perf_hooks';
 import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
 
-const runOptionsSchema = z.object({
+const fileSchema = z.object({
+  rdfFile: z.string(),
+});
+
+const directorySchema = z.object({
+  dir: z.string(),
+  dirTemp: z.string().optional(), // For storing temporary files
+});
+
+const baseSchema = z.object({
   triplydbInstanceUrl: z.string(),
   triplydbApiToken: z.string(),
   triplydbAccount: z.string(),
   triplydbDataset: z.string(),
   triplydbServiceName: z.string(),
   triplydbServiceType: z.string(),
-  rdfFile: z.string(),
   graphName: z.string(),
 });
+
+const fileOrDirectorySchema = z.union([fileSchema, directorySchema]);
+const runOptionsSchema = z.intersection(baseSchema, fileOrDirectorySchema);
 
 export type RunOptions = z.infer<typeof runOptionsSchema>;
 
@@ -31,10 +42,18 @@ export async function run(options: RunOptions) {
     dataset: opts.triplydbDataset,
   });
 
-  await triplyDb.upsertGraphFromFile({
-    graph: opts.graphName,
-    file: opts.rdfFile,
-  });
+  if (opts.rdfFile) {
+    await triplyDb.upsertGraphFromFile({
+      graph: opts.graphName,
+      file: opts.rdfFile,
+    });
+  } else {
+    await triplyDb.upsertGraphFromDirectory({
+      graph: opts.graphName,
+      dir: opts.dir,
+      dirTemp: opts.dirTemp,
+    });
+  }
 
   await triplyDb.restartService({
     name: opts.triplydbServiceName,
@@ -43,5 +62,5 @@ export async function run(options: RunOptions) {
 
   const finishTime = performance.now();
   const runtime = finishTime - startTime;
-  logger.info(`Uploaded "${opts.rdfFile}" in ${PrettyMilliseconds(runtime)}`);
+  logger.info(`Uploaded in ${PrettyMilliseconds(runtime)}`);
 }

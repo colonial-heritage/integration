@@ -1,6 +1,6 @@
 # Graph Creator
 
-Create a graph from a SPARQL endpoint
+Create a graph from local RDF files or a SPARQL endpoint
 
 ## Build
 
@@ -77,6 +77,19 @@ Create a graph from a SPARQL endpoint
       --wait-between-requests 1000 \
       --number-of-concurrent-requests 1 \
       --output-dir ./tmp/geonames/countries
+
+##### Upload RDF files to RDF store
+
+    ./dist/cli.js upload \
+      --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
+      --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_TESTING" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_KG_TESTING" \
+      --triplydb-service-name "kg" \
+      --triplydb-service-type "virtuoso" \
+      --dir "./tmp/geonames" \
+      --dir-temp "./tmp" \
+      --graph-name "https://data.colonialcollections.nl/geonames"
 
 #### Datasets
 
