@@ -69,6 +69,7 @@
       crm:P82a_begin_of_the_begin "1889"^^xsd:gYear ;
       crm:P82b_end_of_the_end "1890"^^xsd:gYear ;
     ] ;
+    crm:P7_took_place_at <https://sws.geonames.org/3382998/> ; # Suriname
   ] ;
   crm:P65_shows_visual_item [
     a crm:E36_Visual_Item ;
@@ -145,6 +146,7 @@
       crm:P82a_begin_of_the_begin "1895"^^xsd:gYear ;
       crm:P82b_end_of_the_end "1895"^^xsd:gYear ;
     ] ;
+    crm:P7_took_place_at <https://sws.geonames.org/1642911/> ; # Jakarta, Indonesia
   ] ;
   crm:P65_shows_visual_item [
     a crm:E36_Visual_Item ;
@@ -201,6 +203,7 @@
       crm:P82a_begin_of_the_begin "1725"^^xsd:gYear ;
       crm:P82b_end_of_the_end "1736"^^xsd:gYear ;
     ] ;
+    crm:P7_took_place_at <https://sws.geonames.org/1642673/> ; # Java, Indonesia
   ] ;
   crm:P128_carries [
     a crm:E33_Linguistic_Object ;
@@ -284,6 +287,7 @@
       crm:P82a_begin_of_the_begin "1889"^^xsd:gYear ;
       crm:P82b_end_of_the_end "1890"^^xsd:gYear ;
     ] ;
+    crm:P7_took_place_at <https://sws.geonames.org/1749659/> ; # Pulau Sebang, Malaysia
   ] ;
   crm:P128_carries [
     a crm:E33_Linguistic_Object ;
