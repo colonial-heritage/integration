@@ -1,11 +1,11 @@
 import {run} from './generator.js';
-import {readFileAsString} from './helpers.js';
+import {readFile} from 'node:fs/promises';
 import {EOL} from 'node:os';
 import {describe, expect, it} from 'vitest';
 
 describe('run', () => {
   it('runs', async () => {
-    const iriFile = './fixtures/iris.txt';
+    const iriFile = './fixtures/aat-iris.txt';
     const rdfFile = './tmp/aat-terms.nt';
 
     await run({
@@ -16,7 +16,7 @@ describe('run', () => {
     });
 
     // Basic string check. TODO: improve by parsing 'rdfFile' to RDF
-    const data = await readFileAsString(rdfFile);
+    const data = await readFile(rdfFile, {encoding: 'utf-8'});
     const triples = data.split(EOL);
 
     expect(triples[0]).toBe(

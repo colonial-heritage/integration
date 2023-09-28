@@ -14,7 +14,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Collect IRIs from a SPARQL endpoint
 
-    ./dist/cli.js iterate \
+    ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
       --query-file ./queries/aat/iterate.rq \
       --number-of-iris-per-request 2 \
@@ -23,7 +23,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Generate graph from a SPARQL endpoint
 
-    ./dist/cli.js generate \
+    ./dist/cli.js sparql-generate \
       --endpoint-url "https://vocab.getty.edu/sparql" \
       --query-file ./queries/aat/generate.rq \
       --iri-file ./tmp/aat.txt \
@@ -44,11 +44,37 @@ Create a graph from a SPARQL endpoint
       --rdf-file ./tmp/aat.nt \
       --graph-name "https://data.colonialcollections.nl/aat"
 
+#### GeoNames
+
+##### Collect IRIs of locations from a SPARQL endpoint
+
+    ./dist/cli.js sparql-iterate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
+      --query-file ./queries/geonames/locations.rq \
+      --number-of-iris-per-request 2 \
+      --wait-between-requests 500 \
+      --iri-file ./tmp/geonames/locations.txt
+
+##### Dereference IRIs of locations
+
+    ./dist/cli.js dereference \
+      --iri-file ./tmp/geonames/locations.txt \
+      --wait-between-requests 1000 \
+      --number-of-concurrent-requests 1 \
+      --output-dir ./tmp/geonames/locations
+
+##### Collect IRIs of countries from RDF files
+
+    ./dist/cli.js fs-iterate \
+      --input-dir ./tmp/geonames/locations \
+      --query-file ./queries/geonames/countries.rq \
+      --iri-file ./tmp/geonames/countries.txt
+
 #### Datasets
 
 ##### Collect IRIs from a SPARQL endpoint
 
-    ./dist/cli.js iterate \
+    ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
       --query-file ./queries/datasets/iterate.rq \
       --number-of-iris-per-request 10000 \
@@ -57,7 +83,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Generate graph from a SPARQL endpoint
 
-    ./dist/cli.js generate \
+    ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
       --query-file ./queries/datasets/generate.rq \
       --number-of-resources-per-request 50 \
@@ -82,7 +108,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Collect IRIs from a SPARQL endpoint
 
-    ./dist/cli.js iterate \
+    ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
       --query-file ./queries/testing/objects/iterate.rq \
       --number-of-iris-per-request 10000 \
@@ -91,7 +117,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Generate graph from a SPARQL endpoint
 
-    ./dist/cli.js generate \
+    ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
       --query-file ./queries/testing/objects/generate.rq \
       --number-of-resources-per-request 50 \
@@ -116,7 +142,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Collect IRIs from a SPARQL endpoint
 
-    ./dist/cli.js iterate \
+    ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
       --query-file ./queries/testing/persons/iterate.rq \
       --number-of-iris-per-request 10000 \
@@ -125,7 +151,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Generate graph from a SPARQL endpoint
 
-    ./dist/cli.js generate \
+    ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
       --query-file ./queries/testing/persons/generate.rq \
       --number-of-resources-per-request 50 \
@@ -152,7 +178,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Collect IRIs from a SPARQL endpoint
 
-    ./dist/cli.js iterate \
+    ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/aat/iterate.rq \
       --number-of-iris-per-request 2 \
@@ -161,7 +187,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Generate graph from a SPARQL endpoint
 
-    ./dist/cli.js generate \
+    ./dist/cli.js sparql-generate \
       --endpoint-url "https://vocab.getty.edu/sparql" \
       --query-file ./queries/aat/generate.rq \
       --iri-file ./tmp/iris.txt \
@@ -186,7 +212,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Collect IRIs from a SPARQL endpoint
 
-    ./dist/cli.js iterate \
+    ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/datasets/iterate.rq \
       --number-of-iris-per-request 10000 \
@@ -195,7 +221,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Generate graph from a SPARQL endpoint
 
-    ./dist/cli.js generate \
+    ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/datasets/generate.rq \
       --number-of-resources-per-request 50 \
@@ -220,7 +246,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Collect IRIs from a SPARQL endpoint
 
-    ./dist/cli.js iterate \
+    ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/production/associations/iterate.rq \
       --number-of-iris-per-request 10000 \
@@ -229,7 +255,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Generate graph from a SPARQL endpoint
 
-    ./dist/cli.js generate \
+    ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/production/associations/generate.rq \
       --number-of-resources-per-request 50 \
@@ -254,7 +280,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Collect IRIs from a SPARQL endpoint
 
-    ./dist/cli.js iterate \
+    ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/production/colonial-objects/iterate.rq \
       --number-of-iris-per-request 10000 \
@@ -263,7 +289,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Generate graph from a SPARQL endpoint
 
-    ./dist/cli.js generate \
+    ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/production/colonial-objects/generate.rq \
       --number-of-resources-per-request 25 \
@@ -288,7 +314,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Collect IRIs from a SPARQL endpoint
 
-    ./dist/cli.js iterate \
+    ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/production/stamboeken/iterate.rq \
       --number-of-iris-per-request 10000 \
@@ -297,7 +323,7 @@ Create a graph from a SPARQL endpoint
 
 ##### Generate graph from a SPARQL endpoint
 
-    ./dist/cli.js generate \
+    ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/production/stamboeken/generate.rq \
       --number-of-resources-per-request 50 \

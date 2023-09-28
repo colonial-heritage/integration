@@ -11,6 +11,8 @@
     "test:once": "vitest --run"
   },
   "dependencies": {
+    "@colonial-collections/fs-iterator": "1.0.0",
+    "@colonial-collections/rdf-file-store": "1.0.0",
     "@colonial-collections/shared": "1.0.0",
     "@colonial-collections/sparql-iterator": "1.0.0",
     "@colonial-collections/sparql-generator": "1.0.0",
@@ -21,6 +23,10 @@
     "pino": "8.15.1",
     "pretty-ms": "8.0.0",
     "zod": "3.22.2"
+  },
+  "devDependencies": {
+    "glob": "10.3.4",
+    "rimraf": "5.0.1"
   },
   "tsup": {
     "entry": [

@@ -1,5 +1,5 @@
 import {getLogger} from '@colonial-collections/shared';
-import {Iterator} from '@colonial-collections/sparql-iterator';
+import {Iterator} from '@colonial-collections/fs-iterator';
 import {readFile} from 'node:fs/promises';
 import {mkdirp} from 'mkdirp';
 import {createWriteStream} from 'node:fs';
@@ -9,11 +9,9 @@ import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
 
 const runOptionsSchema = z.object({
-  endpointUrl: z.string().url(),
+  inputDir: z.string(),
   queryFile: z.string(),
   iriFile: z.string(),
-  numberOfIrisPerRequest: z.number().optional(),
-  waitBetweenRequests: z.number().min(0).optional(),
 });
 
 export type RunOptions = z.infer<typeof runOptionsSchema>;
@@ -24,31 +22,22 @@ export async function run(options: RunOptions) {
   const startTime = performance.now();
 
   const logger = getLogger();
-  logger.info(`Collecting IRIs from SPARQL endpoint "${opts.endpointUrl}"`);
+  logger.info(`Collecting IRIs from files in "${opts.inputDir}"`);
 
   await mkdirp(dirname(opts.iriFile));
   const writeStream = createWriteStream(opts.iriFile);
   const query = await readFile(opts.queryFile, {encoding: 'utf-8'});
 
   const iterator = new Iterator({
-    endpointUrl: opts.endpointUrl,
-    waitBetweenRequests: opts.waitBetweenRequests,
-    numberOfIrisPerRequest: opts.numberOfIrisPerRequest,
+    dir: opts.inputDir,
     query,
     writeStream,
   });
 
   iterator.on('error', (err: Error) => logger.error(err));
-  iterator.on(
-    'collected-iris',
-    (numberOfIris: number, limit: number, offset: number) => {
-      logger.info(
-        `Collected ${numberOfIris} IRIs from offset ${offset} to ${
-          offset + numberOfIris
-        }`
-      );
-    }
-  );
+  iterator.on('collected-iris', (numberOfIris: number, file: string) => {
+    logger.info(`Collected ${numberOfIris} IRIs from file "${file}"`);
+  });
 
   await iterator.untilDone();
 

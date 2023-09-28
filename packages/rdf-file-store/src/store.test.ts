@@ -14,13 +14,9 @@ import {
   it,
 } from 'vitest';
 
-async function readFileAsString(fileName: string) {
-  return readFile(fileName, {encoding: 'utf-8'});
-}
-
 const handlers = [
   rest.get('http://localhost/resource.ttl', async (req, res, ctx) => {
-    const data = await readFileAsString('./fixtures/resource.ttl');
+    const data = await readFile('./fixtures/resource.ttl', {encoding: 'utf-8'});
     return res(
       ctx.status(200),
       ctx.set('Content-Type', 'text/turtle'),

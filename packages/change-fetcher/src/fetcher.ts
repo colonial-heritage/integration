@@ -31,10 +31,10 @@ export async function run(options: RunOptions) {
   });
 
   store.on('upsert', (iri: string, filename: string) =>
-    logger.info(`Created or updated ${filename} for ${iri}`)
+    logger.info(`Created or updated "${filename}" for "${iri}"`)
   );
   store.on('delete', (iri: string, filename: string) =>
-    logger.info(`Deleted ${filename} for ${iri}`)
+    logger.info(`Deleted "${filename}" for "${iri}"`)
   );
   store.on('error', (err: Error) => logger.error(err));
 

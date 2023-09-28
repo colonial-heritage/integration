@@ -1,8 +1,9 @@
 import {getLogger} from '@colonial-collections/shared';
 import {Generator} from '@colonial-collections/sparql-generator';
-import {readFileAsString, getNumberOfLinesInFile} from './helpers.js';
+import {getNumberOfLinesInFile} from './helpers.js';
 import {mkdirp} from 'mkdirp';
 import {createReadStream, createWriteStream} from 'node:fs';
+import {readFile} from 'node:fs/promises';
 import {dirname} from 'node:path';
 import {performance} from 'node:perf_hooks';
 import readline from 'node:readline';
@@ -26,7 +27,7 @@ export async function run(options: RunOptions) {
 
   const startTime = performance.now();
   const logger = getLogger();
-  const query = await readFileAsString(opts.queryFile);
+  const query = await readFile(opts.queryFile, {encoding: 'utf-8'});
 
   await mkdirp(dirname(opts.rdfFile));
   const writeStream = createWriteStream(opts.rdfFile);
@@ -75,9 +76,8 @@ export async function run(options: RunOptions) {
   });
 
   // Read file line by line
-  const iriReadStream = createReadStream(opts.iriFile);
   const rl = readline.createInterface({
-    input: iriReadStream,
+    input: createReadStream(opts.iriFile),
     crlfDelay: Infinity,
   });
 

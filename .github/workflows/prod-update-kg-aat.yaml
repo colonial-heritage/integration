@@ -16,7 +16,7 @@ jobs:
       - run: npm run build
       - name: Iterate
         run: |
-          ./packages/graph-creator/dist/cli.js iterate \
+          ./packages/graph-creator/dist/cli.js sparql-iterate \
             --endpoint-url "${{ secrets.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
             --query-file ./packages/graph-creator/queries/aat/iterate.rq \
             --number-of-iris-per-request 10000 \
@@ -24,7 +24,7 @@ jobs:
             --iri-file ./data/aat.txt
       - name: Generate
         run: |
-          ./packages/graph-creator/dist/cli.js generate \
+          ./packages/graph-creator/dist/cli.js sparql-generate \
             --endpoint-url "https://vocab.getty.edu/sparql" \
             --query-file ./packages/graph-creator/queries/aat/generate.rq \
             --number-of-resources-per-request 25 \

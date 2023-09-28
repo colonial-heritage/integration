@@ -1,0 +1,27 @@
+<https://sws.geonames.org/1642673/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.geonames.org/ontology#Feature> .
+<https://sws.geonames.org/1642673/> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://sws.geonames.org/1642673/about.rdf> .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#name> "Java" .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#alternateName> "Giava"@it .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#alternateName> "Java"@en .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#alternateName> "Pulau Djawa" .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#alternateName> "Pulau Jawa"@id .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#alternateName> "Ява"@ru .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#featureClass> <https://www.geonames.org/ontology#T> .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#featureCode> <https://www.geonames.org/ontology#T.ISL> .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#countryCode> "ID" .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#population> "141370000" .
+<https://sws.geonames.org/1642673/> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "-7.49167" .
+<https://sws.geonames.org/1642673/> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "110.00444" .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#parentFeature> <https://sws.geonames.org/1643789/> .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#parentCountry> <https://sws.geonames.org/1643084/> .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#nearbyFeatures> <https://sws.geonames.org/1642673/nearby.rdf> .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#locationMap> <https://www.geonames.org/1642673/java.html> .
+<https://sws.geonames.org/1642673/> <http://www.geonames.org/ontology#wikipediaArticle> <https://en.wikipedia.org/wiki/Java> .
+<https://sws.geonames.org/1642673/> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <https://dbpedia.org/resource/Java> .
+<https://sws.geonames.org/1642673/about.rdf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Document> .
+<https://sws.geonames.org/1642673/about.rdf> <http://xmlns.com/foaf/0.1/primaryTopic> <https://sws.geonames.org/1642673/> .
+<https://sws.geonames.org/1642673/about.rdf> <http://creativecommons.org/ns#license> <https://creativecommons.org/licenses/by/4.0/> .
+<https://sws.geonames.org/1642673/about.rdf> <http://creativecommons.org/ns#attributionURL> <https://www.geonames.org> .
+<https://sws.geonames.org/1642673/about.rdf> <http://creativecommons.org/ns#attributionName> "GeoNames"^^<https://www.w3.org/2001/XMLSchema#string> .
+<https://sws.geonames.org/1642673/about.rdf> <http://purl.org/dc/terms/created> "2006-01-15"^^<https://www.w3.org/2001/XMLSchema#date> .
+<https://sws.geonames.org/1642673/about.rdf> <http://purl.org/dc/terms/modified> "2020-05-18"^^<https://www.w3.org/2001/XMLSchema#date> .

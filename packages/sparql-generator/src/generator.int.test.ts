@@ -4,10 +4,6 @@ import {WriteStream, createWriteStream} from 'node:fs';
 import {EOL} from 'node:os';
 import {beforeEach, describe, expect, it} from 'vitest';
 
-async function readFileAsString(fileName: string) {
-  return readFile(fileName, {encoding: 'utf-8'});
-}
-
 describe('untilDone', () => {
   let graphFile: string;
   let writeStream: WriteStream;
@@ -16,7 +12,9 @@ describe('untilDone', () => {
   beforeEach(async () => {
     graphFile = './tmp/graph.nt';
     writeStream = createWriteStream(graphFile);
-    query = await readFileAsString('./fixtures/generate.rq');
+    query = await readFile('./fixtures/generate.rq', {
+      encoding: 'utf-8',
+    });
   });
 
   it('errors if the endpoint is invalid', async () => {
@@ -62,7 +60,7 @@ describe('untilDone', () => {
     await generator.untilDone();
 
     // Basic string check. TODO: improve by parsing 'graphFile' to RDF
-    const data = await readFileAsString(graphFile);
+    const data = await readFile(graphFile, {encoding: 'utf-8'});
     const triples = data.split(EOL);
 
     expect(triples[0]).toBe(

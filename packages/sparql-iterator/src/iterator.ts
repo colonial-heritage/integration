@@ -35,7 +35,6 @@ export class Iterator extends EventEmitter {
     this.waitBetweenRequests = opts.waitBetweenRequests;
     this.query = this.getAndValidateIterateQuery(opts.query);
     this.writeStream = opts.writeStream;
-
     this.fetcher = new SparqlEndpointFetcher({
       timeout: opts.timeoutPerRequest,
     });
@@ -58,6 +57,9 @@ export class Iterator extends EventEmitter {
   }
 
   private async collectIrisInRange(limit: number, offset: number) {
+    let hasResults = false;
+    let numberOfIris = 0;
+
     // TBD: instead of doing string replacements, generate a new SPARQL query using sparqljs?
     const query = this.query
       .replace('?_limit', limit.toString())
@@ -69,13 +71,11 @@ export class Iterator extends EventEmitter {
       query
     );
 
-    let hasResults = false;
-    let numberOfIris = 0;
-
     // Write the results to a simple, line-based file
     for await (const rawBindings of bindingsStream) {
       hasResults = true;
       numberOfIris++; // For progress monitoring
+
       const bindings = rawBindings as unknown as IBindings; // TS assumes it's a string or Buffer
       const line = bindings.iri.value + EOL;
       if (!this.writeStream.write(line)) {
@@ -84,7 +84,7 @@ export class Iterator extends EventEmitter {
     }
 
     if (hasResults) {
-      this.emit('collected-iris', numberOfIris, limit, offset); // E.g. for progress monitoring
+      this.emit('collected-iris', numberOfIris, limit, offset);
     }
 
     return hasResults;

@@ -1,10 +1,5 @@
-import {readFile} from 'node:fs/promises';
 import {EOL} from 'node:os';
 import {createReadStream} from 'node:fs';
-
-export async function readFileAsString(fileName: string) {
-  return readFile(fileName, {encoding: 'utf-8'});
-}
 
 // Based on https://stackoverflow.com/a/41439945
 export async function getNumberOfLinesInFile(

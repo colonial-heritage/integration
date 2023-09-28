@@ -1,0 +1,13 @@
+SELECT ?iri
+WHERE {
+  {
+    SELECT ?iri
+    WHERE {
+      ?s ?p ?iri
+      FILTER(isIRI(?iri) && STRSTARTS(STR(?iri), "https://sws.geonames.org/"))
+    }
+  }
+}
+GROUP BY ?iri
+LIMIT ?_limit
+OFFSET ?_offset

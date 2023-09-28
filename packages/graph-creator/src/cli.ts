@@ -1,14 +1,16 @@
 #!/bin/env node
 
 import {cac} from 'cac';
+import type {RunOptions as DereferenceRunOptions} from './dereferencer.js';
 import type {RunOptions as IterateRunOptions} from './iterator.js';
+import type {RunOptions as FsIterateRunOptions} from './fs-iterator.js';
 import type {RunOptions as GenerateRunOptions} from './generator.js';
 import type {RunOptions as UploadRunOptions} from './uploader.js';
 
 const cli = cac();
 
 cli
-  .command('iterate', 'Collect IRIs from a SPARQL endpoint')
+  .command('sparql-iterate', 'Collect IRIs from a SPARQL endpoint')
   .option('--endpoint-url <string>', 'SPARQL endpoint URL')
   .option('--query-file <string>', 'Iterate query file')
   .option(
@@ -29,7 +31,7 @@ cli
   });
 
 cli
-  .command('generate', 'Generate graph from a SPARQL endpoint')
+  .command('sparql-generate', 'Generate graph from a SPARQL endpoint')
   .option('--endpoint-url <string>', 'SPARQL endpoint URL')
   .option('--query-file <string>', 'Generate query file')
   .option(
@@ -55,6 +57,37 @@ cli
   .option('--rdf-file <string>', 'File for storing the generated resources')
   .action(async (options: GenerateRunOptions) => {
     import('./generator.js').then(action => action.run(options));
+  });
+
+cli
+  .command('dereference', 'Dereference IRIs')
+  .option('--iri-file <string>', 'File containing dereferenceable IRIs')
+  .option(
+    '--wait-between-requests [number]',
+    'Wait between requests, in milliseconds',
+    {
+      default: 500,
+    }
+  )
+  .option(
+    '--number-of-concurrent-requests [number]',
+    'Number of concurrent requests',
+    {
+      default: 1,
+    }
+  )
+  .option('--output-dir <string>', 'Directory for storing the resources')
+  .action(async (options: DereferenceRunOptions) => {
+    import('./dereferencer.js').then(action => action.run(options));
+  });
+
+cli
+  .command('fs-iterate', 'Collect IRIs from local RDF files')
+  .option('--input-dir <string>', 'Directory of the RDF files')
+  .option('--query-file <string>', 'Iterate query file')
+  .option('--iri-file <string>', 'File for storing collected IRIs')
+  .action(async (options: FsIterateRunOptions) => {
+    import('./fs-iterator.js').then(action => action.run(options));
   });
 
 cli

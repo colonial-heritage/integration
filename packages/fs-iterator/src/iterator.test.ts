@@ -12,42 +12,43 @@ describe('untilDone', () => {
   beforeEach(async () => {
     iriFile = './tmp/iris.txt';
     writeStream = createWriteStream(iriFile);
-    query = await readFile('./fixtures/iterate.rq', {encoding: 'utf-8'});
+    query = await readFile('./fixtures/queries/iterate.rq', {
+      encoding: 'utf-8',
+    });
   });
 
-  it('errors if the endpoint is invalid', async () => {
-    expect.assertions(1);
-
+  it('does not write results if there are no files to iterate', async () => {
     const iterator = new Iterator({
-      endpointUrl: 'http://localhost',
+      dir: './fixtures/no-files',
       query,
       writeStream,
     });
 
-    iterator.on('error', (err: Error) => {
-      expect(err.message).toBe(
-        'Error while collecting 1 IRIs from offset 0: fetch failed'
-      );
-    });
-
     await iterator.untilDone();
+
+    const data = await readFile(iriFile, {encoding: 'utf-8'});
+
+    expect(data).toBe('');
   });
 
   it('iterates until done', async () => {
     const iterator = new Iterator({
-      endpointUrl: 'https://query.wikidata.org/sparql',
+      dir: './fixtures/files',
       query,
       writeStream,
-      numberOfIrisPerRequest: 2,
     });
 
     let numberOfEmits = 0;
-    iterator.on('collected-iris', () => numberOfEmits++);
+    let numberOfIris = 0;
+    iterator.on('collected-iris', (numberOfIrisInFile: number) => {
+      numberOfEmits++;
+      numberOfIris += numberOfIrisInFile;
+    });
 
     await iterator.untilDone();
 
-    // This can change if the source data changes
-    expect(numberOfEmits).toBe(2);
+    expect(numberOfEmits).toBe(3);
+    expect(numberOfIris).toBe(4);
 
     const data = await readFile(iriFile, {encoding: 'utf-8'});
     const iris = data
@@ -55,11 +56,11 @@ describe('untilDone', () => {
       .filter(iri => iri.length > 0) // Skip empty lines
       .sort();
 
-    // This can change if the source data changes
     expect(iris).toEqual([
-      'http://www.wikidata.org/entity/Q9918',
-      'http://www.wikidata.org/entity/Q9920',
-      'http://www.wikidata.org/entity/Q9974',
+      'http://example.org/a',
+      'http://example.org/b',
+      'http://example.org/b',
+      'http://example.org/c',
     ]);
   });
 });
