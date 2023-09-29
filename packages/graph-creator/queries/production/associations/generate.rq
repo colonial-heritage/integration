@@ -23,7 +23,8 @@ CONSTRUCT {
     cc:isPartOf ?datasetName ;
     cc:publisher ?publisherName ;
     cc:material ?materialName ;
-    cc:yearCreated ?beginOfTheBeginYear ; # Earliest date of creation
+    cc:yearCreatedStart ?beginOfTheBeginYear ;
+    cc:yearCreatedEnd ?endOfTheEndYear ;
     cc:dateCreatedStart ?beginOfTheBegin . # For BC - remove at some point
 }
 WHERE {
@@ -141,6 +142,15 @@ WHERE {
   }
 
   BIND(IF(BOUND(?beginOfTheBegin), YEAR(?beginOfTheBegin), ?null) AS ?beginOfTheBeginYear)
+
+  OPTIONAL {
+    ?object crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82b_end_of_the_end ?endOfTheEnd .
+    FILTER(DATATYPE(?endOfTheEnd) = xsd:date || DATATYPE(?endOfTheEnd) = xsd:gYear || DATATYPE(?endOfTheEnd) = xsd:gYearMonth)
+    # Values can have an xsd date type but not be a valid date (!) - ignore these
+    FILTER(COALESCE(xsd:date(STR(?endOfTheEnd)), '!') != '!')
+  }
+
+  BIND(IF(BOUND(?endOfTheEnd), YEAR(?endOfTheEnd), ?null) AS ?endOfTheEndYear)
 
   ####################
   # Image
