@@ -1,5 +1,5 @@
 ###############################
-# Query for generating a search graph from object descriptions in dataset 'objects.ttl' from the Data Registry
+# Query for generating a search graph from object descriptions in dataset in dataset 'Associations'
 ###############################
 
 PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
@@ -130,7 +130,7 @@ WHERE {
   # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P14_carried_out_by)
 
   ####################
-  # Date created
+  # Date of creation
   ####################
 
   OPTIONAL {

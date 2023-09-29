@@ -6,6 +6,7 @@ PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX dig: <http://www.ics.forth.gr/isl/CRMdig/>
+PREFIX gn: <http://www.geonames.org/ontology#>
 PREFIX la: <https://linked.art/ns/terms/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schema: <https://schema.org/>
@@ -29,7 +30,10 @@ CONSTRUCT {
     cc:publisher ?publisherName ;
     cc:dateCreatedStart ?beginOfTheBegin ;
     cc:dateCreatedEnd ?endOfTheEnd ;
-    cc:image ?contentUrl . # TODO: fetch from triplestore instead
+    cc:image ?contentUrl ; # TODO: fetch from triplestore instead
+    cc:locationCreated ?locationName ;
+    cc:countryCreated ?countryName ;
+    cc:alternateName ?alternateLocationName . # Only for indexing
 }
 WHERE {
   VALUES ?object {
@@ -169,7 +173,7 @@ WHERE {
   }
 
   ####################
-  # Date created
+  # Date of creation
   ####################
 
   OPTIONAL {
@@ -180,6 +184,32 @@ WHERE {
   OPTIONAL {
     ?object crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82b_end_of_the_end ?endOfTheEnd .
     # TBD: add a FILTER() to remove invalid dates?
+  }
+
+  ####################
+  # Location of creation
+  ####################
+
+  OPTIONAL {
+    ?object crm:P108i_was_produced_by/crm:P7_took_place_at ?location .
+    ?location gn:name ?locationName ;
+      gn:featureClass ?featureClass .
+    FILTER(LANG(?locationName) = "" || LANGMATCHES(LANG(?locationName), "en"))
+
+    OPTIONAL {
+      ?location gn:alternateName ?alternateLocationName
+      FILTER(LANG(?alternateLocationName) = "" || LANGMATCHES(LANG(?alternateLocationName), "en"))
+    }
+
+    # Country of which the location is a part
+    OPTIONAL {
+      ?location gn:parentCountry ?country .
+      ?country gn:name ?tmpCountryName .
+      FILTER(LANG(?tmpCountryName) = "" || LANGMATCHES(LANG(?tmpCountryName), "en"))
+    }
+
+    # Location could be a country
+    BIND(IF(?featureClass = <https://www.geonames.org/ontology#A>, ?locationName, ?tmpCountryName) AS ?countryName)
   }
 
   ####################
