@@ -1,0 +1,60 @@
+name: Production - update the Knowledge Graph with data from dataset 'GeoNames', based on IRIs in the Knowledge Graph
+
+# on:
+#   schedule:
+#     - cron: "0 6 * * 1"
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  update-kg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - run: npm ci
+      - run: npm run build
+      - name: Iterate locations
+        run: |
+          ./packages/graph-creator/dist/cli.js sparql-iterate \
+            --endpoint-url "${{ secrets.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
+            --query-file ./packages/graph-creator/queries/geonames/locations.rq \
+            --number-of-iris-per-request 10000 \
+            --wait-between-requests 500 \
+            --iri-file ./data/geonames/locations.txt
+      - name: Dereference locations
+        run: |
+          ./packages/graph-creator/dist/cli.js dereference \
+            --iri-file ./data/geonames/locations.txt \
+            --wait-between-requests 1000 \
+            --number-of-concurrent-requests 5 \
+            --output-dir ./data/geonames/locations
+      - name: Iterate countries
+        run: |
+          ./packages/graph-creator/dist/cli.js fs-iterate \
+            --input-dir ./data/geonames/locations \
+            --query-file ./packages/graph-creator/queries/geonames/countries.rq \
+            --iri-file ./data/geonames/countries.txt
+      - name: Dereference countries
+        run: |
+          ./packages/graph-creator/dist/cli.js dereference \
+            --iri-file ./data/geonames/countries.txt \
+            --wait-between-requests 1000 \
+            --number-of-concurrent-requests 5 \
+            --output-dir ./data/geonames/countries
+      - name: Upload locations and countries to RDF store
+        run: |
+          ./packages/graph-creator/dist/cli.js upload \
+            --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
+            --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
+            --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_PRODUCTION }}" \
+            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_KG_PRODUCTION }}" \
+            --triplydb-service-name "kg" \
+            --triplydb-service-type "virtuoso" \
+            --dir ./data/geonames \
+            --dir-temp "$RUNNER_TEMP" \
+            --graph-name "https://data.colonialcollections.nl/geonames"
