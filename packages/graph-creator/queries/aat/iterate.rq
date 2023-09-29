@@ -3,8 +3,12 @@ WHERE {
   {
     SELECT ?iri
     WHERE {
-      ?s ?p ?iri
-      FILTER(isIRI(?iri) && STRSTARTS(STR(?iri), "http://vocab.getty.edu/aat/"))
+      GRAPH ?g {
+        ?s ?p ?iri
+        FILTER(isIRI(?iri) && REGEX(STR(?iri), "^http://vocab.getty.edu/aat/\\d+$"))
+      }
+      # Exclude results from the AAT graph
+      FILTER(?g != <https://data.colonialcollections.nl/aat>)
     }
   }
 }

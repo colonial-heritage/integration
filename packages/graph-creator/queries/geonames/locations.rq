@@ -3,8 +3,12 @@ WHERE {
   {
     SELECT ?iri
     WHERE {
-      ?s ?p ?iri
-      FILTER(isIRI(?iri) && STRSTARTS(STR(?iri), "https://sws.geonames.org/"))
+      GRAPH ?g {
+        ?s ?p ?iri
+        FILTER(isIRI(?iri) && REGEX(STR(?iri), "^https://sws.geonames.org/\\d+/$"))
+      }
+      # Exclude results from the GeoNames graph
+      FILTER(?g != <https://data.colonialcollections.nl/geonames>)
     }
   }
 }
