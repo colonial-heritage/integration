@@ -41,7 +41,7 @@ export async function run(options: RunOptions) {
   });
 
   for await (const iri of rl) {
-    store.save({iri, type: 'upsert'});
+    await store.save({iri, type: 'upsert'});
   }
 
   await store.untilDone();

@@ -31,11 +31,11 @@ export class Iterator extends EventEmitter {
     this.queryEngine = new QueryEngine();
   }
 
-  private async collectIrisInFile(file: string) {
+  private async collectIrisInFile(filename: string) {
     let numberOfIris = 0;
 
     const bindingsStream = await this.queryEngine.queryBindings(this.query, {
-      sources: [file],
+      sources: [filename],
     });
     const bindings = await bindingsStream.toArray();
 
@@ -53,7 +53,7 @@ export class Iterator extends EventEmitter {
       }
     }
 
-    this.emit('collected-iris', numberOfIris, file);
+    this.emit('collected-iris', numberOfIris, filename);
   }
 
   private async collectIris() {
@@ -63,8 +63,8 @@ export class Iterator extends EventEmitter {
       absolute: true,
     });
 
-    for await (const file of filesStream) {
-      await this.collectIrisInFile(file);
+    for await (const filename of filesStream) {
+      await this.collectIrisInFile(filename);
     }
   }
 

@@ -35,8 +35,8 @@ export async function run(options: RunOptions) {
   });
 
   iterator.on('error', (err: Error) => logger.error(err));
-  iterator.on('collected-iris', (numberOfIris: number, file: string) => {
-    logger.info(`Collected ${numberOfIris} IRIs from file "${file}"`);
+  iterator.on('collected-iris', (numberOfIris: number, filename: string) => {
+    logger.info(`Collected ${numberOfIris} IRIs from "${filename}"`);
   });
 
   await iterator.untilDone();
