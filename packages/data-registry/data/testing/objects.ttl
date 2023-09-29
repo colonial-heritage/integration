@@ -284,8 +284,8 @@
     ] ;
     crm:P4_has_time-span [
       a crm:E52_Time-Span ;
-      crm:P82a_begin_of_the_begin "1889"^^xsd:gYear ;
-      crm:P82b_end_of_the_end "1890-06"^^xsd:gYearMonth ;
+      crm:P82a_begin_of_the_begin "1901"^^xsd:gYear ;
+      crm:P82b_end_of_the_end "1902-06"^^xsd:gYearMonth ;
     ] ;
     crm:P7_took_place_at <https://sws.geonames.org/1749659/> ; # Pulau Sebang, Malaysia
   ] ;

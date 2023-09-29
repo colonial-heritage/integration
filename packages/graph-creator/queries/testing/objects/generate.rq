@@ -28,8 +28,9 @@ CONSTRUCT {
     cc:creator ?creatorName ;
     cc:owner ?ownerName ;
     cc:publisher ?publisherName ;
-    cc:dateCreatedStart ?beginOfTheBegin ;
-    cc:dateCreatedEnd ?endOfTheEnd ;
+    cc:yearCreatedStart ?beginOfTheBeginYear ;
+    cc:yearCreatedEnd ?endOfTheEndYear ;
+    cc:dateCreatedStart ?beginOfTheBegin ; # For BC - remove at some point
     cc:image ?contentUrl ; # TODO: fetch from triplestore instead
     cc:locationCreated ?locationName ;
     cc:countryCreated ?countryName ;
@@ -178,13 +179,21 @@ WHERE {
 
   OPTIONAL {
     ?object crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82a_begin_of_the_begin ?beginOfTheBegin .
-    # TBD: add a FILTER() to remove invalid dates?
+    FILTER(DATATYPE(?beginOfTheBegin) = xsd:date || DATATYPE(?beginOfTheBegin) = xsd:gYear || DATATYPE(?beginOfTheBegin) = xsd:gYearMonth)
+    # Values can have an xsd date type but not be a valid date (!) - ignore these
+    FILTER(COALESCE(xsd:date(STR(?beginOfTheBegin)), '!') != '!')
   }
+
+  BIND(IF(BOUND(?beginOfTheBegin), YEAR(?beginOfTheBegin), ?null) AS ?beginOfTheBeginYear)
 
   OPTIONAL {
     ?object crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82b_end_of_the_end ?endOfTheEnd .
-    # TBD: add a FILTER() to remove invalid dates?
+    FILTER(DATATYPE(?endOfTheEnd) = xsd:date || DATATYPE(?endOfTheEnd) = xsd:gYear || DATATYPE(?endOfTheEnd) = xsd:gYearMonth)
+    # Values can have an xsd date type but not be a valid date (!) - ignore these
+    FILTER(COALESCE(xsd:date(STR(?endOfTheEnd)), '!') != '!')
   }
+
+  BIND(IF(BOUND(?endOfTheEnd), YEAR(?endOfTheEnd), ?null) AS ?endOfTheEndYear)
 
   ####################
   # Location of creation
