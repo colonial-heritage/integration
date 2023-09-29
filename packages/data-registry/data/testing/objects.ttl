@@ -66,8 +66,8 @@
     ] ;
     crm:P4_has_time-span [
       a crm:E52_Time-Span ;
-      crm:P82a_begin_of_the_begin "1889"^^xsd:gYear ;
-      crm:P82b_end_of_the_end "1890"^^xsd:gYear ;
+      crm:P82a_begin_of_the_begin "1889-05"^^xsd:gYearMonth ;
+      crm:P82b_end_of_the_end "1890-12"^^xsd:gYearMonth ;
     ] ;
     crm:P7_took_place_at <https://sws.geonames.org/3382998/> ; # Suriname
   ] ;
@@ -143,8 +143,8 @@
     ] ;
     crm:P4_has_time-span [
       a crm:E52_Time-Span ;
-      crm:P82a_begin_of_the_begin "1895"^^xsd:gYear ;
-      crm:P82b_end_of_the_end "1895"^^xsd:gYear ;
+      crm:P82a_begin_of_the_begin "1895-02-01"^^xsd:date ;
+      crm:P82b_end_of_the_end "1895-02-15"^^xsd:date ;
     ] ;
     crm:P7_took_place_at <https://sws.geonames.org/1642911/> ; # Jakarta, Indonesia
   ] ;
@@ -285,7 +285,7 @@
     crm:P4_has_time-span [
       a crm:E52_Time-Span ;
       crm:P82a_begin_of_the_begin "1889"^^xsd:gYear ;
-      crm:P82b_end_of_the_end "1890"^^xsd:gYear ;
+      crm:P82b_end_of_the_end "1890-06"^^xsd:gYearMonth ;
     ] ;
     crm:P7_took_place_at <https://sws.geonames.org/1749659/> ; # Pulau Sebang, Malaysia
   ] ;
