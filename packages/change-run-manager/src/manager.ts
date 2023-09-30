@@ -42,6 +42,8 @@ const saveRunOptionsSchema = z.object({
 
 export type SaveRunOptions = z.input<typeof saveRunOptionsSchema>;
 
+const provPrefix = 'http://www.w3.org/ns/prov#';
+
 export class ChangeRunManager {
   private dir: string;
 
@@ -56,7 +58,7 @@ export class ChangeRunManager {
     const activities = store.getQuads(
       undefined,
       DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
-      DF.namedNode('http://www.w3.org/ns/prov#Activity')
+      DF.namedNode(provPrefix + 'Activity')
     );
 
     if (activities.length !== 1) {
@@ -65,7 +67,7 @@ export class ChangeRunManager {
 
     const startedAtTimes = store.getQuads(
       activities[0].subject,
-      DF.namedNode('http://www.w3.org/ns/prov#startedAtTime'),
+      DF.namedNode(provPrefix + 'startedAtTime'),
       undefined
     );
 
@@ -75,7 +77,7 @@ export class ChangeRunManager {
 
     const endedAtTimes = store.getQuads(
       activities[0].subject,
-      DF.namedNode('http://www.w3.org/ns/prov#endedAtTime'),
+      DF.namedNode(provPrefix + 'endedAtTime'),
       undefined
     );
 
@@ -122,13 +124,13 @@ export class ChangeRunManager {
       DF.quad(
         idNode,
         DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
-        DF.namedNode('http://www.w3.org/ns/prov#Activity')
+        DF.namedNode(provPrefix + 'Activity')
       )
     );
     store.addQuad(
       DF.quad(
         idNode,
-        DF.namedNode('http://www.w3.org/ns/prov#startedAtTime'),
+        DF.namedNode(provPrefix + 'startedAtTime'),
         DF.literal(
           opts.startedAt.toISOString(),
           DF.namedNode('http://www.w3.org/2001/XMLSchema#dateTime')
@@ -138,7 +140,7 @@ export class ChangeRunManager {
     store.addQuad(
       DF.quad(
         idNode,
-        DF.namedNode('http://www.w3.org/ns/prov#endedAtTime'),
+        DF.namedNode(provPrefix + 'endedAtTime'),
         DF.literal(
           opts.endedAt.toISOString(),
           DF.namedNode('http://www.w3.org/2001/XMLSchema#dateTime')
