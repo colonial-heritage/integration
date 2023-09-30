@@ -65,7 +65,7 @@ Create a graph from local RDF files or a SPARQL endpoint
 
 ##### Collect IRIs of countries from RDF files
 
-    ./dist/cli.js fs-iterate \
+    ./dist/cli.js file-iterate \
       --input-dir ./tmp/geonames/locations \
       --query-file ./queries/geonames/countries.rq \
       --iri-file ./tmp/geonames/countries.txt

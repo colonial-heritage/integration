@@ -1,3 +1,4 @@
+import {getRdfFiles} from '@colonial-collections/shared';
 import {mkdirp} from 'mkdirp';
 import {createReadStream, createWriteStream} from 'node:fs';
 import {join} from 'node:path';
@@ -7,7 +8,6 @@ import rdfParser from 'rdf-parse';
 import rdfSerializer from 'rdf-serialize';
 import {storeStream} from 'rdf-store-stream';
 import {RdfStore} from 'rdf-stores';
-import {glob} from 'glob';
 import {resolve} from 'node:path';
 import {z} from 'zod';
 
@@ -93,16 +93,13 @@ export class ChangeRunManager {
   }
 
   async getLastRun() {
-    const files = await glob(`${this.dir}/**/*`, {
-      nodir: true,
-      absolute: true,
-    });
+    const filenames = await getRdfFiles(this.dir);
 
     // Sort by filename in descending order, from new to old
-    files.sort().reverse();
+    filenames.sort().reverse();
 
     // Take the first file - this contains the last run
-    const lastRunFile = files.shift();
+    const lastRunFile = filenames.shift();
     if (lastRunFile === undefined) {
       return undefined; // No last run
     }

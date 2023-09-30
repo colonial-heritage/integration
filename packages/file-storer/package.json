@@ -1,5 +1,5 @@
 {
-  "name": "@colonial-collections/fs-iterator",
+  "name": "@colonial-collections/file-storer",
   "version": "1.0.0",
   "type": "module",
   "private": true,
@@ -11,9 +11,15 @@
     "test:once": "vitest --run"
   },
   "dependencies": {
-    "@comunica/query-sparql-file": "2.9.0",
-    "glob": "10.3.4",
+    "fastq": "1.15.0",
+    "mkdirp": "3.0.1",
+    "rdf-dereference": "2.2.0",
+    "rdf-serialize": "2.2.2",
     "zod": "3.22.2"
+  },
+  "devDependencies": {
+    "msw": "1.3.1",
+    "rimraf": "5.0.1"
   },
   "tsup": {
     "entry": [

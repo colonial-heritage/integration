@@ -1,4 +1,4 @@
-import {run} from './iterator.js';
+import {run} from './sparql-iterator.js';
 import {readFile} from 'node:fs/promises';
 import {EOL} from 'node:os';
 import {describe, expect, it} from 'vitest';

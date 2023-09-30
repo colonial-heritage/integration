@@ -1,5 +1,5 @@
+import {getRdfFiles} from '@colonial-collections/shared';
 import App from '@triply/triplydb';
-import {glob} from 'glob';
 import {mkdirp} from 'mkdirp';
 import {unlink} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -97,30 +97,29 @@ export class TriplyDb {
   async upsertGraphFromDirectory(options: UpsertGraphFromDirectoryOptions) {
     const opts = upsertGraphFromDirectoryOptionsSchema.parse(options);
 
-    // Scan for some common RDF file extensions
-    const files = await glob(`${opts.dir}/**/*.{nt,nq,trig,ttl}`, {
-      nodir: true,
-    });
-
-    if (files.length === 0) {
+    const filenames = await getRdfFiles(opts.dir);
+    if (filenames.length === 0) {
       this.logger.warn(`No files found in "${opts.dir}"`);
       return;
     }
 
     const dirTemp = opts.dirTemp ?? tmpdir();
     await mkdirp(dirTemp);
-    const filename = join(dirTemp, `${Date.now()}.tgz`);
+    const tarFilename = join(dirTemp, `${Date.now()}.tgz`);
 
     this.logger.info(
-      `Creating "${filename}" with ${files.length} files from "${opts.dir}"`
+      `Creating "${tarFilename}" with ${filenames.length} files from "${opts.dir}"`
     );
 
     const logWarning = (code: string, message: string) =>
       this.logger.warn(`${message} (code: ${code})`);
 
-    await tar.create({gzip: true, onwarn: logWarning, file: filename}, files);
-    await this.upsertGraphFromFile({file: filename, graph: opts.graph});
-    await unlink(filename);
+    await tar.create(
+      {gzip: true, onwarn: logWarning, file: tarFilename},
+      filenames
+    );
+    await this.upsertGraphFromFile({file: tarFilename, graph: opts.graph});
+    await unlink(tarFilename);
   }
 
   async restartService(options: RestartServiceOptions) {

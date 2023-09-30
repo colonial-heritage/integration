@@ -11,8 +11,8 @@
     "test:once": "vitest --run"
   },
   "dependencies": {
+    "@colonial-collections/shared": "1.0.0",
     "@triply/triplydb": "6.0.8",
-    "glob": "10.3.4",
     "mkdirp": "3.0.1",
     "pino": "8.15.1",
     "tar": "6.2.0",

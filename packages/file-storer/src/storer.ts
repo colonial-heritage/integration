@@ -39,7 +39,7 @@ export const saveOptionsSchema = z.object({
 
 export type SaveOptions = z.infer<typeof saveOptionsSchema>;
 
-export class RdfFileStore extends EventEmitter {
+export class FileStorer extends EventEmitter {
   private dir: string;
   private waitBetweenRequests: number;
   private queue: queueAsPromised<SaveOptions>;

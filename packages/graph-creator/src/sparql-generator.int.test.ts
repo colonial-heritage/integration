@@ -1,4 +1,4 @@
-import {run} from './generator.js';
+import {run} from './sparql-generator.js';
 import {readFile} from 'node:fs/promises';
 import {EOL} from 'node:os';
 import {describe, expect, it} from 'vitest';

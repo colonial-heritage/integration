@@ -2,9 +2,9 @@
 
 import {cac} from 'cac';
 import type {RunOptions as DereferenceRunOptions} from './dereferencer.js';
-import type {RunOptions as IterateRunOptions} from './iterator.js';
-import type {RunOptions as FsIterateRunOptions} from './fs-iterator.js';
-import type {RunOptions as GenerateRunOptions} from './generator.js';
+import type {RunOptions as FsIterateRunOptions} from './file-iterator.js';
+import type {RunOptions as IterateRunOptions} from './sparql-iterator.js';
+import type {RunOptions as GenerateRunOptions} from './sparql-generator.js';
 import type {RunOptions as UploadRunOptions} from './uploader.js';
 
 const cli = cac();
@@ -27,7 +27,7 @@ cli
   )
   .option('--iri-file <string>', 'File for storing collected IRIs')
   .action(async (options: IterateRunOptions) => {
-    import('./iterator.js').then(action => action.run(options));
+    import('./sparql-iterator.js').then(action => action.run(options));
   });
 
 cli
@@ -56,7 +56,7 @@ cli
   .option('--iri-file <string>', 'File for retrieving the collected IRIs')
   .option('--rdf-file <string>', 'File for storing the generated resources')
   .action(async (options: GenerateRunOptions) => {
-    import('./generator.js').then(action => action.run(options));
+    import('./sparql-generator.js').then(action => action.run(options));
   });
 
 cli
@@ -76,22 +76,25 @@ cli
       default: 1,
     }
   )
-  .option('--output-dir <string>', 'Directory for storing the resources')
+  .option(
+    '--output-dir <string>',
+    'Directory for storing the dereferenced resources'
+  )
   .action(async (options: DereferenceRunOptions) => {
     import('./dereferencer.js').then(action => action.run(options));
   });
 
 cli
-  .command('fs-iterate', 'Collect IRIs from local RDF files')
+  .command('file-iterate', 'Collect IRIs from local RDF files')
   .option('--input-dir <string>', 'Directory of the RDF files')
   .option('--query-file <string>', 'Iterate query file')
   .option('--iri-file <string>', 'File for storing collected IRIs')
   .action(async (options: FsIterateRunOptions) => {
-    import('./fs-iterator.js').then(action => action.run(options));
+    import('./file-iterator.js').then(action => action.run(options));
   });
 
 cli
-  .command('upload', 'Upload graph to the RDF store')
+  .command('upload', 'Upload graph to RDF store')
   .option('--triplydb-instance-url <string>', 'TriplyDB instance URL')
   .option('--triplydb-api-token <string>', 'TriplyDB API token')
   .option('--triplydb-account <string>', 'TriplyDB account')
@@ -101,7 +104,7 @@ cli
   .option('--rdf-file [string]', 'RDF file to upload')
   .option('--dir [string]', 'Directory with RDF files to upload')
   .option('--dir-temp [string]', 'Directory for storing temporary files')
-  .option('--graph-name <string>', 'Name of the graph to upload the file to')
+  .option('--graph-name <string>', 'Name of the graph to upload the file(s) to')
   .action(async (options: UploadRunOptions) => {
     import('./uploader.js').then(action => action.run(options));
   });

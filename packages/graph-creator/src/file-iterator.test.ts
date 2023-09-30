@@ -1,4 +1,4 @@
-import {run} from './fs-iterator.js';
+import {run} from './file-iterator.js';
 import {readFile} from 'node:fs/promises';
 import {EOL} from 'node:os';
 import {describe, expect, it} from 'vitest';

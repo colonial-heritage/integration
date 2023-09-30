@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@colonial-collections/change-run-manager": "1.0.0",
+    "@colonial-collections/file-storer": "1.0.0",
     "@colonial-collections/iiif-change-discoverer": "1.0.0",
-    "@colonial-collections/rdf-file-store": "1.0.0",
     "@colonial-collections/shared": "1.0.0",
     "@colonial-collections/triplydb": "1.0.0",
     "cac": "6.7.14",
@@ -22,7 +22,6 @@
     "zod": "3.22.2"
   },
   "devDependencies": {
-    "glob": "10.3.4",
     "mkdirp": "3.0.1",
     "rimraf": "5.0.1"
   },

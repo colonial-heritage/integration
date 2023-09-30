@@ -1,7 +1,0 @@
-PREFIX ex: <http://example.org/>
-
-SELECT ?iri
-WHERE {
-  ?s ex:feature ?iri .
-}
-GROUP BY ?iri

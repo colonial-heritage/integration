@@ -1,5 +1,5 @@
 import {getLogger} from '@colonial-collections/shared';
-import {Iterator} from '@colonial-collections/fs-iterator';
+import {Iterator} from '@colonial-collections/file-iterator';
 import {readFile} from 'node:fs/promises';
 import {mkdirp} from 'mkdirp';
 import {createWriteStream} from 'node:fs';

@@ -1,6 +1,6 @@
 import {ChangeRunManager} from '@colonial-collections/change-run-manager';
 import {IiifChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
-import {RdfFileStore} from '@colonial-collections/rdf-file-store';
+import {FileStorer} from '@colonial-collections/file-storer';
 import {getLogger} from '@colonial-collections/shared';
 import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
@@ -24,19 +24,19 @@ export async function run(options: RunOptions) {
   const lastRun = await changeRunManager.getLastRun();
   const logger = getLogger();
 
-  const store = new RdfFileStore({
+  const storer = new FileStorer({
     dir: opts.dirWithChanges,
     waitBetweenRequests: opts.waitBetweenRequests,
     numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
   });
 
-  store.on('upsert', (iri: string, filename: string) =>
+  storer.on('upsert', (iri: string, filename: string) =>
     logger.info(`Created or updated "${filename}" for "${iri}"`)
   );
-  store.on('delete', (iri: string, filename: string) =>
+  storer.on('delete', (iri: string, filename: string) =>
     logger.info(`Deleted "${filename}" for "${iri}"`)
   );
-  store.on('error', (err: Error) => logger.error(err));
+  storer.on('error', (err: Error) => logger.error(err));
 
   const discoverer = new IiifChangeDiscoverer({
     collectionIri: opts.collectionIri,
@@ -60,11 +60,11 @@ export async function run(options: RunOptions) {
 
   const upsertChange = async (iri: string) => {
     discoveredChange = true;
-    store.save({iri, type: 'upsert'});
+    storer.save({iri, type: 'upsert'});
   };
   const deleteChange = async (iri: string) => {
     discoveredChange = true;
-    store.save({iri, type: 'delete'});
+    storer.save({iri, type: 'delete'});
   };
 
   discoverer.on('add', upsertChange);
@@ -78,7 +78,7 @@ export async function run(options: RunOptions) {
   const runStartedAt = new Date();
   await discoverer.run();
   const runEndedAt = new Date();
-  await store.untilDone();
+  await storer.untilDone();
 
   // Only store the run if at least 1 change has been discovered
   if (discoveredChange) {

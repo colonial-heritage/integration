@@ -31,7 +31,7 @@ jobs:
             --output-dir ./data/geonames/locations
       - name: Iterate countries
         run: |
-          ./packages/graph-creator/dist/cli.js fs-iterate \
+          ./packages/graph-creator/dist/cli.js file-iterate \
             --input-dir ./data/geonames/locations \
             --query-file ./packages/graph-creator/queries/geonames/countries.rq \
             --iri-file ./data/geonames/countries.txt

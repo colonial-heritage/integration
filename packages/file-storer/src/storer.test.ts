@@ -1,4 +1,4 @@
-import {RdfFileStore} from './index.js';
+import {FileStorer} from './storer.js';
 import {setupServer} from 'msw/node';
 import {rest} from 'msw';
 import {existsSync} from 'node:fs';
@@ -39,27 +39,27 @@ const server = setupServer(...handlers);
 
 describe('createFilenameFromIri', () => {
   it('creates a filename from an IRI', async () => {
-    const store = new RdfFileStore({dir: './tmp/'});
+    const store = new FileStorer({dir: './tmp/'});
 
     const filename = store.createFilenameFromIri('http://localhost/resource');
 
-    expect(filename).toEqual(
-      '/app/packages/rdf-file-store/tmp/b/0/d388f3dc1aaec96db5e05936bfb1aa0b.nt'
+    expect(filename.endsWith('/b/0/d388f3dc1aaec96db5e05936bfb1aa0b.nt')).toBe(
+      true
     );
   });
 });
 
 describe('save', () => {
   const dir = './tmp/integration-test';
-  let store: RdfFileStore;
+  let store: FileStorer;
 
   beforeAll(() => server.listen());
   beforeEach(async () => {
     await rimraf(dir);
-    store = new RdfFileStore({dir});
+    store = new FileStorer({dir});
   });
-  afterAll(() => server.close());
   afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
 
   it('upserts a resource', async () => {
     expect.assertions(2);

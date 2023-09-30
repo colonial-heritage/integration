@@ -1,5 +1,5 @@
 import {getLogger} from '@colonial-collections/shared';
-import {RdfFileStore} from '@colonial-collections/rdf-file-store';
+import {FileStorer} from '@colonial-collections/file-storer';
 import {createReadStream} from 'node:fs';
 import {performance} from 'node:perf_hooks';
 import readline from 'node:readline';
@@ -23,14 +23,14 @@ export async function run(options: RunOptions) {
   const logger = getLogger();
   logger.info(`Dereferencing IRIs from "${opts.iriFile}"`);
 
-  const store = new RdfFileStore({
+  const storer = new FileStorer({
     dir: opts.outputDir,
     waitBetweenRequests: opts.waitBetweenRequests,
     numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
   });
 
-  store.on('error', (err: Error) => logger.error(err));
-  store.on('upsert', (iri: string, filename: string) =>
+  storer.on('error', (err: Error) => logger.error(err));
+  storer.on('upsert', (iri: string, filename: string) =>
     logger.info(`Stored "${filename}" for "${iri}"`)
   );
 
@@ -41,10 +41,10 @@ export async function run(options: RunOptions) {
   });
 
   for await (const iri of rl) {
-    await store.save({iri, type: 'upsert'});
+    await storer.save({iri, type: 'upsert'});
   }
 
-  await store.untilDone();
+  await storer.untilDone();
 
   const finishTime = performance.now();
   const runtime = finishTime - startTime;

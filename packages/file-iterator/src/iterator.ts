@@ -57,8 +57,7 @@ export class Iterator extends EventEmitter {
   }
 
   private async collectIris() {
-    // Scan for some common RDF file extensions
-    const filesStream = globStream(`${this.dir}/**/*.{nt,nq,trig,ttl}`, {
+    const filesStream = globStream(`${this.dir}/**/*.{nt,ttl}`, {
       nodir: true,
       absolute: true,
     });
