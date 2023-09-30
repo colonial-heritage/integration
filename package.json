@@ -14,7 +14,7 @@
     "lint": "gts lint"
   },
   "devDependencies": {
-    "@types/node": "18.x.x",
+    "@types/node": "20.x.x",
     "@vitest/coverage-v8": "0.34.4",
     "glob": "10.3.4",
     "gts": "5.0.1",
