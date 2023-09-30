@@ -74,8 +74,8 @@ const handlers = [
 const server = setupServer(...handlers);
 
 beforeAll(() => server.listen());
-afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 describe('run - step 1', () => {
   it('terminates processing if the end time of the item is before the date of last run', async () => {
