@@ -19,10 +19,10 @@ export type FileAndGraph = {
 export async function getFilesAndGraphs(options: GetFilesAndGraphsOptions) {
   const opts = getFilesAndGraphsOptionsSchema.parse(options);
 
-  const files = await glob(opts.filePattern, {nodir: true, absolute: true});
+  const filenames = await glob(opts.filePattern, {nodir: true, absolute: true});
 
-  const filesAndGraphs: FileAndGraph[] = files.map(file => {
-    const fileBasename = basename(file);
+  const filesAndGraphs: FileAndGraph[] = filenames.map(filename => {
+    const fileBasename = basename(filename);
 
     // Create the graph name based on the base name of the file, e.g.
     // "organizations.ttl" --> "organizations"
@@ -34,7 +34,7 @@ export async function getFilesAndGraphs(options: GetFilesAndGraphsOptions) {
 
     const graph = opts.graphBaseIri + fileBasenameNoExtension;
 
-    return {file, graph};
+    return {file: filename, graph};
   });
 
   return filesAndGraphs;
