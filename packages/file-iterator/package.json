@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@comunica/query-sparql-file": "2.9.0",
-    "glob": "10.3.4",
+    "glob": "10.3.10",
     "zod": "3.22.2"
   },
   "tsup": {
