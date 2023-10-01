@@ -1,4 +1,4 @@
-import {getLogger} from '@colonial-collections/shared';
+import {getLogger} from '@colonial-collections/common';
 import {Generator} from '@colonial-collections/sparql-generator';
 import {getNumberOfLinesInFile} from './helpers.js';
 import {mkdirp} from 'mkdirp';

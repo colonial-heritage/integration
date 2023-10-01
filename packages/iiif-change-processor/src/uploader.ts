@@ -1,4 +1,4 @@
-import {getLogger} from '@colonial-collections/shared';
+import {getLogger} from '@colonial-collections/common';
 import {TriplyDb} from '@colonial-collections/triplydb';
 import {performance} from 'node:perf_hooks';
 import PrettyMilliseconds from 'pretty-ms';

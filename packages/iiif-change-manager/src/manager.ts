@@ -1,4 +1,4 @@
-import {getRdfFiles} from '@colonial-collections/shared';
+import {getRdfFiles} from '@colonial-collections/common';
 import {mkdirp} from 'mkdirp';
 import {createReadStream, createWriteStream} from 'node:fs';
 import {join} from 'node:path';

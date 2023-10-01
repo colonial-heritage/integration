@@ -1,4 +1,4 @@
-import {getLogger} from '@colonial-collections/shared';
+import {getLogger} from '@colonial-collections/common';
 import {Iterator} from '@colonial-collections/file-iterator';
 import {readFile} from 'node:fs/promises';
 import {mkdirp} from 'mkdirp';

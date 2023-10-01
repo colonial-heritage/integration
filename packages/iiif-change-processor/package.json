@@ -14,7 +14,7 @@
     "@colonial-collections/file-storer": "1.0.0",
     "@colonial-collections/iiif-change-discoverer": "1.0.0",
     "@colonial-collections/iiif-change-manager": "1.0.0",
-    "@colonial-collections/shared": "1.0.0",
+    "@colonial-collections/common": "1.0.0",
     "@colonial-collections/triplydb": "1.0.0",
     "cac": "6.7.14",
     "pretty-ms": "8.0.0",

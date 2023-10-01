@@ -5,9 +5,8 @@ describe('getRdfFiles', () => {
   it('returns RDF files', async () => {
     const files = await getRdfFiles('./fixtures/files');
 
-    expect(files).toEqual([
-      '/app/packages/shared/fixtures/files/1.ttl',
-      '/app/packages/shared/fixtures/files/deep/2.nt',
-    ]);
+    expect(files.length).toBe(2);
+    expect(files[0].endsWith('/fixtures/files/1.ttl')).toBe(true);
+    expect(files[1].endsWith('/fixtures/files/deep/2.nt')).toBe(true);
   });
 });

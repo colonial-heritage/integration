@@ -1,4 +1,4 @@
-import {getRdfFiles} from '@colonial-collections/shared';
+import {getRdfFiles} from '@colonial-collections/common';
 import App from '@triply/triplydb';
 import {mkdirp} from 'mkdirp';
 import {unlink} from 'node:fs/promises';

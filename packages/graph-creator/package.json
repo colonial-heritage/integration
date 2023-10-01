@@ -13,7 +13,7 @@
   "dependencies": {
     "@colonial-collections/file-iterator": "1.0.0",
     "@colonial-collections/file-storer": "1.0.0",
-    "@colonial-collections/shared": "1.0.0",
+    "@colonial-collections/common": "1.0.0",
     "@colonial-collections/sparql-iterator": "1.0.0",
     "@colonial-collections/sparql-generator": "1.0.0",
     "@colonial-collections/triplydb": "1.0.0",

@@ -1,4 +1,4 @@
-import {getLogger} from '@colonial-collections/shared';
+import {getLogger} from '@colonial-collections/common';
 import {FileStorer} from '@colonial-collections/file-storer';
 import {createReadStream} from 'node:fs';
 import {performance} from 'node:perf_hooks';

@@ -1,7 +1,7 @@
 import {FileStorer} from '@colonial-collections/file-storer';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {ChangeManager} from '@colonial-collections/iiif-change-manager';
-import {getLogger} from '@colonial-collections/shared';
+import {getLogger} from '@colonial-collections/common';
 import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
 
