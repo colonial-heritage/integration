@@ -1,6 +1,8 @@
 {
   "extends": "../../tsconfig.build.json",
-  "compilerOptions": {
-    "baseUrl": "."
-  }
+  "references": [
+    {
+      "path": "../shared/tsconfig.build.json"
+    }
+  ]
 }

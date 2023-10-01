@@ -2,6 +2,7 @@
   "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
     "module": "nodenext",
+    "declarationMap": true,
     "moduleResolution": "nodenext",
     "moduleDetection": "force",
     "target": "es2022",
