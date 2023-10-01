@@ -11,12 +11,12 @@
     "test:once": "vitest --run"
   },
   "dependencies": {
-    "@colonial-collections/file-iterator": "1.0.0",
-    "@colonial-collections/file-storer": "1.0.0",
-    "@colonial-collections/common": "1.0.0",
-    "@colonial-collections/sparql-iterator": "1.0.0",
-    "@colonial-collections/sparql-generator": "1.0.0",
-    "@colonial-collections/triplydb": "1.0.0",
+    "@colonial-collections/file-iterator": "*",
+    "@colonial-collections/file-storer": "*",
+    "@colonial-collections/common": "*",
+    "@colonial-collections/sparql-iterator": "*",
+    "@colonial-collections/sparql-generator": "*",
+    "@colonial-collections/triplydb": "*",
     "cac": "6.7.14",
     "fetch-sparql-endpoint": "4.1.0",
     "mkdirp": "3.0.1",

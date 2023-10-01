@@ -11,11 +11,11 @@
     "test:once": "vitest --run"
   },
   "dependencies": {
-    "@colonial-collections/file-storer": "1.0.0",
-    "@colonial-collections/iiif-change-discoverer": "1.0.0",
-    "@colonial-collections/iiif-change-manager": "1.0.0",
-    "@colonial-collections/common": "1.0.0",
-    "@colonial-collections/triplydb": "1.0.0",
+    "@colonial-collections/file-storer": "*",
+    "@colonial-collections/iiif-change-discoverer": "*",
+    "@colonial-collections/iiif-change-manager": "*",
+    "@colonial-collections/common": "*",
+    "@colonial-collections/triplydb": "*",
     "cac": "6.7.14",
     "pretty-ms": "8.0.0",
     "zod": "3.22.2"

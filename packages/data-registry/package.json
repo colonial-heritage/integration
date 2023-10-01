@@ -11,8 +11,8 @@
     "test:once": "vitest --run"
   },
   "dependencies": {
-    "@colonial-collections/common": "1.0.0",
-    "@colonial-collections/triplydb": "1.0.0",
+    "@colonial-collections/common": "*",
+    "@colonial-collections/triplydb": "*",
     "cac": "6.7.14",
     "glob": "10.3.4",
     "pretty-ms": "8.0.0",
