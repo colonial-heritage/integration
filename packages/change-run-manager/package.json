@@ -24,7 +24,7 @@
     "entry": [
       "src/index.ts"
     ],
-    "tsconfig": "tsconfig.build.json",
+    "tsconfig": "tsconfig.json",
     "format": "esm",
     "splitting": false,
     "sourcemap": false,
