@@ -1,5 +1,5 @@
 {
-  "name": "@colonial-collections/change-run-manager",
+  "name": "@colonial-collections/iiif-change-manager",
   "version": "1.0.0",
   "type": "module",
   "private": true,

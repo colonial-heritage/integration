@@ -1,6 +1,6 @@
-# Change Fetcher
+# IIIF Change Processor
 
-CLI for fetching changes from a remote service
+CLI for processing changes from a remote service
 
 ## Build
 

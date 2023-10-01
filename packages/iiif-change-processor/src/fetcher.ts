@@ -1,6 +1,6 @@
-import {ChangeRunManager} from '@colonial-collections/change-run-manager';
-import {IiifChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {FileStorer} from '@colonial-collections/file-storer';
+import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
+import {ChangeManager} from '@colonial-collections/iiif-change-manager';
 import {getLogger} from '@colonial-collections/shared';
 import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
@@ -20,8 +20,8 @@ export async function run(options: RunOptions) {
 
   const startTime = Date.now();
 
-  const changeRunManager = new ChangeRunManager({dir: opts.dirWithRuns});
-  const lastRun = await changeRunManager.getLastRun();
+  const changeManager = new ChangeManager({dir: opts.dirWithRuns});
+  const lastRun = await changeManager.getLastRun();
   const logger = getLogger();
 
   const storer = new FileStorer({
@@ -38,7 +38,7 @@ export async function run(options: RunOptions) {
   );
   storer.on('error', (err: Error) => logger.error(err));
 
-  const discoverer = new IiifChangeDiscoverer({
+  const discoverer = new ChangeDiscoverer({
     collectionIri: opts.collectionIri,
     dateLastRun: lastRun !== undefined ? lastRun.startedAt : undefined,
     waitBetweenRequests: opts.waitBetweenRequests,
@@ -82,7 +82,7 @@ export async function run(options: RunOptions) {
 
   // Only store the run if at least 1 change has been discovered
   if (discoveredChange) {
-    await changeRunManager.saveRun({
+    await changeManager.saveRun({
       id: 'https://data.colonialcollections.nl/' + Date.now(),
       startedAt: runStartedAt,
       endedAt: runEndedAt,

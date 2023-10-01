@@ -80,7 +80,7 @@ const pageResponseSchema = z.object({
   ),
 });
 
-export class IiifChangeDiscoverer extends EventEmitter {
+export class ChangeDiscoverer extends EventEmitter {
   private collectionIri: string;
   private dateLastRun?: Date;
   private waitBetweenRequests: number;

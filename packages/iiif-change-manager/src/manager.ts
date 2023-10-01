@@ -44,7 +44,7 @@ export type SaveRunOptions = z.input<typeof saveRunOptionsSchema>;
 
 const provPrefix = 'http://www.w3.org/ns/prov#';
 
-export class ChangeRunManager {
+export class ChangeManager {
   private dir: string;
 
   constructor(options: ConstructorOptions) {

@@ -1,5 +1,5 @@
 {
-  "name": "@colonial-collections/change-fetcher",
+  "name": "@colonial-collections/iiif-change-processor",
   "version": "1.0.0",
   "type": "module",
   "private": true,
@@ -11,9 +11,9 @@
     "test:once": "vitest --run"
   },
   "dependencies": {
-    "@colonial-collections/change-run-manager": "1.0.0",
     "@colonial-collections/file-storer": "1.0.0",
     "@colonial-collections/iiif-change-discoverer": "1.0.0",
+    "@colonial-collections/iiif-change-manager": "1.0.0",
     "@colonial-collections/shared": "1.0.0",
     "@colonial-collections/triplydb": "1.0.0",
     "cac": "6.7.14",
