@@ -52,16 +52,13 @@ export class Generator extends EventEmitter {
   }
 
   private getAndValidateQuery(query: string) {
-    // Some sanity checks - can be optimized
-    // TODO: use sparqljs for validation
+    // TBD: use sparqljs for validation?
     const bindings = ['?_iris']; // Basil notation
     const hasBindings = bindings.every(
-      binding => query.indexOf(binding) !== undefined
+      binding => query.indexOf(binding) !== -1
     );
     if (!hasBindings) {
-      throw new Error(
-        `Bindings are missing in generate query: ${bindings.join(', ')}`
-      );
+      throw new Error(`Bindings are missing in query: ${bindings.join(', ')}`);
     }
 
     return query;
@@ -101,15 +98,18 @@ export class Generator extends EventEmitter {
   // TBD: check for unique IRIs?
   // TBD: make sure 'iris' has at least 1 IRI?
   async generate(iris: string[]) {
-    this.queue.push(iris).catch(err => {
+    try {
+      await this.queue.push(iris);
+    } catch (err) {
+      const error = err as Error;
       const prettyError = new Error(
         `An error occurred when generating resources of IRIs ${iris.join(
           ', '
-        )}: ${err.message}`
+        )}: ${error.message}`
       );
-      prettyError.stack = err.stack;
+      prettyError.stack = error.stack;
       this.emit('error', prettyError);
-    });
+    }
   }
 
   async untilDone() {

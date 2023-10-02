@@ -5,16 +5,25 @@ import {EOL} from 'node:os';
 import {beforeEach, describe, expect, it} from 'vitest';
 
 describe('untilDone', () => {
-  let graphFile: string;
+  const graphFile = './tmp/graph.nt';
+  const query = `
+    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+    CONSTRUCT {
+      ?iri a skos:Concept ;
+        skos:prefLabel ?prefLabel .
+    }
+    WHERE {
+      VALUES ?iri {
+        ?_iris
+      }
+      ?iri a skos:Concept ;
+        skos:prefLabel ?prefLabel .
+    }
+  `;
   let writeStream: WriteStream;
-  let query: string;
 
-  beforeEach(async () => {
-    graphFile = './tmp/graph.nt';
+  beforeEach(() => {
     writeStream = createWriteStream(graphFile);
-    query = await readFile('./fixtures/generate.rq', {
-      encoding: 'utf-8',
-    });
   });
 
   it('errors if the endpoint is invalid', async () => {
