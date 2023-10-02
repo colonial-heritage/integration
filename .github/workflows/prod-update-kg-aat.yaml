@@ -17,7 +17,7 @@ jobs:
       - name: Iterate
         run: |
           ./packages/graph-creator/dist/cli.js sparql-iterate \
-            --endpoint-url "${{ secrets.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
+            --endpoint-url "${{ vars.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
             --query-file ./packages/graph-creator/queries/aat/iterate.rq \
             --number-of-iris-per-request 10000 \
             --wait-between-requests 500 \
@@ -35,10 +35,10 @@ jobs:
       - name: Upload
         run: |
           ./packages/graph-creator/dist/cli.js upload \
-            --triplydb-instance-url "${{ secrets.TRIPLYDB_INSTANCE_URL }}" \
+            --triplydb-instance-url "${{ vars.TRIPLYDB_INSTANCE_URL }}" \
             --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
-            --triplydb-account "${{ secrets.TRIPLYDB_ACCOUNT_PRODUCTION }}" \
-            --triplydb-dataset "${{ secrets.TRIPLYDB_DATASET_KG_PRODUCTION }}" \
+            --triplydb-account "${{ vars.TRIPLYDB_ACCOUNT_PRODUCTION }}" \
+            --triplydb-dataset "${{ vars.TRIPLYDB_DATASET_KG_PRODUCTION }}" \
             --triplydb-service-name "kg" \
             --triplydb-service-type "virtuoso" \
             --rdf-file ./data/aat.nt \
