@@ -1,6 +1,6 @@
 # IIIF Change Processor
 
-CLI for processing changes from a remote service
+CLI for processing changes from a IIIF Change Discovery service
 
 ## Build
 
@@ -25,7 +25,7 @@ CLI for processing changes from a remote service
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
       --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
       --triplydb-account "$TRIPLYDB_ACCOUNT_DEVELOPMENT" \
-      --triplydb-dataset "change-discovery-bodleian" \
+      --triplydb-dataset "iiif-change-discovery-demo" \
       --dir-with-changes "./tmp/bodleian/changes" \
       --dir-temp "./tmp/bodleian" \
       --graph-name "https://data.colonialcollections.nl/bodleian"

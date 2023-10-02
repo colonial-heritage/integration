@@ -1,3 +1,3 @@
 # IIIF Change Manager
 
-Retrieve and store information about change runs, using files as stores.
+Retrieves and stores information about IIIF Change Discovery runs, using files as stores.

@@ -1,6 +1,6 @@
 # Graph Creator
 
-Create a graph from local RDF files or a SPARQL endpoint
+Creates a graph from local RDF files or a SPARQL endpoint
 
 ## Build
 

@@ -1,3 +1,3 @@
-# SPARQL endpoint generator
+# SPARQL Endpoint Generator
 
-Generates a new graph by quering a SPARQL endpoint.
+Generates a new graph by quering a SPARQL endpoint
