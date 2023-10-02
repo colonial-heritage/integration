@@ -1,4 +1,5 @@
-SELECT ?iri
+# A 'GROUP BY ?iri' does not produce the desired results on production
+SELECT DISTINCT ?iri
 WHERE {
   {
     SELECT ?iri
@@ -12,6 +13,5 @@ WHERE {
     }
   }
 }
-GROUP BY ?iri
 LIMIT ?_limit
 OFFSET ?_offset
