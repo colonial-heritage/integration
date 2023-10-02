@@ -10,7 +10,8 @@ describe('untilDone', () => {
     PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
     CONSTRUCT {
       ?iri a skos:Concept ;
-        skos:prefLabel ?prefLabel .
+        skos:prefLabel ?prefLabel ;
+        skos:altLabel ?altLabel .
     }
     WHERE {
       VALUES ?iri {
@@ -18,6 +19,7 @@ describe('untilDone', () => {
       }
       ?iri a skos:Concept ;
         skos:prefLabel ?prefLabel .
+      OPTIONAL { ?iri skos:altLabel ?altlabel }
     }
   `;
   let writeStream: WriteStream;
@@ -31,7 +33,7 @@ describe('untilDone', () => {
 
     const generator = new Generator({
       endpointUrl: 'http://localhost',
-      query,
+      queries: [query],
       writeStream,
     });
 
@@ -46,10 +48,10 @@ describe('untilDone', () => {
     await generator.untilDone();
   });
 
-  it('generates until done', async () => {
+  it('creates a graph with one query', async () => {
     const generator = new Generator({
       endpointUrl: 'https://vocab.getty.edu/sparql',
-      query,
+      queries: [query],
       writeStream,
     });
 
@@ -64,6 +66,57 @@ describe('untilDone', () => {
       'http://vocab.getty.edu/aat/300404198',
       'http://vocab.getty.edu/aat/300417586',
       'http://vocab.getty.edu/aat/300431978',
+    ]);
+
+    await generator.untilDone();
+
+    // Basic string check. TODO: improve by parsing 'graphFile' to RDF
+    const data = await readFile(graphFile, {encoding: 'utf-8'});
+    const triples = data.split(EOL);
+
+    expect(triples[0]).toBe(
+      '<http://vocab.getty.edu/aat/300111999> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .'
+    );
+  });
+
+  it('creates a graph with multiple queries', async () => {
+    const queries = [
+      `
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      CONSTRUCT {
+        ?iri a skos:Concept ;
+          skos:prefLabel ?prefLabel .
+      }
+      WHERE {
+        VALUES ?iri {
+          ?_iris
+        }
+        ?iri a skos:Concept ;
+          skos:prefLabel ?prefLabel .
+      }`,
+      `
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      CONSTRUCT {
+        ?iri skos:altLabel ?altLabel .
+      }
+      WHERE {
+        VALUES ?iri {
+          ?_iris
+        }
+        ?iri a skos:Concept ;
+          skos:altLabel ?altLabel .
+      }`,
+    ];
+
+    const generator = new Generator({
+      endpointUrl: 'https://vocab.getty.edu/sparql',
+      queries,
+      writeStream,
+    });
+
+    generator.generate([
+      'http://vocab.getty.edu/aat/300111999',
+      'http://vocab.getty.edu/aat/300417586', // Doesn't have altLabels
     ]);
 
     await generator.untilDone();

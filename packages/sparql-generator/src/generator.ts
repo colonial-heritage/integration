@@ -18,19 +18,24 @@ const constructorOptionsSchema = z.object({
   endpointUrl: z.string().url(),
   waitBetweenRequests: z.number().min(0).default(500),
   timeoutPerRequest: z.number().min(0).default(60000),
-  query: z.string(),
+  queries: z.array(z.string()),
   numberOfConcurrentRequests: z.number().min(1).default(1),
   writeStream: z.instanceof(WriteStream),
 });
 
 export type ConstructorOptions = z.input<typeof constructorOptionsSchema>;
 
+type QueryAndIris = {
+  query: string;
+  iris: string[];
+};
+
 export class Generator extends EventEmitter {
   private endpointUrl: string;
   private waitBetweenRequests: number;
   private fetcher: SparqlEndpointFetcher;
-  private queue: queueAsPromised<string[]>;
-  private query: string;
+  private queue: queueAsPromised<QueryAndIris>;
+  private queries: string[];
   private writeStream: WriteStream;
 
   constructor(options: ConstructorOptions) {
@@ -40,7 +45,7 @@ export class Generator extends EventEmitter {
 
     this.endpointUrl = opts.endpointUrl;
     this.waitBetweenRequests = opts.waitBetweenRequests;
-    this.query = this.getAndValidateQuery(opts.query);
+    this.queries = this.validateQueries(opts.queries);
     this.writeStream = opts.writeStream;
     this.fetcher = new SparqlEndpointFetcher({
       timeout: opts.timeoutPerRequest,
@@ -51,25 +56,31 @@ export class Generator extends EventEmitter {
     );
   }
 
-  private getAndValidateQuery(query: string) {
+  private validateQueries(queries: string[]) {
     // TBD: use sparqljs for validation?
     const bindings = ['?_iris']; // Basil notation
-    const hasBindings = bindings.every(
-      binding => query.indexOf(binding) !== -1
-    );
-    if (!hasBindings) {
-      throw new Error(`Bindings are missing in query: ${bindings.join(', ')}`);
-    }
+    const validateQuery = (query: string) => {
+      const hasBindings = bindings.every(
+        binding => query.indexOf(binding) !== -1
+      );
+      if (!hasBindings) {
+        throw new Error(
+          `Bindings are missing in query: ${bindings.join(', ')}`
+        );
+      }
+      return query;
+    };
 
-    return query;
+    const validatedQueries = queries.map(validateQuery);
+
+    return validatedQueries;
   }
 
-  // For each call to generate(), this method gets invoked
-  private async _generate(iris: string[]) {
-    const sparqlReadyIris = iris.map(iri => `<${iri}>`).join(EOL);
+  private async _generate(options: QueryAndIris) {
+    const sparqlReadyIris = options.iris.map(iri => `<${iri}>`).join(EOL);
 
     // TBD: instead of doing string replacements, generate a new SPARQL query using sparqljs?
-    const query = this.query.replace('?_iris', sparqlReadyIris);
+    const query = options.query.replace('?_iris', sparqlReadyIris);
 
     // TBD: implement retries?
     const triplesStream = await this.fetcher.fetchTriples(
@@ -78,7 +89,7 @@ export class Generator extends EventEmitter {
     );
 
     const dataStream = serializer.serialize(triplesStream, {
-      contentType: 'application/n-triples', // TBD: make configurable?
+      contentType: 'application/n-triples',
     });
 
     // https://2ality.com/2019/11/nodejs-streams-async-iteration.html#writing-to-a-writable-stream-in-an-async-function
@@ -91,25 +102,25 @@ export class Generator extends EventEmitter {
     // Try not to hurt the server or trigger its rate limiter
     await wait(this.waitBetweenRequests);
 
-    this.emit('generate-end', iris);
+    this.emit('generate-end', options.iris);
   }
 
   // TBD: validate IRIs? A SPARQL endpoint can fail due to malformed ones
   // TBD: check for unique IRIs?
   // TBD: make sure 'iris' has at least 1 IRI?
   async generate(iris: string[]) {
-    try {
-      await this.queue.push(iris);
-    } catch (err) {
-      const error = err as Error;
-      const prettyError = new Error(
-        `An error occurred when generating resources of IRIs ${iris.join(
-          ', '
-        )}: ${error.message}`
-      );
-      prettyError.stack = error.stack;
-      this.emit('error', prettyError);
-    }
+    this.queries.forEach(query => {
+      this.queue.push({query, iris}).catch(err => {
+        const error = err as Error;
+        const prettyError = new Error(
+          `An error occurred when generating resources of IRIs ${iris.join(
+            ', '
+          )}: ${error.message}`
+        );
+        prettyError.stack = error.stack;
+        this.emit('error', prettyError);
+      });
+    });
   }
 
   async untilDone() {
