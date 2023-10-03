@@ -109,7 +109,7 @@ export class Generator extends EventEmitter {
   // TBD: check for unique IRIs?
   // TBD: make sure 'iris' has at least 1 IRI?
   async generate(iris: string[]) {
-    // TODO: if this method is called very frequently, then the RAM is filled
+    // TODO: if this method is called very frequently, the RAM is filled
     // with lots of tasks waiting to be processed. If the tasks do not finish
     // soon enough, the runtime dies with OOM errors.
     this.queries.forEach(query => {
