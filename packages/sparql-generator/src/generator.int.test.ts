@@ -38,14 +38,12 @@ describe('untilDone', () => {
     });
 
     generator.on('error', (err: Error) => {
-      expect(
-        err.message.includes(
-          'An error occurred when generating resources for IRIs http://vocab.getty.edu/aat/300111999 with query'
-        )
-      ).toBe(true);
+      expect(err.message).toBe(
+        'An error occurred when generating resources for IRIs http://vocab.getty.edu/aat/300111999: fetch failed'
+      );
     });
 
-    generator.generate(['http://vocab.getty.edu/aat/300111999']);
+    await generator.generate(['http://vocab.getty.edu/aat/300111999']);
 
     await generator.untilDone();
   });
@@ -57,13 +55,13 @@ describe('untilDone', () => {
       writeStream,
     });
 
-    generator.generate([
+    await generator.generate([
       'http://vocab.getty.edu/aat/300111999',
       'http://vocab.getty.edu/aat/300027200',
       'http://vocab.getty.edu/aat/300043196',
       'http://vocab.getty.edu/aat/300048715',
     ]);
-    generator.generate([
+    await generator.generate([
       'http://vocab.getty.edu/aat/300386957',
       'http://vocab.getty.edu/aat/300404198',
       'http://vocab.getty.edu/aat/300417586',
@@ -114,7 +112,7 @@ describe('untilDone', () => {
       writeStream,
     });
 
-    generator.generate([
+    await generator.generate([
       'http://vocab.getty.edu/aat/300111999',
       'http://vocab.getty.edu/aat/300417586', // Doesn't have altLabels
     ]);

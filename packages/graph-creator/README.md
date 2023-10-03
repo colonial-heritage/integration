@@ -279,9 +279,9 @@ Creates a graph from local RDF files or a SPARQL endpoint
     ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-path ./queries/production/associations/generate \
-      --number-of-resources-per-request 10 \
+      --number-of-resources-per-request 50 \
       --number-of-concurrent-requests 10 \
-      --wait-between-requests 500 \
+      --wait-between-requests 250 \
       --iri-file ./tmp/associations.txt \
       --rdf-file ./tmp/associations.nt
 

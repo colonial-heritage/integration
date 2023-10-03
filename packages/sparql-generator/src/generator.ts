@@ -26,13 +26,14 @@ const constructorOptionsSchema = z.object({
 export type ConstructorOptions = z.input<typeof constructorOptionsSchema>;
 
 type QueryAndIris = {
-  query: string;
+  queryIndex: number; // Index of the query, not the actual query, to keep memory usage low
   iris: string[];
 };
 
 export class Generator extends EventEmitter {
   private endpointUrl: string;
   private waitBetweenRequests: number;
+  private numberOfConcurrentRequests: number;
   private fetcher: SparqlEndpointFetcher;
   private queue: queueAsPromised<QueryAndIris>;
   private queries: string[];
@@ -45,6 +46,7 @@ export class Generator extends EventEmitter {
 
     this.endpointUrl = opts.endpointUrl;
     this.waitBetweenRequests = opts.waitBetweenRequests;
+    this.numberOfConcurrentRequests = opts.numberOfConcurrentRequests;
     this.queries = this.validateQueries(opts.queries);
     this.writeStream = opts.writeStream;
     this.fetcher = new SparqlEndpointFetcher({
@@ -80,7 +82,8 @@ export class Generator extends EventEmitter {
     const sparqlReadyIris = options.iris.map(iri => `<${iri}>`).join(EOL);
 
     // TBD: instead of doing string replacements, generate a new SPARQL query using sparqljs?
-    const query = options.query.replace('?_iris', sparqlReadyIris);
+    const templatedQuery = this.queries[options.queryIndex];
+    const query = templatedQuery.replace('?_iris', sparqlReadyIris);
 
     // TBD: implement retries?
     const triplesStream = await this.fetcher.fetchTriples(
@@ -109,21 +112,26 @@ export class Generator extends EventEmitter {
   // TBD: check for unique IRIs?
   // TBD: make sure 'iris' has at least 1 IRI?
   async generate(iris: string[]) {
-    // TODO: if this method is called very frequently, the RAM is filled
-    // with lots of tasks waiting to be processed. If the tasks do not finish
-    // soon enough, the runtime dies with OOM errors.
-    this.queries.forEach(query => {
-      this.queue.push({query, iris}).catch(err => {
+    // If this method gets called highly frequently, memory is filled
+    // with lots of tasks waiting to processed. If the tasks do not finish
+    // swiftly, OOM errors occur. To prevent this, drain the queue periodically
+    // before accepting new tasks. This hinders throughput a bit, though.
+    if (this.queue.length() > this.numberOfConcurrentRequests * 5) {
+      await this.queue.drained();
+    }
+
+    for (let i = 0; i < this.queries.length; ++i) {
+      this.queue.push({queryIndex: i, iris}).catch(err => {
         const error = err as Error;
         const prettyError = new Error(
           `An error occurred when generating resources for IRIs ${iris.join(
             ', '
-          )} with query "${query}": ${error.message}`
+          )}: ${error.message}`
         );
         prettyError.stack = error.stack;
         this.emit('error', prettyError);
       });
-    });
+    }
   }
 
   async untilDone() {
