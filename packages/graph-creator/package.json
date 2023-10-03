@@ -19,6 +19,7 @@
     "@colonial-collections/triplydb": "*",
     "cac": "6.7.14",
     "fetch-sparql-endpoint": "4.1.0",
+    "glob": "10.3.4",
     "mkdirp": "3.0.1",
     "pretty-ms": "8.0.0",
     "zod": "3.22.2"

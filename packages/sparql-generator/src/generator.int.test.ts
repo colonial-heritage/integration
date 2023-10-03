@@ -38,9 +38,11 @@ describe('untilDone', () => {
     });
 
     generator.on('error', (err: Error) => {
-      expect(err.message).toBe(
-        'An error occurred when generating resources of IRIs http://vocab.getty.edu/aat/300111999: fetch failed'
-      );
+      expect(
+        err.message.includes(
+          'An error occurred when generating resources for IRIs http://vocab.getty.edu/aat/300111999 with query'
+        )
+      ).toBe(true);
     });
 
     generator.generate(['http://vocab.getty.edu/aat/300111999']);
@@ -91,8 +93,7 @@ describe('untilDone', () => {
         VALUES ?iri {
           ?_iris
         }
-        ?iri a skos:Concept ;
-          skos:prefLabel ?prefLabel .
+        ?iri skos:prefLabel ?prefLabel .
       }`,
       `
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -103,8 +104,7 @@ describe('untilDone', () => {
         VALUES ?iri {
           ?_iris
         }
-        ?iri a skos:Concept ;
-          skos:altLabel ?altLabel .
+        ?iri skos:altLabel ?altLabel .
       }`,
     ];
 

@@ -11,10 +11,8 @@ describe('run', () => {
   });
 
   it('runs', async () => {
-    const iriFile = './fixtures/geonames-iris.txt';
-
+    const iriFile = './fixtures/geonames/iris.txt';
     await run({iriFile, outputDir});
-
     const files = await glob(`${outputDir}/**/*.nt`, {
       nodir: true,
     });

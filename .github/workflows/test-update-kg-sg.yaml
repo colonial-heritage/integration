@@ -51,7 +51,7 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js sparql-generate \
             --endpoint-url "https://vocab.getty.edu/sparql" \
-            --query-file ./packages/graph-creator/queries/aat/generate.rq \
+            --query-path ./packages/graph-creator/queries/aat/generate.rq \
             --number-of-resources-per-request 25 \
             --number-of-concurrent-requests 1 \
             --wait-between-requests 500 \
@@ -144,7 +144,7 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js sparql-generate \
             --endpoint-url "${{ vars.SPARQL_ENDPOINT_KG_TESTING }}" \
-            --query-file ./packages/graph-creator/queries/testing/persons/generate.rq \
+            --query-path ./packages/graph-creator/queries/testing/persons/generate.rq \
             --number-of-resources-per-request 50 \
             --number-of-concurrent-requests 10 \
             --wait-between-requests 500 \
@@ -185,7 +185,7 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js sparql-generate \
             --endpoint-url "${{ vars.SPARQL_ENDPOINT_KG_TESTING }}" \
-            --query-file ./packages/graph-creator/queries/testing/objects/generate.rq \
+            --query-path ./packages/graph-creator/queries/testing/objects/generate.rq \
             --number-of-resources-per-request 50 \
             --number-of-concurrent-requests 10 \
             --wait-between-requests 500 \
@@ -226,7 +226,7 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js sparql-generate \
             --endpoint-url "${{ vars.SPARQL_ENDPOINT_KG_TESTING }}" \
-            --query-file ./packages/graph-creator/queries/datasets/generate.rq \
+            --query-path ./packages/graph-creator/queries/datasets/generate.rq \
             --number-of-resources-per-request 50 \
             --number-of-concurrent-requests 10 \
             --wait-between-requests 500 \

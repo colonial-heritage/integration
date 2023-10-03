@@ -5,12 +5,12 @@ import {describe, expect, it} from 'vitest';
 
 describe('run', () => {
   it('runs', async () => {
-    const iriFile = './fixtures/aat-iris.txt';
+    const iriFile = './fixtures/aat/iris.txt';
     const rdfFile = './tmp/aat-terms.nt';
 
     await run({
       endpointUrl: 'https://vocab.getty.edu/sparql',
-      queryFile: './queries/aat/generate.rq',
+      queryPath: './fixtures/aat/queries',
       iriFile,
       rdfFile,
     });

@@ -1,0 +1,25 @@
+
+  ####################
+  # Type
+  ####################
+  # TBD: not in the KG yet (crm:P2_has_type)
+
+  ####################
+  # Subject
+  ####################
+  # TBD: not in the KG yet (crm:P62_depicts)
+
+  ####################
+  # Technique
+  ####################
+  # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P32_used_general_technique)
+
+  ####################
+  # Creator
+  ####################
+  # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P14_carried_out_by)
+
+  ####################
+  # Image
+  ####################
+  # TBD: not in the KG yet (crm:P65_shows_visual_item/la:digitally_shown_by)

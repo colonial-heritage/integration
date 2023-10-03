@@ -1,9 +1,8 @@
 import {getLogger} from '@colonial-collections/common';
 import {Generator} from '@colonial-collections/sparql-generator';
-import {getNumberOfLinesInFile} from './helpers.js';
+import {getNumberOfLinesInFile, readQueries} from './helpers.js';
 import {mkdirp} from 'mkdirp';
 import {createReadStream, createWriteStream} from 'node:fs';
-import {readFile} from 'node:fs/promises';
 import {dirname} from 'node:path';
 import {performance} from 'node:perf_hooks';
 import readline from 'node:readline';
@@ -12,7 +11,7 @@ import {z} from 'zod';
 
 const runOptionsSchema = z.object({
   endpointUrl: z.string().url(),
-  queryFile: z.string(),
+  queryPath: z.string(),
   iriFile: z.string(),
   numberOfResourcesPerRequest: z.number().min(1).default(1),
   waitBetweenRequests: z.number().min(0).optional(),
@@ -27,8 +26,7 @@ export async function run(options: RunOptions) {
 
   const startTime = performance.now();
   const logger = getLogger();
-  const query = await readFile(opts.queryFile, {encoding: 'utf-8'});
-
+  const queries = await readQueries(opts.queryPath);
   await mkdirp(dirname(opts.rdfFile));
   const writeStream = createWriteStream(opts.rdfFile);
 
@@ -36,7 +34,7 @@ export async function run(options: RunOptions) {
     endpointUrl: opts.endpointUrl,
     numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
     waitBetweenRequests: opts.waitBetweenRequests,
-    query,
+    queries,
     writeStream,
   });
 
@@ -53,9 +51,9 @@ export async function run(options: RunOptions) {
 
   // Log messages for progress monitoring
   generator.on('generate-end', (iris: string[]) => {
-    const numberOfIris = iris.length;
-
-    numberOfProcessedResources += numberOfIris;
+    // If e.g. 5 queries are in use for generating a resource for 1 IRI,
+    // then the progress per generation is (1 / 5 =) 0.2%
+    numberOfProcessedResources += iris.length / queries.length;
     const currentProgressPercentage = Math.round(
       (numberOfProcessedResources / totalNumberOfResources) * 100
     );

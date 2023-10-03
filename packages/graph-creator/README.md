@@ -25,7 +25,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
 
     ./dist/cli.js sparql-generate \
       --endpoint-url "https://vocab.getty.edu/sparql" \
-      --query-file ./queries/aat/generate.rq \
+      --query-path ./queries/aat/generate.rq \
       --iri-file ./tmp/aat.txt \
       --number-of-resources-per-request 10 \
       --wait-between-requests 500 \
@@ -106,7 +106,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
 
     ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
-      --query-file ./queries/datasets/generate.rq \
+      --query-path ./queries/datasets/generate.rq \
       --number-of-resources-per-request 50 \
       --number-of-concurrent-requests 10 \
       --wait-between-requests 500 \
@@ -140,7 +140,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
 
     ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
-      --query-file ./queries/testing/objects/generate.rq \
+      --query-path ./queries/testing/objects/generate.rq \
       --number-of-resources-per-request 50 \
       --number-of-concurrent-requests 10 \
       --wait-between-requests 500 \
@@ -174,7 +174,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
 
     ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_TESTING" \
-      --query-file ./queries/testing/persons/generate.rq \
+      --query-path ./queries/testing/persons/generate.rq \
       --number-of-resources-per-request 50 \
       --number-of-concurrent-requests 10 \
       --wait-between-requests 500 \
@@ -210,7 +210,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
 
     ./dist/cli.js sparql-generate \
       --endpoint-url "https://vocab.getty.edu/sparql" \
-      --query-file ./queries/aat/generate.rq \
+      --query-path ./queries/aat/generate.rq \
       --iri-file ./tmp/iris.txt \
       --number-of-resources-per-request 10 \
       --wait-between-requests 500 \
@@ -244,7 +244,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
 
     ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
-      --query-file ./queries/datasets/generate.rq \
+      --query-path ./queries/datasets/generate.rq \
       --number-of-resources-per-request 50 \
       --number-of-concurrent-requests 10 \
       --wait-between-requests 500 \
@@ -278,8 +278,8 @@ Creates a graph from local RDF files or a SPARQL endpoint
 
     ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
-      --query-file ./queries/production/associations/generate.rq \
-      --number-of-resources-per-request 50 \
+      --query-path ./queries/production/associations/generate \
+      --number-of-resources-per-request 10 \
       --number-of-concurrent-requests 10 \
       --wait-between-requests 500 \
       --iri-file ./tmp/associations.txt \
@@ -312,7 +312,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
 
     ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
-      --query-file ./queries/production/colonial-objects/generate.rq \
+      --query-path ./queries/production/colonial-objects/generate.rq \
       --number-of-resources-per-request 25 \
       --number-of-concurrent-requests 1 \
       --wait-between-requests 500 \
@@ -346,7 +346,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
 
     ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
-      --query-file ./queries/production/stamboeken/generate.rq \
+      --query-path ./queries/production/stamboeken/generate.rq \
       --number-of-resources-per-request 50 \
       --number-of-concurrent-requests 10 \
       --wait-between-requests 500 \
