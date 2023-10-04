@@ -12,7 +12,7 @@ const cli = cac();
 cli
   .command('sparql-iterate', 'Collect IRIs from a SPARQL endpoint')
   .option('--endpoint-url <string>', 'SPARQL endpoint URL')
-  .option('--query-file <string>', 'Iterate query file')
+  .option('--query-file <string>', 'File with a SPARQL query')
   .option(
     '--number-of-iris-per-request [number]',
     'Number of IRIs to collect per request',
@@ -33,7 +33,10 @@ cli
 cli
   .command('sparql-generate', 'Generate graph from a SPARQL endpoint')
   .option('--endpoint-url <string>', 'SPARQL endpoint URL')
-  .option('--query-file <string>', 'Generate query file')
+  .option(
+    '--query-path <string>',
+    'File with a SPARQL query or a directory containing SPARQL queries'
+  )
   .option(
     '--number-of-resources-per-request [number]',
     'Number of resources to generate per request',
@@ -86,8 +89,8 @@ cli
 
 cli
   .command('file-iterate', 'Collect IRIs from local RDF files')
-  .option('--input-dir <string>', 'Directory of the RDF files')
-  .option('--query-file <string>', 'Iterate query file')
+  .option('--input-dir <string>', 'Directory with RDF files')
+  .option('--query-file <string>', 'File with a SPARQL query')
   .option('--iri-file <string>', 'File for storing collected IRIs')
   .action(async (options: FsIterateRunOptions) => {
     import('./file-iterator.js').then(action => action.run(options));

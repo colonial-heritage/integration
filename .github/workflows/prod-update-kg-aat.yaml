@@ -26,7 +26,7 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js sparql-generate \
             --endpoint-url "https://vocab.getty.edu/sparql" \
-            --query-file ./packages/graph-creator/queries/aat/generate.rq \
+            --query-path ./packages/graph-creator/queries/aat/generate.rq \
             --number-of-resources-per-request 25 \
             --number-of-concurrent-requests 1 \
             --wait-between-requests 500 \

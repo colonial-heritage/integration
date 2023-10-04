@@ -1,0 +1,11 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+CONSTRUCT {
+  ?iri skos:altLabel ?altLabel .
+}
+WHERE {
+  VALUES ?iri {
+    ?_iris
+  }
+  ?iri skos:altLabel ?altLabel .
+}

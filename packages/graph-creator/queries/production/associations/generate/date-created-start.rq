@@ -1,0 +1,36 @@
+###############################
+# Query for generating a search graph from object descriptions in dataset in dataset 'Associations'
+###############################
+
+PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dig: <http://www.ics.forth.gr/isl/CRMdig/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX la: <https://linked.art/ns/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
+PREFIX skolem: <https://triplydb.com/.well-known/genid/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT {
+  ?object cc:yearCreatedStart ?beginOfTheBeginYear ;
+    cc:dateCreatedStart ?beginOfTheBegin . # For BC - remove at some point
+}
+WHERE {
+  VALUES ?object {
+    ?_iris
+  }
+
+  ####################
+  # Date of creation
+  ####################
+
+  ?object crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82a_begin_of_the_begin ?beginOfTheBegin .
+  FILTER(DATATYPE(?beginOfTheBegin) = xsd:date || DATATYPE(?beginOfTheBegin) = xsd:gYear || DATATYPE(?beginOfTheBegin) = xsd:gYearMonth)
+  # Values can have an xsd date type but not be a valid date (!) - ignore these
+  FILTER(COALESCE(xsd:date(STR(?beginOfTheBegin)), '!') != '!')
+
+  BIND(YEAR(?beginOfTheBegin) AS ?beginOfTheBeginYear)
+}

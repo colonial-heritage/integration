@@ -8,7 +8,7 @@ describe('run', () => {
     const iriFile = './tmp/iris.txt';
 
     await run({
-      inputDir: './fixtures/geonames',
+      inputDir: './fixtures/geonames/files',
       queryFile: './queries/geonames/countries.rq',
       iriFile,
     });

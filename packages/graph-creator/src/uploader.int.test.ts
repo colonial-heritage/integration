@@ -12,7 +12,7 @@ describe('run', () => {
         triplydbDataset: env.TRIPLYDB_DATASET_KG_DEVELOPMENT as string,
         triplydbServiceName: 'kg',
         triplydbServiceType: 'virtuoso',
-        rdfFile: './fixtures/aat-terms.nt',
+        rdfFile: './fixtures/aat/terms.nt',
         graphName: 'https://data.colonialcollections.nl/aat-integration-test',
       })
     ).resolves.toBeUndefined();
@@ -27,7 +27,7 @@ describe('run', () => {
         triplydbDataset: env.TRIPLYDB_DATASET_KG_DEVELOPMENT as string,
         triplydbServiceName: 'kg',
         triplydbServiceType: 'virtuoso',
-        dir: './fixtures/geonames',
+        dir: './fixtures/geonames/files',
         graphName:
           'https://data.colonialcollections.nl/geonames-integration-test',
       })
