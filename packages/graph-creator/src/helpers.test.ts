@@ -17,7 +17,7 @@ describe('getQueryFiles', () => {
     const filenames = await getQueryFiles(path);
 
     expect(filenames.length).toBe(1);
-    expect(filenames[0].endsWith('/fixtures/queries/query1.rq')).toEqual(true);
+    expect(filenames[0].endsWith('/fixtures/queries/query1.rq')).toBe(true);
   });
 
   it('gets query files if path points to a directory', async () => {
@@ -25,8 +25,8 @@ describe('getQueryFiles', () => {
     const filenames = await getQueryFiles(path);
 
     expect(filenames.length).toBe(2);
-    expect(filenames[0].endsWith('/fixtures/queries/query1.rq')).toEqual(true);
-    expect(filenames[1].endsWith('/fixtures/queries/deep/query2.rq')).toEqual(
+    expect(filenames[0].endsWith('/fixtures/queries/query1.rq')).toBe(true);
+    expect(filenames[1].endsWith('/fixtures/queries/deep/query2.rq')).toBe(
       true
     );
   });
