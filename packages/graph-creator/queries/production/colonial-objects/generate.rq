@@ -129,8 +129,9 @@ WHERE {
   ####################
 
   OPTIONAL {
-    ?object crm:P108i_was_produced_by/crm:P14_carried_out_by ?creator .
-    ?creator rdfs:label ?creatorName .
+    ?object crm:P108i_was_produced_by/crm:P14_carried_out_by [
+      rdfs:label ?creatorName
+    ] ;
   }
 
   ####################
