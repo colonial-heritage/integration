@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "glob": "10.3.4",
-    "pino": "8.15.3"
+    "pino": "8.15.7"
   },
   "tsup": {
     "entry": [
