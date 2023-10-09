@@ -27,8 +27,8 @@ jobs:
           ./packages/graph-creator/dist/cli.js sparql-generate \
             --endpoint-url "${{ vars.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
             --query-path ./packages/graph-creator/queries/production/stamboeken/generate.rq \
-            --number-of-resources-per-request 50 \
-            --number-of-concurrent-requests 10 \
+            --number-of-resources-per-request 25 \
+            --number-of-concurrent-requests 5 \
             --wait-between-requests 500 \
             --iri-file ./data/stamboeken.txt \
             --rdf-file ./data/stamboeken.nt
