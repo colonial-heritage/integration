@@ -16,7 +16,7 @@
     "mkdirp": "3.0.1",
     "pino": "8.15.7",
     "tar": "6.2.0",
-    "zod": "3.22.2"
+    "zod": "3.22.4"
   },
   "devDependencies": {
     "@types/tar": "6.1.6"
