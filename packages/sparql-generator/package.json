@@ -14,7 +14,7 @@
     "fastq": "1.15.0",
     "fetch-sparql-endpoint": "4.1.0",
     "rdf-serialize": "2.2.2",
-    "zod": "3.22.2"
+    "zod": "3.22.4"
   },
   "tsup": {
     "entry": [
