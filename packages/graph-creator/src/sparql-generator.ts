@@ -51,6 +51,10 @@ export async function run(options: RunOptions) {
 
   // Log messages for progress monitoring
   generator.on('generate-end', (iris: string[]) => {
+    if (totalNumberOfResources === 0) {
+      return; // No progress to log
+    }
+
     // If e.g. 5 queries are in use for generating a resource for 1 IRI,
     // then the progress per generation is (1 / 5 =) 0.2%
     numberOfProcessedResources += iris.length / queries.length;

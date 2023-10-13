@@ -87,6 +87,8 @@ export class TriplyDb {
       }
     }
 
+    // TODO: add check - if opts.file does not exist or is empty, do not upload
+
     this.logger.info(`Adding file "${opts.file}" to graph "${opts.graph}"`);
 
     await this.dataset.importFromFiles([opts.file], {
