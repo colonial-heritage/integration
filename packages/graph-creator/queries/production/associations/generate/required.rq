@@ -15,10 +15,33 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT {
-  ?object a cc:HeritageObject .
+  ?object a cc:HeritageObject ;
+    cc:isPartOf ?datasetName ;
+    cc:publisher ?publisherName .
 }
 WHERE {
   VALUES ?object {
     ?_iris
+  }
+
+  ####################
+  # Part of dataset
+  ####################
+
+  ?object la:member_of ?dataset .
+
+  OPTIONAL {
+    ?dataset dct:title ?datasetName
+    FILTER(LANG(?datasetName) = "" || LANGMATCHES(LANG(?datasetName), "en"))
+  }
+
+  ####################
+  # Publisher of dataset
+  ####################
+
+  OPTIONAL {
+    ?dataset dct:publisher [
+      schema:name ?publisherName ;
+    ] .
   }
 }
