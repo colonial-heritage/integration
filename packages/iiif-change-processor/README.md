@@ -8,9 +8,7 @@ CLI for processing changes from a IIIF Change Discovery service
 
 ## Commands
 
-### Development
-
-#### Fetch changes
+### Fetch changes
 
     ./dist/cli.js fetch \
       --collection-iri "https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes" \
@@ -19,7 +17,7 @@ CLI for processing changes from a IIIF Change Discovery service
       --wait-between-requests 500 \
       --number-of-concurrent-requests 25
 
-#### Upload changes to data platform
+### Upload changes to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
