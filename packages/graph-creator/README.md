@@ -32,7 +32,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --number-of-concurrent-requests 1 \
       --rdf-file ./tmp/aat.nt
 
-##### Upload file to RDF store
+##### Upload file to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -78,7 +78,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --number-of-concurrent-requests 1 \
       --output-dir ./tmp/geonames/countries
 
-##### Upload RDF files to RDF store
+##### Upload RDF files to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -113,7 +113,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --iri-file ./tmp/testing-datasets.txt \
       --rdf-file ./tmp/testing-datasets.nt
 
-##### Upload file to RDF store
+##### Upload file to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -147,7 +147,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --iri-file ./tmp/testing-objects.txt \
       --rdf-file ./tmp/testing-objects.nt
 
-##### Upload file to RDF store
+##### Upload file to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -181,7 +181,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --iri-file ./tmp/testing-persons.txt \
       --rdf-file ./tmp/testing-persons.nt
 
-##### Upload file to RDF store
+##### Upload file to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -217,7 +217,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --number-of-concurrent-requests 1 \
       --rdf-file ./tmp/aat.nt
 
-##### Upload file to RDF store
+##### Upload file to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -251,7 +251,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --iri-file ./tmp/datasets.txt \
       --rdf-file ./tmp/datasets.nt
 
-##### Upload file to RDF store
+##### Upload file to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -285,7 +285,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --iri-file ./tmp/associations.txt \
       --rdf-file ./tmp/associations.nt
 
-##### Upload file to RDF store
+##### Upload file to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -319,7 +319,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --iri-file ./tmp/colonial-objects.txt \
       --rdf-file ./tmp/colonial-objects.nt
 
-##### Upload file to RDF store
+##### Upload file to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
@@ -353,7 +353,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --iri-file ./tmp/stamboeken.txt \
       --rdf-file ./tmp/stamboeken.nt
 
-##### Upload file to RDF store
+##### Upload file to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \

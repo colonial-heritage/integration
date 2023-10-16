@@ -30,7 +30,7 @@ cli
   });
 
 cli
-  .command('upload', 'Upload changes to the RDF store')
+  .command('upload', 'Upload changes to data platform')
   .option('--triplydb-instance-url <string>', 'TriplyDB instance URL')
   .option('--triplydb-api-token <string>', 'TriplyDB API token')
   .option('--triplydb-account <string>', 'TriplyDB account')

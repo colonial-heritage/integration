@@ -97,7 +97,7 @@ cli
   });
 
 cli
-  .command('upload', 'Upload graph to RDF store')
+  .command('upload', 'Upload graph to data platform')
   .option('--triplydb-instance-url <string>', 'TriplyDB instance URL')
   .option('--triplydb-api-token <string>', 'TriplyDB API token')
   .option('--triplydb-account <string>', 'TriplyDB account')

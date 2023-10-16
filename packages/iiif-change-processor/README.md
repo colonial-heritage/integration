@@ -19,7 +19,7 @@ CLI for processing changes from a IIIF Change Discovery service
       --wait-between-requests 500 \
       --number-of-concurrent-requests 25
 
-#### Upload changes to RDF store
+#### Upload changes to data platform
 
     ./dist/cli.js upload \
       --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \

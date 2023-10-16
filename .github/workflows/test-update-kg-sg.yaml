@@ -108,7 +108,7 @@ jobs:
             --wait-between-requests 1000 \
             --number-of-concurrent-requests 5 \
             --output-dir ./data/geonames/countries
-      - name: Upload to RDF store
+      - name: Upload to data platform
         run: |
           ./packages/graph-creator/dist/cli.js upload \
             --triplydb-instance-url "${{ vars.TRIPLYDB_INSTANCE_URL }}" \
