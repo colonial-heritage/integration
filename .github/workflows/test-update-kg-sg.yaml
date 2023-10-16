@@ -1,9 +1,9 @@
-name: Testing - update the Knowledge Graph and Search Graph when the Data Registry changes
+name: Testing - update the Knowledge Graph and Search Graph when the Data Registry or the queries change
 
 on:
   push:
     branches: ["main"]
-    paths: ["packages/data-registry/data/testing/**"]
+    paths: ["packages/data-registry/data/testing/**", "packages/graph-creator/queries/testing/**"]
 
 jobs:
 
