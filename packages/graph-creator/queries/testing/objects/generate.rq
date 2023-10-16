@@ -81,12 +81,9 @@ WHERE {
     ?object crm:P1_is_identified_by [
       a crm:E42_Identifier ;
       crm:P2_has_type <http://vocab.getty.edu/aat/300404626> ; # Identification number
-      crm:P190_has_symbolic_content ?tmpIdentifier
+      crm:P190_has_symbolic_content ?identifier
     ] ;
   }
-
-  # TBD: necessary to have in the search graph?
-  BIND(IF(BOUND(?tmpIdentifier), ?tmpIdentifier, "Unknown"@en) AS ?identifier)
 
   ####################
   # Name
