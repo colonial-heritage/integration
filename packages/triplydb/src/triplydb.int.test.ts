@@ -24,6 +24,15 @@ describe('upsertGraphFromFile', () => {
       })
     ).resolves.toBeUndefined();
   });
+
+  it('does not upsert a graph if the file is empty', async () => {
+    await expect(
+      triplyDb.upsertGraphFromFile({
+        file: './fixtures/empty.nt',
+        graph: 'https://example.org/dir-integration-test',
+      })
+    ).resolves.toBeUndefined();
+  });
 });
 
 describe('upsertGraphFromDirectory', () => {

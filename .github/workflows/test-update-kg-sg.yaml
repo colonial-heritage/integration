@@ -10,6 +10,7 @@ jobs:
   update-kg-with-data-registry:
     name: Update Knowledge Graph with data from Data Registry
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -32,6 +33,7 @@ jobs:
     name: Update Knowledge Graph with data from AAT
     needs: [update-kg-with-data-registry]
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -73,6 +75,7 @@ jobs:
     name: Update Knowledge Graph with data from GeoNames
     needs: [update-kg-with-aat]
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -125,6 +128,7 @@ jobs:
     name: Update Search Graph with data from the 'persons' dataset
     needs: [update-kg-with-geonames]
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -166,6 +170,7 @@ jobs:
     name: Update Search Graph with data from the 'objects' dataset
     needs: [update-sg-with-persons]
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -207,6 +212,7 @@ jobs:
     name: Update Search Graph with data from the 'datasets' dataset
     needs: [update-sg-with-objects]
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3

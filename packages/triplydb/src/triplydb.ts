@@ -1,7 +1,7 @@
 import {getRdfFiles} from '@colonial-collections/common';
 import App from '@triply/triplydb';
 import {mkdirp} from 'mkdirp';
-import {unlink} from 'node:fs/promises';
+import {access, stat, unlink} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {pino} from 'pino';
@@ -74,6 +74,14 @@ export class TriplyDb {
   async upsertGraphFromFile(options: UpsertGraphFromFileOptions) {
     const opts = upsertGraphFromFileOptionsSchema.parse(options);
 
+    const stats = await stat(opts.file);
+    if (stats.size === 0) {
+      this.logger.warn(
+        `Cannot add file "${opts.file}" to graph "${opts.graph}": file is empty`
+      );
+      return;
+    }
+
     this.logger.info(`Deleting graph "${opts.graph}"`);
 
     try {
@@ -86,8 +94,6 @@ export class TriplyDb {
         throw err;
       }
     }
-
-    // TODO: add check - if opts.file does not exist or is empty, do not upload
 
     this.logger.info(`Adding file "${opts.file}" to graph "${opts.graph}"`);
 
@@ -113,8 +119,12 @@ export class TriplyDb {
       `Creating "${tarFilename}" with ${filenames.length} files from "${opts.dir}"`
     );
 
-    const logWarning = (code: string, message: string) =>
-      this.logger.warn(`${message} (code: ${code})`);
+    const logWarning = (code: string, message: string) => {
+      // Don't output informative warnings - these can flood the logs
+      if (code !== 'TAR_ENTRY_INFO') {
+        this.logger.warn(`${message} (code: ${code})`);
+      }
+    };
 
     await tar.create(
       {gzip: true, onwarn: logWarning, file: tarFilename},
