@@ -186,7 +186,6 @@
   ] ;
   schema:isPartOf <https://example.org/datasets/1> .
 
-
 <https://example.org/persons/11>
   a schema:Person, pnv:Person, crm:E21_Person ;
   rdfs:label "Julienne Noordwest" ;
