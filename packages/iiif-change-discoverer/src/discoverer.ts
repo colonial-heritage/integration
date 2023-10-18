@@ -1,4 +1,4 @@
-import got from 'got';
+import got, {Got} from 'got';
 import {EventEmitter} from 'node:events';
 import {setTimeout as wait} from 'node:timers/promises';
 import {z} from 'zod';
@@ -7,6 +7,13 @@ const constructorOptionsSchema = z.object({
   collectionIri: z.string(),
   dateLastRun: z.date().optional(), // Not set if the client hasn't run before
   waitBetweenRequests: z.number().min(0).default(500),
+  credentials: z
+    .object({
+      type: z.literal('basic-auth'), // Only supported type at this moment
+      username: z.string(),
+      password: z.string(),
+    })
+    .optional(),
 });
 
 export type ConstructorOptions = z.input<typeof constructorOptionsSchema>;
@@ -86,6 +93,7 @@ export class ChangeDiscoverer extends EventEmitter {
   private waitBetweenRequests: number;
   private processablePages: string[] = [];
   private processedItems: Set<string> = new Set();
+  private httpClient: Got;
 
   constructor(options: ConstructorOptions) {
     super();
@@ -95,13 +103,22 @@ export class ChangeDiscoverer extends EventEmitter {
     this.collectionIri = opts.collectionIri;
     this.dateLastRun = opts.dateLastRun;
     this.waitBetweenRequests = opts.waitBetweenRequests;
+
+    const requestOptions: Record<string, string> = {};
+
+    if (opts.credentials !== undefined) {
+      requestOptions.username = opts.credentials.username;
+      requestOptions.password = opts.credentials.password;
+    }
+
+    this.httpClient = got.extend(requestOptions);
   }
 
   // https://iiif.io/api/discovery/1.0/#page-algorithm
   private async processPage(pageIri: string) {
     this.emit('process-page', pageIri, this.dateLastRun);
 
-    const body = await got(pageIri).json();
+    const body = await this.httpClient(pageIri).json();
     const page = pageResponseSchema.parse(body);
     const activities = page.orderedItems.reverse(); // From new to old
     let onlyDelete = false;
@@ -200,7 +217,7 @@ export class ChangeDiscoverer extends EventEmitter {
   private async processCollection() {
     this.emit('process-collection', this.collectionIri);
 
-    const body = await got(this.collectionIri).json();
+    const body = await this.httpClient(this.collectionIri).json();
     const collection = collectionResponseSchema.parse(body);
     const lastPageIri = collection.last.id;
     this.processablePages.push(lastPageIri);

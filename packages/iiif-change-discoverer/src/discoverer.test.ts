@@ -2,14 +2,24 @@ import {ChangeDiscoverer} from './discoverer.js';
 import {setupServer} from 'msw/node';
 import {rest} from 'msw';
 import {readFile} from 'node:fs/promises';
-import {afterAll, afterEach, beforeAll, describe, expect, it} from 'vitest';
+import {afterAll, beforeAll, describe, expect, it} from 'vitest';
 
 async function readFileAsJson(fileName: string) {
   const data = await readFile(fileName, {encoding: 'utf-8'});
   return JSON.parse(data);
 }
 
-const handlers = [
+const server = setupServer(
+  rest.get(
+    'http://localhost/collection-create-with-basic-auth.json',
+    async (req, res, ctx) => {
+      if (req.url.username !== 'username' || req.url.password !== 'password') {
+        return res(ctx.status(401));
+      }
+      const data = await readFileAsJson('./fixtures/collection-create.json');
+      return res(ctx.status(200), ctx.json(data));
+    }
+  ),
   rest.get('http://localhost/collection-add.json', async (req, res, ctx) => {
     const data = await readFileAsJson('./fixtures/collection-add.json');
     return res(ctx.status(200), ctx.json(data));
@@ -68,14 +78,47 @@ const handlers = [
   rest.get('http://localhost/page-remove.json', async (req, res, ctx) => {
     const data = await readFileAsJson('./fixtures/page-remove.json');
     return res(ctx.status(200), ctx.json(data));
-  }),
-];
-
-const server = setupServer(...handlers);
+  })
+);
 
 beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
+
+describe('run - with basic auth credentials', () => {
+  it('throws if credentials are invalid', async () => {
+    const discoverer = new ChangeDiscoverer({
+      collectionIri: 'http://localhost/collection-create-with-basic-auth.json',
+      dateLastRun: new Date('1970-01-01'), // Arbitrary date far in the past
+      credentials: {
+        type: 'basic-auth',
+        username: 'badUsername',
+        password: 'badPassword',
+      },
+    });
+
+    await expect(discoverer.run()).rejects.toThrow(
+      'Response code 401 (Unauthorized)'
+    );
+  });
+
+  it('runs if credentials are valid', async () => {
+    const discoverer = new ChangeDiscoverer({
+      collectionIri: 'http://localhost/collection-create-with-basic-auth.json',
+      dateLastRun: new Date('1970-01-01'), // Arbitrary date far in the past
+      credentials: {
+        type: 'basic-auth',
+        username: 'username',
+        password: 'password',
+      },
+    });
+
+    discoverer.on('create', (objectIri: string) => {
+      expect(objectIri).toEqual('http://localhost/resource2.json');
+    });
+
+    await discoverer.run();
+  });
+});
 
 describe('run - step 1', () => {
   it('terminates processing if the end time of the item is before the date of last run', async () => {
