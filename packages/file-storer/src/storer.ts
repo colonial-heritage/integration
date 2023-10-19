@@ -36,6 +36,7 @@ const constructorOptionsSchema = z.object({
       password: z.string(),
     })
     .optional(),
+  headers: z.record(z.string(), z.string()).optional(),
 });
 
 export type ConstructorOptions = z.input<typeof constructorOptionsSchema>;
@@ -50,7 +51,7 @@ export type SaveOptions = z.infer<typeof saveOptionsSchema>;
 export class FileStorer extends EventEmitter {
   private dir: string;
   private waitBetweenRequests: number;
-  private dereferenceOptions: IDereferenceOptions = {};
+  private dereferenceOptions: IDereferenceOptions;
   private queue: queueAsPromised<SaveOptions>;
 
   constructor(options: ConstructorOptions) {
@@ -60,18 +61,7 @@ export class FileStorer extends EventEmitter {
 
     this.dir = resolve(opts.dir);
     this.waitBetweenRequests = opts.waitBetweenRequests;
-
-    const headers: Record<string, string> = {};
-    if (opts.credentials !== undefined) {
-      headers.Authorization = this.createBasicAuthHeader(
-        opts.credentials.username,
-        opts.credentials.password
-      );
-    }
-    if (Object.entries(headers).length > 0) {
-      this.dereferenceOptions.headers = headers;
-    }
-
+    this.dereferenceOptions = this.getDereferenceOptions(opts);
     this.queue = fastq.promise(
       this._save.bind(this),
       opts.numberOfConcurrentRequests
@@ -84,6 +74,30 @@ export class FileStorer extends EventEmitter {
     const headerValue = `Basic ${authValueBase64}`;
 
     return headerValue;
+  }
+
+  // TBD: create dereference options per IRI domain, so that the dereferencer
+  // can make calls to various domains, each having their own options?
+  private getDereferenceOptions(options: ConstructorOptions) {
+    const dereferenceOptions: IDereferenceOptions = {};
+    const headers: Record<string, string> = {};
+
+    if (options.headers !== undefined) {
+      Object.assign(headers, options.headers);
+    }
+
+    if (options.credentials !== undefined) {
+      headers.Authorization = this.createBasicAuthHeader(
+        options.credentials.username,
+        options.credentials.password
+      );
+    }
+
+    if (Object.entries(headers).length > 0) {
+      dereferenceOptions.headers = headers;
+    }
+
+    return dereferenceOptions;
   }
 
   createFilenameFromIri(iri: string) {

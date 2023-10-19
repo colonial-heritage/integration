@@ -25,6 +25,25 @@ const server = setupServer(
       );
     }
   ),
+  rest.get(
+    'http://localhost/resource-with-accept-header.ttl',
+    async (req, res, ctx) => {
+      // Simple string check, just for the test. The actual Accept header send by the client
+      // is much richer (e.g. "application/n-quads,application/trig;q=0.95")
+      const accept = req.headers.get('Accept');
+      if (!accept?.startsWith('text/turtle')) {
+        return res(ctx.status(406));
+      }
+      const data = await readFile('./fixtures/resource.ttl', {
+        encoding: 'utf-8',
+      });
+      return res(
+        ctx.status(200),
+        ctx.set('Content-Type', 'text/turtle'),
+        ctx.body(data)
+      );
+    }
+  ),
   rest.get('http://localhost/resource.ttl', async (req, res, ctx) => {
     const data = await readFile('./fixtures/resource.ttl', {encoding: 'utf-8'});
     return res(
@@ -66,7 +85,7 @@ describe('save - with basic authentication', () => {
     await rimraf(dir);
   });
 
-  it('emits an error if credentials are invalid', async () => {
+  it('emits an error if credentials are invalid when dereferencing', async () => {
     expect.assertions(1);
 
     const store = new FileStorer({
@@ -92,7 +111,7 @@ empty response`
     await store.untilDone();
   });
 
-  it('upserts a resource if credentials are valid', async () => {
+  it('upserts a resource if credentials are valid when dereferencing', async () => {
     expect.assertions(2);
 
     const store = new FileStorer({
@@ -112,6 +131,60 @@ empty response`
     await store.save({
       type: 'upsert',
       iri: 'http://localhost/resource-with-basic-auth.ttl',
+    });
+    await store.untilDone();
+  });
+});
+
+describe('save - with headers', () => {
+  const dir = './tmp/integration-test';
+
+  beforeEach(async () => {
+    await rimraf(dir);
+  });
+
+  it('emits an error if HTTP header is invalid when dereferencing', async () => {
+    expect.assertions(1);
+
+    const store = new FileStorer({
+      dir,
+      headers: {
+        Accept: 'bad/value',
+      },
+    });
+
+    store.on('error', (err: Error) => {
+      expect(err.message).toEqual(
+        `An error occurred when saving IRI http://localhost/resource-with-accept-header.ttl: Could not retrieve http://localhost/resource-with-accept-header.ttl (HTTP status 406):
+empty response`
+      );
+    });
+
+    await store.save({
+      type: 'upsert',
+      iri: 'http://localhost/resource-with-accept-header.ttl',
+    });
+    await store.untilDone();
+  });
+
+  it('upserts a resource with valid HTTP header when dereferencing', async () => {
+    expect.assertions(2);
+
+    const store = new FileStorer({
+      dir,
+      headers: {
+        Accept: 'text/turtle',
+      },
+    });
+
+    store.on('upsert', (iri: string, filename: string) => {
+      expect(iri).toEqual('http://localhost/resource-with-accept-header.ttl');
+      expect(existsSync(filename)).toBe(true);
+    });
+
+    await store.save({
+      type: 'upsert',
+      iri: 'http://localhost/resource-with-accept-header.ttl',
     });
     await store.untilDone();
   });
