@@ -15,8 +15,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 CONSTRUCT {
-  ?object cc:yearCreatedStart ?beginOfTheBeginYear ;
-    cc:dateCreatedStart ?beginOfTheBegin . # For BC - remove at some point
+  ?object cc:yearCreatedStart ?beginOfTheBeginYear .
 }
 WHERE {
   VALUES ?object {
