@@ -4,17 +4,27 @@ import {rest} from 'msw';
 import {existsSync} from 'node:fs';
 import {readFile} from 'node:fs/promises';
 import {rimraf} from 'rimraf';
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-} from 'vitest';
+import {afterAll, beforeAll, beforeEach, describe, expect, it} from 'vitest';
 
-const handlers = [
+const server = setupServer(
+  rest.get(
+    'http://localhost/resource-with-basic-auth.ttl',
+    async (req, res, ctx) => {
+      // Basic auth - base64-encoded representation of 'username' and 'password'
+      const authorization = req.headers.get('Authorization');
+      if (authorization !== 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=') {
+        return res(ctx.status(401));
+      }
+      const data = await readFile('./fixtures/resource.ttl', {
+        encoding: 'utf-8',
+      });
+      return res(
+        ctx.status(200),
+        ctx.set('Content-Type', 'text/turtle'),
+        ctx.body(data)
+      );
+    }
+  ),
   rest.get('http://localhost/resource.ttl', async (req, res, ctx) => {
     const data = await readFile('./fixtures/resource.ttl', {encoding: 'utf-8'});
     return res(
@@ -32,15 +42,15 @@ const handlers = [
     return res(
       ctx.status(500) // Internal server error
     );
-  }),
-];
+  })
+);
 
-const server = setupServer(...handlers);
+beforeAll(() => server.listen());
+afterAll(() => server.close());
 
 describe('createFilenameFromIri', () => {
   it('creates a filename from an IRI', async () => {
     const store = new FileStorer({dir: './tmp/'});
-
     const filename = store.createFilenameFromIri('http://localhost/resource');
 
     expect(filename.endsWith('/b/0/d388f3dc1aaec96db5e05936bfb1aa0b.nt')).toBe(
@@ -49,17 +59,72 @@ describe('createFilenameFromIri', () => {
   });
 });
 
+describe('save - with basic authentication', () => {
+  const dir = './tmp/integration-test';
+
+  beforeEach(async () => {
+    await rimraf(dir);
+  });
+
+  it('emits an error if credentials are invalid', async () => {
+    expect.assertions(1);
+
+    const store = new FileStorer({
+      dir,
+      credentials: {
+        type: 'basic-auth',
+        username: 'badUsername',
+        password: 'badPassword',
+      },
+    });
+
+    store.on('error', (err: Error) => {
+      expect(err.message).toEqual(
+        `An error occurred when saving IRI http://localhost/resource-with-basic-auth.ttl: Could not retrieve http://localhost/resource-with-basic-auth.ttl (HTTP status 401):
+empty response`
+      );
+    });
+
+    await store.save({
+      type: 'upsert',
+      iri: 'http://localhost/resource-with-basic-auth.ttl',
+    });
+    await store.untilDone();
+  });
+
+  it('upserts a resource if credentials are valid', async () => {
+    expect.assertions(2);
+
+    const store = new FileStorer({
+      dir,
+      credentials: {
+        type: 'basic-auth',
+        username: 'username',
+        password: 'password',
+      },
+    });
+
+    store.on('upsert', (iri: string, filename: string) => {
+      expect(iri).toEqual('http://localhost/resource-with-basic-auth.ttl');
+      expect(existsSync(filename)).toBe(true);
+    });
+
+    await store.save({
+      type: 'upsert',
+      iri: 'http://localhost/resource-with-basic-auth.ttl',
+    });
+    await store.untilDone();
+  });
+});
+
 describe('save', () => {
   const dir = './tmp/integration-test';
   let store: FileStorer;
 
-  beforeAll(() => server.listen());
   beforeEach(async () => {
     await rimraf(dir);
     store = new FileStorer({dir});
   });
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
 
   it('upserts a resource', async () => {
     expect.assertions(2);

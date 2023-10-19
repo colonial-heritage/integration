@@ -2,13 +2,14 @@ import {md5} from './md5.js';
 import fastq from 'fastq';
 import type {queueAsPromised} from 'fastq';
 import {mkdirp} from 'mkdirp';
+import {Buffer} from 'node:buffer';
 import {EventEmitter} from 'node:events';
 import {createWriteStream} from 'node:fs';
 import {unlink} from 'node:fs/promises';
 import {dirname, join, resolve} from 'node:path';
 import {pipeline} from 'node:stream/promises';
 import {setTimeout as wait} from 'node:timers/promises';
-import rdfDereferencer from 'rdf-dereference';
+import rdfDereferencer, {IDereferenceOptions} from 'rdf-dereference';
 import rdfSerializer from 'rdf-serialize';
 import {z} from 'zod';
 
@@ -28,6 +29,13 @@ const constructorOptionsSchema = z.object({
   dir: z.string(),
   waitBetweenRequests: z.number().min(0).default(500),
   numberOfConcurrentRequests: z.number().min(1).default(1),
+  credentials: z
+    .object({
+      type: z.literal('basic-auth'), // Only supported type at this moment
+      username: z.string(),
+      password: z.string(),
+    })
+    .optional(),
 });
 
 export type ConstructorOptions = z.input<typeof constructorOptionsSchema>;
@@ -42,6 +50,7 @@ export type SaveOptions = z.infer<typeof saveOptionsSchema>;
 export class FileStorer extends EventEmitter {
   private dir: string;
   private waitBetweenRequests: number;
+  private dereferenceOptions: IDereferenceOptions = {};
   private queue: queueAsPromised<SaveOptions>;
 
   constructor(options: ConstructorOptions) {
@@ -51,17 +60,37 @@ export class FileStorer extends EventEmitter {
 
     this.dir = resolve(opts.dir);
     this.waitBetweenRequests = opts.waitBetweenRequests;
+
+    const headers: Record<string, string> = {};
+    if (opts.credentials !== undefined) {
+      headers.Authorization = this.createBasicAuthHeader(
+        opts.credentials.username,
+        opts.credentials.password
+      );
+    }
+    if (Object.entries(headers).length > 0) {
+      this.dereferenceOptions.headers = headers;
+    }
+
     this.queue = fastq.promise(
       this._save.bind(this),
       opts.numberOfConcurrentRequests
     );
   }
 
+  private createBasicAuthHeader(username: string, password: string) {
+    const authValue = `${username}:${password}`;
+    const authValueBase64 = Buffer.from(authValue).toString('base64');
+    const headerValue = `Basic ${authValueBase64}`;
+
+    return headerValue;
+  }
+
   createFilenameFromIri(iri: string) {
     const md5OfIri = md5(iri);
 
     // A large number of files in a single directory can slow down file access;
-    // use a multi-level directory hierarchy instead by using the last characters
+    // create a multi-level directory hierarchy instead by using the last characters
     // of the filename's MD5 (similar to the file caching strategy of Nginx)
     const subDir1 = md5OfIri.substring(md5OfIri.length - 1);
     const subDir2 = md5OfIri.substring(
@@ -92,7 +121,10 @@ export class FileStorer extends EventEmitter {
   private async upsert(options: SaveOptions) {
     let quadStream;
     try {
-      const response = await dereferencer.dereference(options.iri);
+      const response = await dereferencer.dereference(
+        options.iri,
+        this.dereferenceOptions
+      );
       quadStream = response.data;
     } catch (err) {
       // A lookup may result in a '410 Gone' status. We then assume the

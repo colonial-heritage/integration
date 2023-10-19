@@ -84,7 +84,7 @@ const server = setupServer(
 beforeAll(() => server.listen());
 afterAll(() => server.close());
 
-describe('run - with basic auth credentials', () => {
+describe('run - with basic authentication', () => {
   it('throws if credentials are invalid', async () => {
     const discoverer = new ChangeDiscoverer({
       collectionIri: 'http://localhost/collection-create-with-basic-auth.json',
