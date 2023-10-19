@@ -11,6 +11,14 @@ const runOptionsSchema = z.object({
   dirWithChanges: z.string(),
   waitBetweenRequests: z.number().min(0).optional(),
   numberOfConcurrentRequests: z.number().min(1).optional(),
+  credentials: z
+    .object({
+      type: z.literal('basic-auth'),
+      username: z.string(),
+      password: z.string(),
+    })
+    .optional(),
+  headers: z.record(z.string(), z.string()).optional(),
 });
 
 export type RunOptions = z.infer<typeof runOptionsSchema>;
@@ -28,6 +36,8 @@ export async function run(options: RunOptions) {
     dir: opts.dirWithChanges,
     waitBetweenRequests: opts.waitBetweenRequests,
     numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
+    credentials: opts.credentials,
+    headers: opts.headers,
   });
 
   storer.on('upsert', (iri: string, filename: string) =>
@@ -42,6 +52,7 @@ export async function run(options: RunOptions) {
     collectionIri: opts.collectionIri,
     dateLastRun: lastRun !== undefined ? lastRun.startedAt : undefined,
     waitBetweenRequests: opts.waitBetweenRequests,
+    credentials: opts.credentials,
   });
 
   discoverer.on('process-collection', (iri: string) => {

@@ -25,6 +25,8 @@ cli
       default: 1,
     }
   )
+  .option('--credentials [string]', 'Credentials: type, username and password')
+  .option('--headers [string]', 'Headers for dereferencing the changes')
   .action(async (options: FetchRunOptions) => {
     import('./fetcher.js').then(action => action.run(options));
   });

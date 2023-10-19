@@ -17,6 +17,19 @@ CLI for processing changes from a IIIF Change Discovery service
       --wait-between-requests 500 \
       --number-of-concurrent-requests 25
 
+Or with additional settings:
+
+    ./dist/cli.js fetch \
+      --collection-iri "https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes" \
+      --dir-with-runs "./tmp/bodleian/runs" \
+      --dir-with-changes "./tmp/bodleian/changes" \
+      --wait-between-requests 500 \
+      --number-of-concurrent-requests 25 \
+      --credentials.type "basic-auth" \
+      --credentials.username "my-username" \
+      --credentials.password "my-password" \
+      --headers.accept "application/ld+json"
+
 ### Upload changes to data platform
 
     ./dist/cli.js upload \
