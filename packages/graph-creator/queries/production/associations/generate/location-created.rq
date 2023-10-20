@@ -1,0 +1,42 @@
+###############################
+# Query for generating a search graph from object descriptions in dataset in dataset 'Associations'
+###############################
+
+PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX gn: <http://www.geonames.org/ontology#>
+
+CONSTRUCT {
+  ?object cc:locationCreated ?locationName ;
+    cc:countryCreated ?countryName ;
+    cc:alternateName ?alternateLocationName . # Only for indexing
+}
+WHERE {
+  VALUES ?object {
+    ?_iris
+  }
+
+  ####################
+  # Location of creation
+  ####################
+
+  ?object crm:P108i_was_produced_by/crm:P7_took_place_at ?location .
+  ?location gn:name ?locationName ;
+    gn:featureClass ?featureClass .
+  FILTER(LANG(?locationName) = "" || LANGMATCHES(LANG(?locationName), "en"))
+
+  OPTIONAL {
+    ?location gn:alternateName ?alternateLocationName
+    FILTER(LANG(?alternateLocationName) = "" || LANGMATCHES(LANG(?alternateLocationName), "en"))
+  }
+
+  # Country of which the location is a part
+  OPTIONAL {
+    ?location gn:parentCountry ?country .
+    ?country gn:name ?tmpCountryName .
+    FILTER(LANG(?tmpCountryName) = "" || LANGMATCHES(LANG(?tmpCountryName), "en"))
+  }
+
+  # Location could be a country
+  BIND(IF(?featureClass = <https://www.geonames.org/ontology#A>, ?locationName, ?tmpCountryName) AS ?countryName)
+}
