@@ -1,8 +1,7 @@
-import {ChangeWriter} from './writer.js';
+import {run} from './writer.js';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {stat} from 'node:fs/promises';
 import {WriteStream, createWriteStream} from 'node:fs';
-import {pino} from 'pino';
 import {beforeEach, describe, expect, it} from 'vitest';
 
 describe('run', () => {
@@ -16,17 +15,11 @@ describe('run', () => {
   it('stores IRIs and actions of changed resources', async () => {
     const discoverer = new ChangeDiscoverer({
       collectionIri: 'https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes',
-      dateLastRun: new Date('2023-10-01'),
+      // dateLastRun: new Date('2023-10-01'),
       waitBetweenRequests: 100,
     });
 
-    const writer = new ChangeWriter({
-      logger: pino(),
-      discoverer,
-      writeStream,
-    });
-
-    await writer.run();
+    await run({discoverer, writeStream});
 
     const stats = await stat(changedResourcesFile);
 

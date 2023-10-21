@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "license": "MIT",
-  "exports": "./dist/index.js",
+  "exports": "./dist/cli.js",
   "scripts": {
     "build": "tsup",
     "test": "vitest --coverage",
@@ -12,14 +12,22 @@
   },
   "dependencies": {
     "@colonial-collections/common": "*",
+    "@colonial-collections/file-storer": "*",
     "@colonial-collections/iiif-change-discoverer": "*",
+    "@colonial-collections/iiif-change-manager": "*",
+    "cac": "6.7.14",
     "csv": "6.3.5",
+    "glob": "10.3.4",
+    "mkdirp": "3.0.1",
     "pino": "8.15.7",
+    "pretty-ms": "8.0.0",
+    "tinypool": "0.8.1",
     "zod": "3.22.4"
   },
   "tsup": {
     "entry": [
-      "src/index.ts"
+      "src/cli.ts",
+      "src/worker.ts"
     ],
     "tsconfig": "tsconfig.build.json",
     "format": "esm",
