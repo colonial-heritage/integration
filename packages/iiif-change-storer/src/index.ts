@@ -1,1 +1,1 @@
-export * from './storer.js';
+export * from './writer.js';

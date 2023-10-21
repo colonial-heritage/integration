@@ -14,7 +14,7 @@ const constructorOptionsSchema = z.object({
 
 export type ConstructorOptions = z.input<typeof constructorOptionsSchema>;
 
-export class ChangeStorer {
+export class ChangeWriter {
   private logger: pino.Logger;
   private discoverer: ChangeDiscoverer;
   private writeStream: WriteStream;
@@ -29,7 +29,7 @@ export class ChangeStorer {
 
   async run() {
     const stringifier = stringify({
-      columns: ['iri', 'change_type'],
+      columns: ['iri', 'action'],
       header: true,
     });
     stringifier.on('error', (err: Error) => this.logger.error(err));
@@ -58,19 +58,32 @@ export class ChangeStorer {
       this.logger.info('Refresh found; only processing delete activities')
     );
 
-    const writeChange = async (iri: string, type: string) =>
-      stringifier.write([iri, type]);
+    const writeChange = async (iri: string, action: string) => {
+      if (!stringifier.write([iri, action])) {
+        await once(stringifier, 'drain'); // Handle backpressure
+      }
+    };
 
-    this.discoverer.on('add', (iri: string) => writeChange(iri, 'add'));
-    this.discoverer.on('create', (iri: string) => writeChange(iri, 'create'));
-    this.discoverer.on('update', (iri: string) => writeChange(iri, 'update'));
-    this.discoverer.on('delete', (iri: string) => writeChange(iri, 'delete'));
-    this.discoverer.on('remove', (iri: string) => writeChange(iri, 'remove'));
-    this.discoverer.on('move-delete', (iri: string) =>
-      writeChange(iri, 'move-delete')
+    this.discoverer.on('add', async (iri: string) =>
+      writeChange(iri, 'upsert')
     );
-    this.discoverer.on('move-create', (iri: string) =>
-      writeChange(iri, 'move-create')
+    this.discoverer.on('create', async (iri: string) =>
+      writeChange(iri, 'upsert')
+    );
+    this.discoverer.on('update', async (iri: string) =>
+      writeChange(iri, 'upsert')
+    );
+    this.discoverer.on('delete', async (iri: string) =>
+      writeChange(iri, 'delete')
+    );
+    this.discoverer.on('remove', async (iri: string) =>
+      writeChange(iri, 'delete')
+    );
+    this.discoverer.on('move-delete', async (iri: string) =>
+      writeChange(iri, 'delete')
+    );
+    this.discoverer.on('move-create', async (iri: string) =>
+      writeChange(iri, 'upsert')
     );
 
     await this.discoverer.run();
