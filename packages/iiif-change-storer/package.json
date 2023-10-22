@@ -7,8 +7,10 @@
   "exports": "./dist/cli.js",
   "scripts": {
     "build": "tsup",
+    "pretest": "npm run build && cp ./dist/dereferencer.js ./src",
     "test": "vitest --coverage",
-    "test:once": "vitest --run"
+    "posttest": "rm -f ./src/dereferencer.js",
+    "test:once": "npm run build && cp ./dist/dereferencer.js ./src && vitest --run && rm -f ./src/dereferencer.js"
   },
   "dependencies": {
     "@colonial-collections/common": "*",

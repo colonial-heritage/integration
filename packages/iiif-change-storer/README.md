@@ -26,7 +26,7 @@ Or with additional settings:
 ### Process changed resources
 
     ./dist/cli.js process \
-      --dir-with-files "./fixtures/csv" \
+      --dir-with-files "./tmp/chunks" \
       --dir-with-changes "./tmp/bodleian/changes" \
       --wait-between-requests 0 \
-      --number-of-concurrent-requests 1
+      --number-of-concurrent-requests 25

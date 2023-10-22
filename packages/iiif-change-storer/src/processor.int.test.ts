@@ -14,7 +14,7 @@ describe('run', () => {
 
   it('processes changed resources', async () => {
     await run({
-      dirWithFiles: './fixtures/csv',
+      dirWithFilesWithMetadataOfChanges: './fixtures/csv',
       dirWithChanges,
       waitBetweenRequests: 10,
       numberOfConcurrentRequests: 1,

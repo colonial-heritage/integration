@@ -5,11 +5,11 @@ import {WriteStream, createWriteStream} from 'node:fs';
 import {beforeEach, describe, expect, it} from 'vitest';
 
 describe('fetchChangesAndWriteToFile', () => {
-  const fileWithChanges = './tmp/changed-resources.csv';
+  const fileWithMetadataOfChanges = './tmp/metadata.csv';
   let writeStream: WriteStream;
 
   beforeEach(() => {
-    writeStream = createWriteStream(fileWithChanges);
+    writeStream = createWriteStream(fileWithMetadataOfChanges);
   });
 
   it('stores IRIs and actions of changed resources', async () => {
@@ -21,7 +21,7 @@ describe('fetchChangesAndWriteToFile', () => {
 
     await fetchChangesAndWriteToFile({discoverer, writeStream});
 
-    const stats = await stat(fileWithChanges);
+    const stats = await stat(fileWithMetadataOfChanges);
 
     expect(stats.size).toBeGreaterThan(0);
   });

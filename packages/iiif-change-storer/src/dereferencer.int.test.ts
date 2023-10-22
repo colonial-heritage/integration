@@ -16,7 +16,7 @@ describe('run', () => {
 
   it('dereferences and stores changed resources', async () => {
     await run({
-      fileWithChanges: './fixtures/bodleian-changed-resources.csv',
+      fileWithMetadataOfChanges: './fixtures/bodleian-metadata.csv',
       dirWithChanges,
       waitBetweenRequests: 10,
       numberOfConcurrentRequests: 1,

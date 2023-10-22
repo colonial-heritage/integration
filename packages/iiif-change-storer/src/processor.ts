@@ -11,9 +11,9 @@ import {z} from 'zod';
 
 const runOptionsSchema = z
   .object({
-    dirWithFiles: z.string(),
+    dirWithFilesWithMetadataOfChanges: z.string(),
   })
-  .merge(workerRunOptionsSchema.omit({fileWithChanges: true}));
+  .merge(workerRunOptionsSchema.omit({fileWithMetadataOfChanges: true}));
 
 export type RunOptions = z.infer<typeof runOptionsSchema>;
 
@@ -23,28 +23,32 @@ export async function run(options: RunOptions) {
   const logger = getLogger();
   const startTime = Date.now();
 
+  // TBD: first split the CSV files into chunks?
+
   // Collect the CSV files
-  const files = await glob(`${opts.dirWithFiles}/**/*.csv`, {
-    nodir: true,
-    absolute: true,
-  });
+  const files = await glob(
+    `${opts.dirWithFilesWithMetadataOfChanges}/**/*.csv`,
+    {
+      nodir: true,
+      absolute: true,
+    }
+  );
 
   logger.info(
-    `Processing IRIs in ${files.length} files in "${opts.dirWithFiles}"`
+    `Processing IRIs in ${files.length} files in "${opts.dirWithFilesWithMetadataOfChanges}"`
   );
 
   // Process each CSV file in its own process, in parallel
   const pool = new Tinypool({
     name: 'run',
-    runtime: 'child_process',
+    runtime: 'child_process', // 'worker_threads' is a little bit slower
     filename: new URL('./dereferencer.js', import.meta.url).href,
-    maxQueue: 'auto',
-    minThreads: files.length, // One thread per file
+    minThreads: files.length, // One process per file
   });
 
   const runs = files.map(file => {
     const runOptions: WorkerRunOptions = {
-      fileWithChanges: file,
+      fileWithMetadataOfChanges: file,
       dirWithChanges: opts.dirWithChanges,
       waitBetweenRequests: opts.waitBetweenRequests,
       numberOfConcurrentRequests: opts.numberOfConcurrentRequests,

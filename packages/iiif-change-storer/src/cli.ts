@@ -11,8 +11,8 @@ cli
   .option('--collection-iri <string>', 'Collection IRI')
   .option('--dir-with-runs <string>', 'Directory for storing the runs')
   .option(
-    '--file-with-changes <string>',
-    'CSV file for storing the IRIs of changed resources'
+    '--file-with-metadata-of-changes <string>',
+    'CSV file for storing the metadata of changed resources'
   )
   .option(
     '--wait-between-requests [number]',
@@ -29,8 +29,8 @@ cli
 cli
   .command('process', 'Process changed resources')
   .option(
-    '--dir-with-files <string>',
-    'Directory with CSV files, containing the IRIs of changed resources'
+    '--dir-with-files-with-metadata-of-changes <string>',
+    'Directory with CSV files, containing the metadata of changed resources'
   )
   .option('--dir-with-changes <string>', 'Directory for storing the changes')
   .option(

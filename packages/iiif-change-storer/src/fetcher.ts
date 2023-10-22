@@ -10,7 +10,7 @@ import {z} from 'zod';
 const runOptionsSchema = z.object({
   collectionIri: z.string().url(),
   dirWithRuns: z.string(),
-  fileWithChanges: z.string(),
+  fileWithMetadataOfChanges: z.string(),
   waitBetweenRequests: z.number().min(0).optional(),
   credentials: z
     .object({
@@ -40,12 +40,12 @@ export async function run(options: RunOptions) {
   });
 
   const runStartedAt = new Date();
-  const writeStream = createWriteStream(opts.fileWithChanges);
+  const writeStream = createWriteStream(opts.fileWithMetadataOfChanges);
   await fetchChangesAndWriteToFile({discoverer, writeStream});
   const runEndedAt = new Date();
 
   // Only store the run if at least 1 change has been discovered
-  const stats = await stat(opts.fileWithChanges);
+  const stats = await stat(opts.fileWithMetadataOfChanges);
   if (stats.size > 0) {
     await changeManager.saveRun({
       id: 'https://data.colonialcollections.nl/' + Date.now(),

@@ -8,7 +8,7 @@ import {beforeEach, describe, expect, it} from 'vitest';
 describe('run', () => {
   const outputDir = './tmp/integration-test';
   const dirWithRuns = join(outputDir, 'runs');
-  const fileWithChanges = join(outputDir, 'changed-resources.csv');
+  const fileWithMetadataOfChanges = join(outputDir, 'metadata.csv');
 
   beforeEach(async () => {
     await rimraf(outputDir);
@@ -23,11 +23,11 @@ describe('run', () => {
     await run({
       collectionIri: 'https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes',
       dirWithRuns,
-      fileWithChanges,
+      fileWithMetadataOfChanges,
       waitBetweenRequests: 10,
     });
 
-    const stats = await stat(fileWithChanges);
+    const stats = await stat(fileWithMetadataOfChanges);
 
     expect(stats.size).toBeGreaterThan(0);
   });
