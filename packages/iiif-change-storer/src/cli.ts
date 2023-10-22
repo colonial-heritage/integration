@@ -11,7 +11,7 @@ cli
   .option('--dir-with-runs <string>', 'Directory for storing the runs')
   .option(
     '--file-with-changes <string>',
-    'File for storing the IRIs of changed resources'
+    'CSV file for storing the IRIs of changed resources'
   )
   .option(
     '--wait-between-requests [number]',

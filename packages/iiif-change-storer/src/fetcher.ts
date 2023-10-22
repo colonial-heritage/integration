@@ -1,4 +1,4 @@
-import {run as writeChanges} from './writer.js';
+import {fetchChangesAndWriteToFile} from './writer.js';
 import {getLogger} from '@colonial-collections/common';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {ChangeManager} from '@colonial-collections/iiif-change-manager';
@@ -41,7 +41,7 @@ export async function run(options: RunOptions) {
 
   const runStartedAt = new Date();
   const writeStream = createWriteStream(opts.fileWithChanges);
-  await writeChanges({discoverer, writeStream});
+  await fetchChangesAndWriteToFile({discoverer, writeStream});
   const runEndedAt = new Date();
 
   // Only store the run if at least 1 change has been discovered

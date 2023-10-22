@@ -15,7 +15,7 @@ cli
     '--wait-between-requests [number]',
     'Wait between requests, in milliseconds',
     {
-      default: 500,
+      default: 0,
     }
   )
   .option(

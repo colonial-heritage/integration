@@ -1,28 +1,28 @@
-import {run} from './writer.js';
+import {fetchChangesAndWriteToFile} from './writer.js';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {stat} from 'node:fs/promises';
 import {WriteStream, createWriteStream} from 'node:fs';
 import {beforeEach, describe, expect, it} from 'vitest';
 
-describe('run', () => {
-  const changedResourcesFile = './tmp/changed-resources.csv';
+describe('fetchChangesAndWriteToFile', () => {
+  const fileWithChanges = './tmp/changed-resources.csv';
   let writeStream: WriteStream;
 
   beforeEach(() => {
-    writeStream = createWriteStream(changedResourcesFile);
+    writeStream = createWriteStream(fileWithChanges);
   });
 
   it('stores IRIs and actions of changed resources', async () => {
     const discoverer = new ChangeDiscoverer({
       collectionIri: 'https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes',
-      // dateLastRun: new Date('2023-10-01'),
-      waitBetweenRequests: 100,
+      dateLastRun: new Date('2023-10-01'),
+      waitBetweenRequests: 10,
     });
 
-    await run({discoverer, writeStream});
+    await fetchChangesAndWriteToFile({discoverer, writeStream});
 
-    const stats = await stat(changedResourcesFile);
+    const stats = await stat(fileWithChanges);
 
-    expect(stats.size).toBeGreaterThan(16); // Contents minus the CSV header
+    expect(stats.size).toBeGreaterThan(0);
   });
 });

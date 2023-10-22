@@ -1,7 +1,6 @@
 import {run} from './fetcher.js';
-import {glob} from 'glob';
 import {mkdirp} from 'mkdirp';
-import {copyFile} from 'node:fs/promises';
+import {copyFile, stat} from 'node:fs/promises';
 import {join} from 'node:path';
 import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
@@ -9,7 +8,7 @@ import {beforeEach, describe, expect, it} from 'vitest';
 describe('run', () => {
   const dir = './tmp/integration-test';
   const dirWithRuns = join(dir, 'runs');
-  const dirWithChanges = join(dir, 'changes');
+  const fileWithChanges = join(dir, 'changed-resources.csv');
 
   beforeEach(async () => {
     await rimraf(dir);
@@ -24,15 +23,12 @@ describe('run', () => {
     await run({
       collectionIri: 'https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes',
       dirWithRuns,
-      dirWithChanges,
+      fileWithChanges,
       waitBetweenRequests: 10,
-      numberOfConcurrentRequests: 1,
     });
 
-    const files = await glob(`${dirWithChanges}/**/*.nt`, {nodir: true});
+    const stats = await stat(fileWithChanges);
 
-    // This outcome could fail at some point, if the owner of the collection
-    // deletes all of its records
-    expect(files.length).toBeGreaterThan(1);
+    expect(stats.size).toBeGreaterThan(0);
   });
 });

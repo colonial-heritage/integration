@@ -6,25 +6,31 @@ import {WriteStream} from 'node:fs';
 import {finished} from 'node:stream/promises';
 import {z} from 'zod';
 
-const runOptionsSchema = z.object({
+const optionsSchema = z.object({
   discoverer: z.instanceof(ChangeDiscoverer),
   writeStream: z.instanceof(WriteStream),
 });
 
-export type RunOptions = z.infer<typeof runOptionsSchema>;
+export type Options = z.infer<typeof optionsSchema>;
 
-export async function run(options: RunOptions) {
-  const opts = runOptionsSchema.parse(options);
+export async function fetchChangesAndWriteToFile(options: Options) {
+  const opts = optionsSchema.parse(options);
 
   const {discoverer, writeStream} = opts;
   const logger = getLogger();
 
-  // Write changes to CSV file
-  const stringifier = stringify({
-    // columns: ['iri', 'action'],
-    // header: true,
-  });
+  // Before fetching changes, configure the output destination: a CSV file
+  const stringifier = stringify();
   stringifier.on('error', (err: Error) => logger.error(err));
+
+  // First write changes to intermediate CSV transformer
+  const writeChange = async (iri: string, action: string) => {
+    if (!stringifier.write([iri, action])) {
+      await once(stringifier, 'drain'); // Handle backpressure
+    }
+  };
+
+  // Then read changes from CSV transformer and write to CSV file
   stringifier.on('readable', async () => {
     let row;
     while ((row = stringifier.read()) !== null) {
@@ -34,12 +40,7 @@ export async function run(options: RunOptions) {
     }
   });
 
-  const writeChange = async (iri: string, action: string) => {
-    if (!stringifier.write([iri, action])) {
-      await once(stringifier, 'drain'); // Handle backpressure
-    }
-  };
-
+  // Some logging to see what's going on
   discoverer.on('process-collection', (iri: string) =>
     logger.info(`Processing pages in collection "${iri}"`)
   );
@@ -52,6 +53,7 @@ export async function run(options: RunOptions) {
     logger.info('Refresh found; only processing delete activities')
   );
 
+  // Map the IIIF activity change types to basic actions: upsert or delete
   discoverer.on('add', async (iri: string) => writeChange(iri, 'upsert'));
   discoverer.on('create', async (iri: string) => writeChange(iri, 'upsert'));
   discoverer.on('update', async (iri: string) => writeChange(iri, 'upsert'));
@@ -64,6 +66,7 @@ export async function run(options: RunOptions) {
     writeChange(iri, 'upsert')
   );
 
+  // Fetch the changes from the remote endpoint
   await discoverer.run();
 
   stringifier.end();
