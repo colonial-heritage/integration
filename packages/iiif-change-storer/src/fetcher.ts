@@ -56,5 +56,7 @@ export async function run(options: RunOptions) {
 
   const finishTime = Date.now();
   const runtime = finishTime - startTime;
-  logger.info(`Processed changes in ${PrettyMilliseconds(runtime)}`);
+  logger.info(
+    `Fetched IRIs of changed resources in ${PrettyMilliseconds(runtime)}`
+  );
 }

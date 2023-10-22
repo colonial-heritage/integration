@@ -27,7 +27,7 @@
   "tsup": {
     "entry": [
       "src/cli.ts",
-      "src/worker.ts"
+      "src/dereferencer.ts"
     ],
     "tsconfig": "tsconfig.build.json",
     "format": "esm",

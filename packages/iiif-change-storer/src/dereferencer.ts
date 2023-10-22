@@ -28,6 +28,7 @@ export async function run(options: RunOptions) {
   const opts = runOptionsSchema.parse(options);
 
   const logger = getLogger();
+  logger.info(`Processing IRIs in "${opts.fileWithChanges}"`);
 
   const storer = new FileStorer({
     dir: opts.dirWithChanges,

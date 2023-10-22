@@ -22,3 +22,11 @@ Or with additional settings:
       --credentials.type "basic-auth" \
       --credentials.username "my-username" \
       --credentials.password "my-password"
+
+### Process changed resources
+
+    ./dist/cli.js process \
+      --dir-with-files "./fixtures/csv" \
+      --dir-with-changes "./tmp/bodleian/changes" \
+      --wait-between-requests 0 \
+      --number-of-concurrent-requests 1

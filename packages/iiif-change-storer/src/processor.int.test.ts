@@ -1,6 +1,5 @@
-import {run} from './dereferencer.js';
+import {run} from './processor.js';
 import {glob} from 'glob';
-import {mkdirp} from 'mkdirp';
 import {join} from 'node:path';
 import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
@@ -11,12 +10,11 @@ describe('run', () => {
 
   beforeEach(async () => {
     await rimraf(outputDir);
-    await mkdirp(dirWithChanges);
   });
 
-  it('dereferences and stores changed resources', async () => {
+  it('processes changed resources', async () => {
     await run({
-      fileWithChanges: './fixtures/bodleian-changed-resources.csv',
+      dirWithFiles: './fixtures/csv',
       dirWithChanges,
       waitBetweenRequests: 10,
       numberOfConcurrentRequests: 1,
