@@ -1,7 +1,7 @@
 import {
   runOptionsSchema as workerRunOptionsSchema,
   RunOptions as WorkerRunOptions,
-} from './worker.js';
+} from './dereferencer.js';
 import {glob} from 'glob';
 import {URL} from 'node:url';
 import {pino} from 'pino';
@@ -21,7 +21,7 @@ const runOptionsSchema = z
   .object({
     dirWithFiles: z.string(),
   })
-  .merge(workerRunOptionsSchema.omit({fileWithIris: true}));
+  .merge(workerRunOptionsSchema.omit({fileWithChanges: true}));
 
 export type RunOptions = z.infer<typeof runOptionsSchema>;
 
@@ -47,14 +47,14 @@ export class ChangeReader {
     const pool = new Tinypool({
       name: 'run',
       runtime: 'child_process',
-      filename: new URL('./worker.js', import.meta.url).href,
+      filename: new URL('./dereferencer.js', import.meta.url).href,
       maxQueue: 'auto',
       minThreads: files.length, // One thread per file
     });
 
     const runs = files.map(file => {
       const runOptionsSchema: WorkerRunOptions = {
-        fileWithIris: file,
+        fileWithChanges: file,
         dirWithChanges: opts.dirWithChanges,
         waitBetweenRequests: opts.waitBetweenRequests,
         numberOfConcurrentRequests: opts.numberOfConcurrentRequests,

@@ -6,12 +6,12 @@ import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
 
 describe('run', () => {
-  const dir = './tmp/integration-test';
-  const dirWithRuns = join(dir, 'runs');
-  const fileWithChanges = join(dir, 'changed-resources.csv');
+  const outputDir = './tmp/integration-test';
+  const dirWithRuns = join(outputDir, 'runs');
+  const fileWithChanges = join(outputDir, 'changed-resources.csv');
 
   beforeEach(async () => {
-    await rimraf(dir);
+    await rimraf(outputDir);
     await mkdirp(dirWithRuns);
     await copyFile(
       './fixtures/1695583064271.nt',

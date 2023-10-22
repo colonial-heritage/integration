@@ -5,7 +5,7 @@ import {createReadStream} from 'fs';
 import {z} from 'zod';
 
 export const runOptionsSchema = z.object({
-  fileWithIris: z.string(),
+  fileWithChanges: z.string(),
   dirWithChanges: z.string(),
   waitBetweenRequests: z.number().min(0).optional(),
   numberOfConcurrentRequests: z.number().min(1).optional(),
@@ -21,6 +21,9 @@ export const runOptionsSchema = z.object({
 
 export type RunOptions = z.infer<typeof runOptionsSchema>;
 
+// Basic row validation; in-depth validation is delegated to FileStorer
+const rowSchema = z.tuple([z.string(), z.string()]);
+
 export async function run(options: RunOptions) {
   const opts = runOptionsSchema.parse(options);
 
@@ -34,6 +37,7 @@ export async function run(options: RunOptions) {
     headers: opts.headers,
   });
 
+  // Some logging to see what's going on
   storer.on('upsert', (iri: string, filename: string) =>
     logger.info(`Created or updated "${filename}" for "${iri}"`)
   );
@@ -42,16 +46,14 @@ export async function run(options: RunOptions) {
   );
   storer.on('error', (err: Error) => logger.error(err));
 
-  const parser = createReadStream(opts.fileWithIris).pipe(
-    parse({
-      columns: true,
-      delimiter: ',',
-    })
-  );
+  // Parse and stream the CSV file, row by row
+  const parser = createReadStream(opts.fileWithChanges).pipe(parse());
 
-  for await (const record of parser) {
-    await storer.save({iri: record.iri, type: record.action});
+  for await (const row of parser) {
+    rowSchema.parse(row);
+    await storer.save({iri: row[0], type: row[1]});
   }
 
+  // Wait until all resources in the CSV files have been dereferenced
   await storer.untilDone();
 }
