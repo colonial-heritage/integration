@@ -22,7 +22,6 @@
     "glob": "10.3.4",
     "mkdirp": "3.0.1",
     "physical-cpu-count-async": "1.0.0",
-    "pino": "8.15.7",
     "pretty-ms": "8.0.0",
     "tinypool": "0.8.1",
     "zod": "3.22.4"
