@@ -1,10 +1,10 @@
-import {fetchChangesAndWriteToFile} from './writer.js';
+import {fetchMetadataAndWriteToFile} from './writer.js';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {stat} from 'node:fs/promises';
 import {WriteStream, createWriteStream} from 'node:fs';
 import {beforeEach, describe, expect, it} from 'vitest';
 
-describe('fetchChangesAndWriteToFile', () => {
+describe('fetchMetadataAndWriteToFile', () => {
   const fileWithMetadataOfChanges = './tmp/metadata.csv';
   let writeStream: WriteStream;
 
@@ -19,7 +19,7 @@ describe('fetchChangesAndWriteToFile', () => {
       waitBetweenRequests: 10,
     });
 
-    await fetchChangesAndWriteToFile({discoverer, writeStream});
+    await fetchMetadataAndWriteToFile({discoverer, writeStream});
 
     const stats = await stat(fileWithMetadataOfChanges);
 

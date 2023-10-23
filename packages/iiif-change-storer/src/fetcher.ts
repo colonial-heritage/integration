@@ -1,9 +1,11 @@
-import {fetchChangesAndWriteToFile} from './writer.js';
+import {fetchMetadataAndWriteToFile} from './writer.js';
 import {getLogger} from '@colonial-collections/common';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {ChangeManager} from '@colonial-collections/iiif-change-manager';
+import {mkdirp} from 'mkdirp';
 import {createWriteStream} from 'node:fs';
 import {stat} from 'node:fs/promises';
+import {dirname} from 'node:path';
 import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
 
@@ -40,8 +42,9 @@ export async function run(options: RunOptions) {
   });
 
   const runStartedAt = new Date();
+  await mkdirp(dirname(opts.fileWithMetadataOfChanges));
   const writeStream = createWriteStream(opts.fileWithMetadataOfChanges);
-  await fetchChangesAndWriteToFile({discoverer, writeStream});
+  await fetchMetadataAndWriteToFile({discoverer, writeStream});
   const runEndedAt = new Date();
 
   // Only store the run if at least 1 change has been discovered

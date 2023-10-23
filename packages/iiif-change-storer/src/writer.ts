@@ -13,7 +13,7 @@ const optionsSchema = z.object({
 
 export type Options = z.infer<typeof optionsSchema>;
 
-export async function fetchChangesAndWriteToFile(options: Options) {
+export async function fetchMetadataAndWriteToFile(options: Options) {
   const opts = optionsSchema.parse(options);
 
   const {discoverer, writeStream} = opts;
