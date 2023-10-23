@@ -19,7 +19,7 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@types/tar": "6.1.6"
+    "@types/tar": "6.1.7"
   },
   "tsup": {
     "entry": [
