@@ -21,8 +21,15 @@ export const runOptionsSchema = z.object({
 
 export type RunOptions = z.infer<typeof runOptionsSchema>;
 
-// Basic row validation; in-depth validation is delegated to FileStorer
-const rowSchema = z.tuple([z.string(), z.string()]);
+const rowSchema = z.tuple([
+  z.string(),
+  z.enum(['create', 'delete', 'update']).transform(type => {
+    if (type === 'create') return 'upsert';
+    if (type === 'delete') return 'delete';
+    if (type === 'update') return 'upsert';
+    return z.NEVER; // Satisfy TS compiler; not reached
+  }),
+]);
 
 export async function run(options: RunOptions) {
   const opts = runOptionsSchema.parse(options);
@@ -51,8 +58,8 @@ export async function run(options: RunOptions) {
   const parser = createReadStream(opts.fileWithMetadataOfChanges).pipe(parse());
 
   for await (const row of parser) {
-    rowSchema.parse(row);
-    await storer.save({iri: row[0], type: row[1]});
+    const activity = rowSchema.parse(row);
+    await storer.save({iri: activity[0], type: activity[1]});
   }
 
   // Wait until all resources in the CSV files have been dereferenced

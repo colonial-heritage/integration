@@ -53,17 +53,17 @@ export async function fetchMetadataAndWriteToFile(options: Options) {
     logger.info('Refresh found; only processing delete activities')
   );
 
-  // Map the IIIF activity change types to basic actions: upsert or delete
-  discoverer.on('add', async (iri: string) => writeChange(iri, 'upsert'));
-  discoverer.on('create', async (iri: string) => writeChange(iri, 'upsert'));
-  discoverer.on('update', async (iri: string) => writeChange(iri, 'upsert'));
+  // Map the IIIF change types to basic activity types
+  discoverer.on('add', async (iri: string) => writeChange(iri, 'create'));
+  discoverer.on('create', async (iri: string) => writeChange(iri, 'create'));
+  discoverer.on('update', async (iri: string) => writeChange(iri, 'update'));
   discoverer.on('delete', async (iri: string) => writeChange(iri, 'delete'));
   discoverer.on('remove', async (iri: string) => writeChange(iri, 'delete'));
   discoverer.on('move-delete', async (iri: string) =>
     writeChange(iri, 'delete')
   );
   discoverer.on('move-create', async (iri: string) =>
-    writeChange(iri, 'upsert')
+    writeChange(iri, 'create')
   );
 
   // Fetch the changes from the remote endpoint
