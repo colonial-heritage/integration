@@ -5,6 +5,7 @@ import {
 import {getLogger} from '@colonial-collections/common';
 import {glob} from 'glob';
 import {URL} from 'node:url';
+import physicalCpuCount from 'physical-cpu-count-async';
 import PrettyMilliseconds from 'pretty-ms';
 import Tinypool from 'tinypool';
 import {z} from 'zod';
@@ -26,16 +27,16 @@ export async function run(options: RunOptions) {
   // TBD: first split the CSV files into chunks?
 
   // Collect the CSV files
-  const files = await glob(
-    `${opts.dirWithFilesWithMetadataOfChanges}/**/*.csv`,
-    {
-      nodir: true,
-      absolute: true,
-    }
-  );
+  const files = await glob(`${opts.dirWithFilesWithMetadataOfChanges}/**`, {
+    nodir: true,
+    absolute: true,
+  });
 
+  // "It is better to fork no more child processes than there are physical cores" -
+  // https://www.npmjs.com/package/physical-cpu-count-async
+  const numberOfThreads = Math.min(physicalCpuCount, files.length);
   logger.info(
-    `Processing IRIs in ${files.length} files in "${opts.dirWithFilesWithMetadataOfChanges}"`
+    `Processing IRIs in ${files.length} files in "${opts.dirWithFilesWithMetadataOfChanges}" in ${numberOfThreads} processes (max: ${physicalCpuCount})`
   );
 
   // Process each CSV file in its own process, in parallel
@@ -43,7 +44,7 @@ export async function run(options: RunOptions) {
     name: 'run',
     runtime: 'child_process', // 'worker_threads' is a little bit slower
     filename: new URL('./dereferencer.js', import.meta.url).href,
-    minThreads: files.length, // One process per file
+    minThreads: numberOfThreads,
   });
 
   const runs = files.map(file => {
