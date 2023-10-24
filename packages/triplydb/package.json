@@ -14,7 +14,7 @@
     "@colonial-collections/common": "*",
     "@triply/triplydb": "6.0.8",
     "mkdirp": "3.0.1",
-    "pino": "8.16.0",
+    "pino": "8.16.1",
     "tar": "6.2.0",
     "zod": "3.22.4"
   },
