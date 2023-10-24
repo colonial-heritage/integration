@@ -1,7 +1,7 @@
 import {getRdfFiles} from '@colonial-collections/common';
 import App from '@triply/triplydb';
 import {mkdirp} from 'mkdirp';
-import {access, stat, unlink} from 'node:fs/promises';
+import {stat, unlink} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {pino} from 'pino';

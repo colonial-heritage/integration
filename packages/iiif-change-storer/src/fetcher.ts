@@ -54,6 +54,8 @@ export async function run(options: RunOptions) {
       startedAt: runStartedAt,
       endedAt: runEndedAt,
     });
+
+    // TBD: add the metadata as RDF to the run file?
   }
 
   const finishTime = Date.now();
