@@ -140,6 +140,11 @@ WHERE {
   # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82a_begin_of_the_begin, crm:P108i_was_produced_by/crm:P4_has_time-span/crm:P82b_end_of_the_end)
 
   ####################
+  # Location of creation
+  ####################
+  # TBD: not in the KG yet (crm:P108i_was_produced_by/crm:P7_took_place_at)
+
+  ####################
   # Image
   ####################
 
