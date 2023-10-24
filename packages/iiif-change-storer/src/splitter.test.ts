@@ -4,7 +4,7 @@ import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
 
 describe('splitFileByLines', () => {
-  const outputDir = './tmp/bodleian/chunks';
+  const outputDir = './tmp/splitter';
 
   beforeEach(async () => {
     await rimraf(outputDir);
@@ -14,7 +14,7 @@ describe('splitFileByLines', () => {
     await splitFileByLines({
       filename: './fixtures/bodleian-metadata.csv',
       numberOfLines: 2,
-      outputDir: './tmp/bodleian/chunks',
+      outputDir,
     });
 
     const files = await glob(`${outputDir}/**`, {nodir: true});

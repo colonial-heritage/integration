@@ -6,9 +6,9 @@ import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
 
 describe('run', () => {
-  const outputDir = './tmp/integration-test';
+  const outputDir = './tmp/fetcher';
   const dirWithRuns = join(outputDir, 'runs');
-  const fileWithMetadataOfChanges = join(outputDir, 'metadata.csv');
+  const fileWithMetadata = join(outputDir, 'metadata.csv');
 
   beforeEach(async () => {
     await rimraf(outputDir);
@@ -23,11 +23,11 @@ describe('run', () => {
     await run({
       collectionIri: 'https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes',
       dirWithRuns,
-      fileWithMetadataOfChanges,
+      fileWithMetadata,
       waitBetweenRequests: 10,
     });
 
-    const stats = await stat(fileWithMetadataOfChanges);
+    const stats = await stat(fileWithMetadata);
 
     expect(stats.size).toBeGreaterThan(0);
   });

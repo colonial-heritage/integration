@@ -5,7 +5,7 @@ import {createReadStream} from 'fs';
 import {z} from 'zod';
 
 export const runOptionsSchema = z.object({
-  fileWithMetadataOfChanges: z.string(),
+  fileWithMetadata: z.string(),
   dirWithChanges: z.string(),
   waitBetweenRequests: z.number().min(0).optional(),
   numberOfConcurrentRequests: z.number().min(1).optional(),
@@ -35,7 +35,7 @@ export async function run(options: RunOptions) {
   const opts = runOptionsSchema.parse(options);
 
   const logger = getLogger();
-  logger.info(`Processing IRIs in "${opts.fileWithMetadataOfChanges}"`);
+  logger.info(`Processing IRIs in "${opts.fileWithMetadata}"`);
 
   const storer = new FileStorer({
     dir: opts.dirWithChanges,
@@ -55,7 +55,7 @@ export async function run(options: RunOptions) {
   storer.on('error', (err: Error) => logger.error(err));
 
   // Parse and stream the CSV file, row by row
-  const parser = createReadStream(opts.fileWithMetadataOfChanges).pipe(parse());
+  const parser = createReadStream(opts.fileWithMetadata).pipe(parse());
 
   for await (const row of parser) {
     const activity = rowSchema.parse(row);

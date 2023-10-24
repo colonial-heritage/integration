@@ -6,7 +6,7 @@ import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
 
 describe('run', () => {
-  const outputDir = './tmp/integration-test';
+  const outputDir = './tmp/dereferencer';
   const dirWithChanges = join(outputDir, 'changes');
 
   beforeEach(async () => {
@@ -16,7 +16,7 @@ describe('run', () => {
 
   it('dereferences and stores changed resources', async () => {
     await run({
-      fileWithMetadataOfChanges: './fixtures/bodleian-metadata.csv',
+      fileWithMetadata: './fixtures/bodleian-metadata.csv',
       dirWithChanges,
       waitBetweenRequests: 10,
       numberOfConcurrentRequests: 1,

@@ -5,7 +5,8 @@ import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
 
 describe('run', () => {
-  const outputDir = './tmp/integration-test';
+  const outputDir = './tmp/processor';
+  const dirWithFilesWithMetadata = join(outputDir, 'chunks');
   const dirWithChanges = join(outputDir, 'changes');
 
   beforeEach(async () => {
@@ -14,7 +15,9 @@ describe('run', () => {
 
   it('processes changed resources', async () => {
     await run({
-      dirWithFilesWithMetadataOfChanges: './fixtures/csv',
+      fileWithMetadata: './fixtures/bodleian-metadata.csv',
+      dirWithFilesWithMetadata,
+      numberOfLinesPerFileWithMetadata: 2,
       dirWithChanges,
       waitBetweenRequests: 10,
       numberOfConcurrentRequests: 1,
@@ -23,7 +26,7 @@ describe('run', () => {
     const files = await glob(`${dirWithChanges}/**/*.nt`, {nodir: true});
 
     // This outcome could fail at some point, if the owner of the collection
-    // deletes all of its records
+    // makes the IRIs of its resources unresolvable
     expect(files.length).toBe(5); // 5x upsert, 5x delete
   });
 });

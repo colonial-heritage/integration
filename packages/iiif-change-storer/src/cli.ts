@@ -11,7 +11,7 @@ cli
   .option('--collection-iri <string>', 'Collection IRI')
   .option('--dir-with-runs <string>', 'Directory for storing the runs')
   .option(
-    '--file-with-metadata-of-changes <string>',
+    '--file-with-metadata <string>',
     'CSV file for storing the metadata of changed resources'
   )
   .option(
@@ -29,8 +29,16 @@ cli
 cli
   .command('process', 'Process changed resources')
   .option(
+    '--file-with-metadata <string>',
+    'CSV file containing the metadata of changed resources'
+  )
+  .option(
     '--dir-with-files-with-metadata-of-changes <string>',
-    'Directory with CSV files, containing the metadata of changed resources'
+    'Directory for storing the metadata of changed resources'
+  )
+  .option(
+    '--number-of-lines-per-file-with-metadata <number>',
+    'Number of lines per metadata file'
   )
   .option('--dir-with-changes <string>', 'Directory for storing the changes')
   .option(

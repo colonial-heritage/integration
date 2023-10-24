@@ -12,7 +12,7 @@ import {z} from 'zod';
 const runOptionsSchema = z.object({
   collectionIri: z.string().url(),
   dirWithRuns: z.string(),
-  fileWithMetadataOfChanges: z.string(),
+  fileWithMetadata: z.string(),
   waitBetweenRequests: z.number().min(0).optional(),
   credentials: z
     .object({
@@ -29,10 +29,9 @@ export async function run(options: RunOptions) {
   const opts = runOptionsSchema.parse(options);
 
   const startTime = Date.now();
-
+  const logger = getLogger();
   const changeManager = new ChangeManager({dir: opts.dirWithRuns});
   const lastRun = await changeManager.getLastRun();
-  const logger = getLogger();
 
   const discoverer = new ChangeDiscoverer({
     collectionIri: opts.collectionIri,
@@ -42,13 +41,13 @@ export async function run(options: RunOptions) {
   });
 
   const runStartedAt = new Date();
-  await mkdirp(dirname(opts.fileWithMetadataOfChanges));
-  const writeStream = createWriteStream(opts.fileWithMetadataOfChanges);
+  await mkdirp(dirname(opts.fileWithMetadata));
+  const writeStream = createWriteStream(opts.fileWithMetadata);
   await fetchMetadataAndWriteToFile({discoverer, writeStream});
   const runEndedAt = new Date();
 
   // Only store the run if at least 1 change has been discovered
-  const stats = await stat(opts.fileWithMetadataOfChanges);
+  const stats = await stat(opts.fileWithMetadata);
   if (stats.size > 0) {
     await changeManager.saveRun({
       id: 'https://data.colonialcollections.nl/' + Date.now(),

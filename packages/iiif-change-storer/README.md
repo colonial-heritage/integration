@@ -9,7 +9,7 @@ CLI for processing changes from a IIIF Change Discovery service
     ./dist/cli.js fetch \
       --collection-iri "https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes" \
       --dir-with-runs "./tmp/bodleian/runs" \
-      --file-with-metadata-of-changes "./tmp/changed-resources.csv" \
+      --file-with-metadata "./tmp/bodleian/metadata.csv" \
       --wait-between-requests 0
 
 Or with additional settings:
@@ -17,7 +17,7 @@ Or with additional settings:
     ./dist/cli.js fetch \
       --collection-iri "https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes" \
       --dir-with-runs "./tmp/bodleian/runs" \
-      --file-with-metadata-of-changes "./tmp/changed-resources.csv" \
+      --file-with-metadata "./tmp/bodleian/metadata.csv" \
       --wait-between-requests 0 \
       --credentials.type "basic-auth" \
       --credentials.username "my-username" \
@@ -26,7 +26,9 @@ Or with additional settings:
 ### Process changed resources
 
     ./dist/cli.js process \
-      --dir-with-files-with-metadata-of-changes "./tmp/chunks" \
+      --file-with-metadata "./tmp/bodleian/metadata.csv" \
+      --dir-with-files-with-metadata "./tmp/bodleian/chunks" \
+      --number-of-lines-per-file-with-metadata 5000 \
       --dir-with-changes "./tmp/bodleian/changes" \
       --wait-between-requests 0 \
       --number-of-concurrent-requests 25

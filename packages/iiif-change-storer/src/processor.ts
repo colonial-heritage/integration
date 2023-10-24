@@ -2,6 +2,7 @@ import {
   runOptionsSchema as workerRunOptionsSchema,
   RunOptions as WorkerRunOptions,
 } from './dereferencer.js';
+import {splitFileByLines} from './splitter.js';
 import {getLogger} from '@colonial-collections/common';
 import {glob} from 'glob';
 import {URL} from 'node:url';
@@ -12,22 +13,29 @@ import {z} from 'zod';
 
 const runOptionsSchema = z
   .object({
-    dirWithFilesWithMetadataOfChanges: z.string(),
+    fileWithMetadata: z.string(),
+    dirWithFilesWithMetadata: z.string(),
+    numberOfLinesPerFileWithMetadata: z.number(),
   })
-  .merge(workerRunOptionsSchema.omit({fileWithMetadataOfChanges: true}));
+  .merge(workerRunOptionsSchema);
 
 export type RunOptions = z.infer<typeof runOptionsSchema>;
 
 export async function run(options: RunOptions) {
   const opts = runOptionsSchema.parse(options);
 
-  const logger = getLogger();
   const startTime = Date.now();
+  const logger = getLogger();
 
-  // TBD: first split the CSV files into chunks?
+  // Split CSV file into smaller chunks, for easier processing
+  await splitFileByLines({
+    filename: opts.fileWithMetadata,
+    numberOfLines: opts.numberOfLinesPerFileWithMetadata,
+    outputDir: opts.dirWithFilesWithMetadata,
+  });
 
-  // Collect the CSV files
-  const files = await glob(`${opts.dirWithFilesWithMetadataOfChanges}/**`, {
+  // Collect the chunked CSV files (regardless of extension)
+  const files = await glob(`${opts.dirWithFilesWithMetadata}/**`, {
     nodir: true,
     absolute: true,
   });
@@ -36,7 +44,7 @@ export async function run(options: RunOptions) {
   // https://www.npmjs.com/package/physical-cpu-count-async
   const numberOfThreads = Math.min(physicalCpuCount, files.length);
   logger.info(
-    `Processing IRIs in ${files.length} files in "${opts.dirWithFilesWithMetadataOfChanges}" in ${numberOfThreads} processes (max: ${physicalCpuCount})`
+    `Processing IRIs in ${files.length} files in "${opts.dirWithFilesWithMetadata}" in ${numberOfThreads} processes (max: ${physicalCpuCount})`
   );
 
   // Process each CSV file in its own process, in parallel
@@ -49,7 +57,7 @@ export async function run(options: RunOptions) {
 
   const runs = files.map(file => {
     const runOptions: WorkerRunOptions = {
-      fileWithMetadataOfChanges: file,
+      fileWithMetadata: file,
       dirWithChanges: opts.dirWithChanges,
       waitBetweenRequests: opts.waitBetweenRequests,
       numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
@@ -66,6 +74,8 @@ export async function run(options: RunOptions) {
   });
 
   await Promise.all(runs);
+
+  // TBD: delete the CSV chunk files?
 
   const finishTime = Date.now();
   const runtime = finishTime - startTime;

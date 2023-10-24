@@ -24,6 +24,6 @@ export async function splitFileByLines(options: SplitOptions) {
   await mkdirp(opts.outputDir);
 
   await exec(
-    `split -l ${opts.numberOfLines} "${opts.filename}" "${opts.outputDir}/chunk"`
+    `split -l ${opts.numberOfLines} "${opts.filename}" "${opts.outputDir}/metadata"`
   );
 }
