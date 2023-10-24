@@ -1,6 +1,6 @@
-import {getLogger} from '@colonial-collections/common';
+import {getLogger, getNumberOfLinesInFile} from '@colonial-collections/common';
 import {Generator} from '@colonial-collections/sparql-generator';
-import {getNumberOfLinesInFile, readQueries} from './helpers.js';
+import {readQueries} from './helpers.js';
 import {mkdirp} from 'mkdirp';
 import {createReadStream, createWriteStream} from 'node:fs';
 import {dirname} from 'node:path';
