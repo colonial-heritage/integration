@@ -199,7 +199,7 @@ WHERE {
   OPTIONAL {
     ?object crm:P108i_was_produced_by/crm:P7_took_place_at ?location .
     ?location gn:name ?locationName ;
-      gn:featureClass ?featureClass .
+      gn:featureCode ?featureCode .
     FILTER(LANG(?locationName) = "" || LANGMATCHES(LANG(?locationName), "en"))
 
     OPTIONAL {
@@ -215,7 +215,8 @@ WHERE {
     }
 
     # Location could be a country
-    BIND(IF(?featureClass = <https://www.geonames.org/ontology#A>, ?locationName, ?tmpCountryName) AS ?countryName)
+    # https://www.geonames.org/export/codes.html
+    BIND(IF(?featureCode = <https://www.geonames.org/ontology#A.PCLI>, ?locationName, ?tmpCountryName) AS ?countryName)
   }
 
   ####################
