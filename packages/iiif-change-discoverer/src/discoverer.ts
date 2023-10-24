@@ -6,7 +6,7 @@ import {z} from 'zod';
 const constructorOptionsSchema = z.object({
   collectionIri: z.string(),
   dateLastRun: z.date().optional(), // Not set if the client hasn't run before
-  waitBetweenRequests: z.number().min(0).default(500),
+  waitBetweenRequests: z.number().min(0).default(0),
   credentials: z
     .object({
       type: z.literal('basic-auth'), // Only supported type at this moment
