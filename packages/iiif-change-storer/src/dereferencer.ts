@@ -53,7 +53,13 @@ export async function run(options: RunOptions) {
       (numberOfProcessedIris / totalNumberOfIris) * 100
     );
 
-    // Only log a given percentage once, to not overflow the logs
+    // Only log percentage if dividable by ten, to not overflow the logs
+    const lastDigit = parseInt(currentProgressPercentage.toString().slice(-1));
+    if (lastDigit !== 0) {
+      return;
+    }
+
+    // Only log percentage once, to not overflow the logs
     if (prevProgressPercentage === currentProgressPercentage) {
       return;
     }
