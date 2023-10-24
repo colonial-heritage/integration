@@ -53,25 +53,11 @@ export async function run(options: RunOptions) {
 
   storer.on('error', (err: Error) => logger.error(err));
 
-  // Some logging to see what's going on
-  // storer.on('upsert', (iri: string, filename: string) =>
-  //   logger.info(`Created or updated "${filename}" for "${iri}"`)
-  // );
-  // storer.on('delete', (iri: string, filename: string) =>
-  //   logger.info(`Deleted "${filename}" for "${iri}"`)
-  // );
-
   // Display progress in the logs
   let numberOfProcessedIris = 0;
   let prevProgressPercentage = -1;
 
-  // Parse and stream the CSV file, row by row
-  const parser = createReadStream(opts.fileWithMetadata).pipe(parse());
-
-  for await (const row of parser) {
-    const activity = rowSchema.parse(row);
-    await storer.save({iri: activity[0], type: activity[1]});
-
+  const logProgress = () => {
     numberOfProcessedIris++;
     const currentProgressPercentage = Math.round(
       (numberOfProcessedIris / totalNumberOfIris) * 100
@@ -79,7 +65,7 @@ export async function run(options: RunOptions) {
 
     // Only log a given percentage once, to not overflow the logs
     if (prevProgressPercentage === currentProgressPercentage) {
-      continue;
+      return;
     }
 
     const intermediateTime = Date.now();
@@ -91,6 +77,18 @@ export async function run(options: RunOptions) {
     );
 
     prevProgressPercentage = currentProgressPercentage;
+  };
+
+  // Some logging to see what's going on
+  storer.on('upsert', logProgress);
+  storer.on('delete', logProgress);
+
+  // Parse and stream the CSV file, row by row
+  const parser = createReadStream(opts.fileWithMetadata).pipe(parse());
+
+  for await (const row of parser) {
+    const activity = rowSchema.parse(row);
+    await storer.save({iri: activity[0], type: activity[1]});
   }
 
   // Wait until all resources have been stored
