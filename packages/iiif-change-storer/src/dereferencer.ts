@@ -43,16 +43,6 @@ export async function run(options: RunOptions) {
     `Processing ${totalNumberOfIris} IRIs in "${opts.fileWithMetadata}"`
   );
 
-  const storer = new FileStorer({
-    dir: opts.dirWithChanges,
-    waitBetweenRequests: opts.waitBetweenRequests,
-    numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
-    credentials: opts.credentials,
-    headers: opts.headers,
-  });
-
-  storer.on('error', (err: Error) => logger.error(err));
-
   // Display progress in the logs
   let numberOfProcessedIris = 0;
   let prevProgressPercentage = -1;
@@ -79,9 +69,18 @@ export async function run(options: RunOptions) {
     prevProgressPercentage = currentProgressPercentage;
   };
 
+  const storer = new FileStorer({
+    dir: opts.dirWithChanges,
+    waitBetweenRequests: opts.waitBetweenRequests,
+    numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
+    credentials: opts.credentials,
+    headers: opts.headers,
+  });
+
   // Some logging to see what's going on
   storer.on('upsert', logProgress);
   storer.on('delete', logProgress);
+  storer.on('error', (err: Error) => logger.error(err));
 
   // Parse and stream the CSV file, row by row
   const parser = createReadStream(opts.fileWithMetadata).pipe(parse());
