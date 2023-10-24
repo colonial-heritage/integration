@@ -38,7 +38,7 @@ export async function run(options: RunOptions) {
     writeStream,
   });
 
-  // Counts are helpful - not required - to display progress in the logs
+  // Display progress in the logs
   let numberOfProcessedResources = 0;
   let prevProgressPercentage = -1;
   const totalNumberOfResources = await getNumberOfLinesInFile(opts.iriFile);

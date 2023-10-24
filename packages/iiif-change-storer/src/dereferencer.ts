@@ -1,7 +1,8 @@
-import {getLogger} from '@colonial-collections/common';
+import {getLogger, getNumberOfLinesInFile} from '@colonial-collections/common';
 import {FileStorer} from '@colonial-collections/file-storer';
 import {parse} from 'csv';
-import {createReadStream} from 'fs';
+import {createReadStream} from 'node:fs';
+import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
 
 export const runOptionsSchema = z.object({
@@ -34,8 +35,13 @@ const rowSchema = z.tuple([
 export async function run(options: RunOptions) {
   const opts = runOptionsSchema.parse(options);
 
+  const startTime = Date.now();
   const logger = getLogger();
-  logger.info(`Processing IRIs in "${opts.fileWithMetadata}"`);
+
+  const totalNumberOfIris = await getNumberOfLinesInFile(opts.fileWithMetadata);
+  logger.info(
+    `Processing ${totalNumberOfIris} IRIs in "${opts.fileWithMetadata}"`
+  );
 
   const storer = new FileStorer({
     dir: opts.dirWithChanges,
@@ -45,14 +51,19 @@ export async function run(options: RunOptions) {
     headers: opts.headers,
   });
 
-  // Some logging to see what's going on
-  storer.on('upsert', (iri: string, filename: string) =>
-    logger.info(`Created or updated "${filename}" for "${iri}"`)
-  );
-  storer.on('delete', (iri: string, filename: string) =>
-    logger.info(`Deleted "${filename}" for "${iri}"`)
-  );
   storer.on('error', (err: Error) => logger.error(err));
+
+  // Some logging to see what's going on
+  // storer.on('upsert', (iri: string, filename: string) =>
+  //   logger.info(`Created or updated "${filename}" for "${iri}"`)
+  // );
+  // storer.on('delete', (iri: string, filename: string) =>
+  //   logger.info(`Deleted "${filename}" for "${iri}"`)
+  // );
+
+  // Display progress in the logs
+  let numberOfProcessedIris = 0;
+  let prevProgressPercentage = -1;
 
   // Parse and stream the CSV file, row by row
   const parser = createReadStream(opts.fileWithMetadata).pipe(parse());
@@ -60,8 +71,28 @@ export async function run(options: RunOptions) {
   for await (const row of parser) {
     const activity = rowSchema.parse(row);
     await storer.save({iri: activity[0], type: activity[1]});
+
+    numberOfProcessedIris++;
+    const currentProgressPercentage = Math.round(
+      (numberOfProcessedIris / totalNumberOfIris) * 100
+    );
+
+    // Only log a given percentage once, to not overflow the logs
+    if (prevProgressPercentage === currentProgressPercentage) {
+      continue;
+    }
+
+    const intermediateTime = Date.now();
+    const runtime = intermediateTime - startTime;
+    logger.info(
+      `Processed ${currentProgressPercentage}% of ${totalNumberOfIris} IRIs in "${
+        opts.fileWithMetadata
+      }" (runtime: ${PrettyMilliseconds(runtime)})`
+    );
+
+    prevProgressPercentage = currentProgressPercentage;
   }
 
-  // Wait until all resources in the CSV files have been dereferenced
+  // Wait until all resources have been stored
   await storer.untilDone();
 }

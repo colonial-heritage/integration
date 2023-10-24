@@ -33,14 +33,17 @@ cli
     'CSV file containing the metadata of changed resources'
   )
   .option(
-    '--dir-with-files-with-metadata-of-changes <string>',
+    '--dir-with-files-with-metadata <string>',
     'Directory for storing the metadata of changed resources'
   )
   .option(
     '--number-of-lines-per-file-with-metadata <number>',
-    'Number of lines per metadata file'
+    'Number of lines per metadata file, e.g. 10 or 10000'
   )
-  .option('--dir-with-changes <string>', 'Directory for storing the changes')
+  .option(
+    '--dir-with-changes <string>',
+    'Directory for storing the changed resources'
+  )
   .option(
     '--wait-between-requests [number]',
     'Wait between requests, in milliseconds',

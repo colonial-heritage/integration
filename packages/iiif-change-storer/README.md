@@ -28,7 +28,21 @@ Or with additional settings:
     ./dist/cli.js process \
       --file-with-metadata "./tmp/bodleian/metadata.csv" \
       --dir-with-files-with-metadata "./tmp/bodleian/chunks" \
-      --number-of-lines-per-file-with-metadata 5000 \
+      --number-of-lines-per-file-with-metadata 1000 \
       --dir-with-changes "./tmp/bodleian/changes" \
       --wait-between-requests 0 \
       --number-of-concurrent-requests 25
+
+Or with additional settings:
+
+    ./dist/cli.js process \
+      --file-with-metadata "./tmp/bodleian/metadata.csv" \
+      --dir-with-files-with-metadata "./tmp/bodleian/chunks" \
+      --number-of-lines-per-file-with-metadata 1000 \
+      --dir-with-changes "./tmp/bodleian/changes" \
+      --wait-between-requests 0 \
+      --number-of-concurrent-requests 25 \
+      --credentials.type "basic-auth" \
+      --credentials.username "my-username" \
+      --credentials.password "my-password" \
+      --headers.accept "application/ld+json"

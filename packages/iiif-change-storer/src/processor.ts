@@ -8,6 +8,7 @@ import {glob} from 'glob';
 import {URL} from 'node:url';
 import physicalCpuCount from 'physical-cpu-count-async';
 import PrettyMilliseconds from 'pretty-ms';
+import {rimraf} from 'rimraf';
 import Tinypool from 'tinypool';
 import {z} from 'zod';
 
@@ -26,6 +27,9 @@ export async function run(options: RunOptions) {
 
   const startTime = Date.now();
   const logger = getLogger();
+
+  // Delete files from a previous run, if any
+  await rimraf(opts.dirWithFilesWithMetadata);
 
   // Split CSV file into smaller chunks, for easier processing
   await splitFileByLines({

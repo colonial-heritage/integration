@@ -10,7 +10,10 @@ cli
   .command('fetch', 'Fetch changes')
   .option('--collection-iri <string>', 'Collection IRI')
   .option('--dir-with-runs <string>', 'Directory for storing the runs')
-  .option('--dir-with-changes <string>', 'Directory for storing the changes')
+  .option(
+    '--dir-with-changes <string>',
+    'Directory for storing the changed resources'
+  )
   .option(
     '--wait-between-requests [number]',
     'Wait between requests, in milliseconds',
