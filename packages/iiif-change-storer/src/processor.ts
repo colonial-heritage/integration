@@ -26,12 +26,10 @@ export async function run(options: RunOptions) {
   const logger = getLogger();
 
   // Collect the names of queued CSV files (regardless of extension)
-  const allFiles = await glob(`${opts.dirWithQueue}/**`, {
-    nodir: true,
-    absolute: true,
-  });
+  const allFiles = await glob(`${opts.dirWithQueue}/**`, {nodir: true});
 
-  allFiles.sort(); // Ensure consistent queue processing
+  // Ensure consistent queue processing
+  allFiles.sort();
 
   const numberOfFilesToProcess = opts.numberOfFilesToProcess ?? allFiles.length;
   const selectedFiles = allFiles.slice(0, numberOfFilesToProcess);

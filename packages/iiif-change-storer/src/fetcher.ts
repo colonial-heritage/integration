@@ -2,6 +2,7 @@ import {fetchMetadataAndWriteToFile} from './writer.js';
 import {getLogger} from '@colonial-collections/common';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {ChangeManager} from '@colonial-collections/iiif-change-manager';
+import {glob} from 'glob';
 import {stat} from 'node:fs/promises';
 import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
@@ -29,6 +30,15 @@ export async function run(options: RunOptions) {
 
   const startTime = Date.now();
   const logger = getLogger();
+
+  // Do not overwrite existing files in the queue, the result of a previous run
+  const filesInQueue = await glob(`${opts.dirWithQueue}/**`, {nodir: true});
+  if (filesInQueue.length > 0) {
+    throw new Error(
+      `Cannot run: there are ${filesInQueue.length} files in the queue`
+    );
+  }
+
   const changeManager = new ChangeManager({dir: opts.dirWithRuns});
   const lastRun = await changeManager.getLastRun();
 
