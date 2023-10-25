@@ -19,6 +19,12 @@ describe('splitFileByLines', () => {
 
     const files = await glob(`${outputDir}/**`, {nodir: true});
 
-    expect(files.length).toBe(5);
+    expect(files).toStrictEqual([
+      'tmp/splitter/bodleian-metadata.csv.ae',
+      'tmp/splitter/bodleian-metadata.csv.ad',
+      'tmp/splitter/bodleian-metadata.csv.ac',
+      'tmp/splitter/bodleian-metadata.csv.ab',
+      'tmp/splitter/bodleian-metadata.csv.aa',
+    ]);
   });
 });

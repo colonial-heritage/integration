@@ -1,18 +1,17 @@
 import {fetchMetadataAndWriteToFile} from './writer.js';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
-import {stat} from 'node:fs/promises';
-import {WriteStream, createWriteStream} from 'node:fs';
-import {mkdirp} from 'mkdirp';
+import {glob} from 'glob';
+import {join} from 'node:path';
+import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
-import {dirname} from 'node:path';
 
 describe('fetchMetadataAndWriteToFile', () => {
-  const fileWithMetadata = './tmp/writer/metadata.csv';
-  let writeStream: WriteStream;
+  const outputDir = './tmp/writer';
+  const fileWithMetadata = join(outputDir, 'metadata.csv');
+  const dirWithQueue = join(outputDir, 'queue');
 
   beforeEach(async () => {
-    await mkdirp(dirname(fileWithMetadata));
-    writeStream = createWriteStream(fileWithMetadata);
+    await rimraf(outputDir);
   });
 
   it('stores IRIs and actions of changed resources', async () => {
@@ -22,10 +21,15 @@ describe('fetchMetadataAndWriteToFile', () => {
       waitBetweenRequests: 10,
     });
 
-    await fetchMetadataAndWriteToFile({discoverer, writeStream});
+    await fetchMetadataAndWriteToFile({
+      discoverer,
+      fileWithMetadata,
+      dirWithQueue,
+      numberOfLinesPerFileWithMetadata: 5,
+    });
 
-    const stats = await stat(fileWithMetadata);
+    const filesInQueue = await glob(`${dirWithQueue}/**`, {nodir: true});
 
-    expect(stats.size).toBeGreaterThan(0);
+    expect(filesInQueue.length).toBeGreaterThan(0);
   });
 });

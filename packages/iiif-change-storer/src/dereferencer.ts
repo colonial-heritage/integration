@@ -2,6 +2,7 @@ import {getLogger, getNumberOfLinesInFile} from '@colonial-collections/common';
 import {FileStorer} from '@colonial-collections/file-storer';
 import {parse} from 'csv';
 import {createReadStream} from 'node:fs';
+import {unlink} from 'node:fs/promises';
 import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
 
@@ -98,4 +99,7 @@ export async function run(options: RunOptions) {
 
   // Wait until all resources have been stored
   await storer.untilDone();
+
+  // Delete file so that it won't be processed again in a next iteration
+  await unlink(opts.fileWithMetadata);
 }

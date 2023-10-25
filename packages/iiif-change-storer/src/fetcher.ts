@@ -2,10 +2,7 @@ import {fetchMetadataAndWriteToFile} from './writer.js';
 import {getLogger} from '@colonial-collections/common';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {ChangeManager} from '@colonial-collections/iiif-change-manager';
-import {mkdirp} from 'mkdirp';
-import {createWriteStream} from 'node:fs';
 import {stat} from 'node:fs/promises';
-import {dirname} from 'node:path';
 import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
 
@@ -13,6 +10,8 @@ const runOptionsSchema = z.object({
   collectionIri: z.string().url(),
   dirWithRuns: z.string(),
   fileWithMetadata: z.string(),
+  dirWithQueue: z.string(),
+  numberOfLinesPerFileWithMetadata: z.number(),
   waitBetweenRequests: z.number().min(0).optional(),
   credentials: z
     .object({
@@ -41,9 +40,14 @@ export async function run(options: RunOptions) {
   });
 
   const runStartedAt = new Date();
-  await mkdirp(dirname(opts.fileWithMetadata));
-  const writeStream = createWriteStream(opts.fileWithMetadata);
-  await fetchMetadataAndWriteToFile({discoverer, writeStream});
+
+  await fetchMetadataAndWriteToFile({
+    discoverer,
+    fileWithMetadata: opts.fileWithMetadata,
+    dirWithQueue: opts.dirWithQueue,
+    numberOfLinesPerFileWithMetadata: opts.numberOfLinesPerFileWithMetadata,
+  });
+
   const runEndedAt = new Date();
 
   // Only store the run if at least 1 change has been discovered
@@ -60,7 +64,5 @@ export async function run(options: RunOptions) {
 
   const finishTime = Date.now();
   const runtime = finishTime - startTime;
-  logger.info(
-    `Fetched IRIs of changed resources in ${PrettyMilliseconds(runtime)}`
-  );
+  logger.info(`Finished run in ${PrettyMilliseconds(runtime)}`);
 }

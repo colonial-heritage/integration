@@ -15,6 +15,14 @@ cli
     'CSV file for storing the metadata of changed resources'
   )
   .option(
+    '--dir-with-queue <string>',
+    'Directory for storing the metadata of changed resources'
+  )
+  .option(
+    '--number-of-lines-per-file-with-metadata <number>',
+    'Number of lines per metadata file, e.g. 10 or 10000'
+  )
+  .option(
     '--wait-between-requests [number]',
     'Wait between requests, in milliseconds',
     {
@@ -29,16 +37,12 @@ cli
 cli
   .command('process', 'Process changed resources')
   .option(
-    '--file-with-metadata <string>',
-    'CSV file containing the metadata of changed resources'
+    '--dir-with-queue <string>',
+    'Directory with files with metadata of changed resources'
   )
   .option(
-    '--dir-with-files-with-metadata <string>',
-    'Directory for storing the metadata of changed resources'
-  )
-  .option(
-    '--number-of-lines-per-file-with-metadata <number>',
-    'Number of lines per metadata file, e.g. 10 or 10000'
+    '--number-of-files-to-process <number>',
+    'Number of files in the queue to process, e.g. 10 or 100'
   )
   .option(
     '--dir-with-changes <string>',
