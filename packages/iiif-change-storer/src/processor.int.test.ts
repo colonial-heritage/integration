@@ -1,32 +1,75 @@
 import {run} from './processor.js';
 import {glob} from 'glob';
+import {cp} from 'node:fs/promises';
 import {join} from 'node:path';
+import {mkdirp} from 'mkdirp';
 import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
 
+const outputDir = './tmp/processor';
+const dirWithChanges = join(outputDir, 'changes');
+
+beforeEach(async () => {
+  await rimraf(outputDir);
+});
+
 describe('run', () => {
-  const outputDir = './tmp/processor';
-  const dirWithFilesWithMetadata = join(outputDir, 'chunks');
-  const dirWithChanges = join(outputDir, 'changes');
+  const dirWithQueue = join(outputDir, 'queue');
 
   beforeEach(async () => {
-    await rimraf(outputDir);
+    // The files in the queue get deleted at the end of the test, so work on a copy
+    await cp('./fixtures/queue', dirWithQueue, {recursive: true});
   });
 
   it('processes changed resources', async () => {
     await run({
-      fileWithMetadata: './fixtures/bodleian-metadata.csv',
-      dirWithFilesWithMetadata,
-      numberOfLinesPerFileWithMetadata: 2,
+      dirWithQueue,
+      numberOfFilesToProcess: 2,
       dirWithChanges,
       waitBetweenRequests: 10,
       numberOfConcurrentRequests: 1,
     });
 
-    const files = await glob(`${dirWithChanges}/**/*.nt`, {nodir: true});
+    const changedResourceFiles = await glob(`${dirWithChanges}/**/*.nt`, {
+      nodir: true,
+    });
 
     // This outcome could fail at some point, if the owner of the collection
     // makes the IRIs of its resources unresolvable
-    expect(files.length).toBe(5); // 5x upsert, 5x delete
+    expect(changedResourceFiles.length).toBe(2); // 2x upsert, 2x delete
+
+    const filesRemainingInQueue = await glob(`${dirWithQueue}/**`, {
+      nodir: true,
+    });
+
+    expect(filesRemainingInQueue).toStrictEqual([
+      'tmp/processor/queue/metadata-5.csv',
+      'tmp/processor/queue/metadata-4.csv',
+      'tmp/processor/queue/metadata-3.csv',
+    ]);
+  });
+});
+
+describe('run', () => {
+  const dirWithQueue = join(outputDir, 'empty-queue');
+
+  beforeEach(async () => {
+    await mkdirp(dirWithQueue);
+  });
+
+  it('handles an empty queue correctly', async () => {
+    await run({
+      dirWithQueue,
+      numberOfFilesToProcess: 2,
+      dirWithChanges,
+      waitBetweenRequests: 10,
+      numberOfConcurrentRequests: 1,
+    });
+
+    const changedResourceFiles = await glob(`${dirWithChanges}/**/*.nt`, {
+      nodir: true,
+    });
+
+    expect(changedResourceFiles.length).toBe(0);
   });
 });

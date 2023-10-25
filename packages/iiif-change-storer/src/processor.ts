@@ -2,23 +2,20 @@ import {
   runOptionsSchema as workerRunOptionsSchema,
   RunOptions as WorkerRunOptions,
 } from './dereferencer.js';
-import {splitFileByLines} from './splitter.js';
 import {getLogger} from '@colonial-collections/common';
 import {glob} from 'glob';
 import {URL} from 'node:url';
 import physicalCpuCount from 'physical-cpu-count-async';
 import PrettyMilliseconds from 'pretty-ms';
-import {rimraf} from 'rimraf';
 import Tinypool from 'tinypool';
 import {z} from 'zod';
 
 const runOptionsSchema = z
   .object({
-    fileWithMetadata: z.string(),
-    dirWithFilesWithMetadata: z.string(),
-    numberOfLinesPerFileWithMetadata: z.number(),
+    dirWithQueue: z.string(),
+    numberOfFilesToProcess: z.number().min(1),
   })
-  .merge(workerRunOptionsSchema);
+  .merge(workerRunOptionsSchema.omit({fileWithMetadata: true}));
 
 export type RunOptions = z.infer<typeof runOptionsSchema>;
 
@@ -28,27 +25,21 @@ export async function run(options: RunOptions) {
   const startTime = Date.now();
   const logger = getLogger();
 
-  // Delete files from a previous run, if any
-  await rimraf(opts.dirWithFilesWithMetadata);
-
-  // Split CSV file into smaller chunks, for easier processing
-  await splitFileByLines({
-    filename: opts.fileWithMetadata,
-    numberOfLines: opts.numberOfLinesPerFileWithMetadata,
-    outputDir: opts.dirWithFilesWithMetadata,
-  });
-
-  // Collect the chunked CSV files (regardless of extension)
-  const files = await glob(`${opts.dirWithFilesWithMetadata}/**`, {
+  // Collect the names of queued CSV files (regardless of extension)
+  const allFiles = await glob(`${opts.dirWithQueue}/**`, {
     nodir: true,
     absolute: true,
   });
 
+  allFiles.sort(); // Ensure consistent queue processing
+
+  const selectedFiles = allFiles.slice(0, opts.numberOfFilesToProcess);
+
   // "It is better to fork no more child processes than there are physical cores" -
   // https://www.npmjs.com/package/physical-cpu-count-async
-  const numberOfThreads = Math.min(physicalCpuCount, files.length);
+  const numberOfThreads = Math.min(physicalCpuCount, selectedFiles.length);
   logger.info(
-    `Processing IRIs in ${files.length} files in "${opts.dirWithFilesWithMetadata}" in ${numberOfThreads} processes (max: ${physicalCpuCount})`
+    `Processing IRIs in ${selectedFiles.length} files in "${opts.dirWithQueue}" in ${numberOfThreads} processes (max: ${physicalCpuCount})`
   );
 
   // Process each CSV file in its own process, in parallel
@@ -59,7 +50,7 @@ export async function run(options: RunOptions) {
     minThreads: numberOfThreads,
   });
 
-  const runs = files.map(file => {
+  const runs = selectedFiles.map(file => {
     const runOptions: WorkerRunOptions = {
       fileWithMetadata: file,
       dirWithChanges: opts.dirWithChanges,
@@ -79,9 +70,7 @@ export async function run(options: RunOptions) {
 
   await Promise.all(runs);
 
-  // TBD: delete the CSV chunk files?
-
   const finishTime = Date.now();
   const runtime = finishTime - startTime;
-  logger.info(`Processed changed resources in ${PrettyMilliseconds(runtime)}`);
+  logger.info(`Finished run in ${PrettyMilliseconds(runtime)}`);
 }

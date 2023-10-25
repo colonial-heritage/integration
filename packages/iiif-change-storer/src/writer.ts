@@ -1,14 +1,19 @@
+import {splitFileByLines} from './splitter.js';
 import {getLogger} from '@colonial-collections/common';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {stringify} from 'csv';
+import {mkdirp} from 'mkdirp';
 import {once} from 'node:events';
-import {WriteStream} from 'node:fs';
+import {createWriteStream} from 'node:fs';
+import {dirname} from 'node:path';
 import {finished} from 'node:stream/promises';
 import {z} from 'zod';
 
 const optionsSchema = z.object({
   discoverer: z.instanceof(ChangeDiscoverer),
-  writeStream: z.instanceof(WriteStream),
+  fileWithMetadata: z.string(),
+  dirWithQueue: z.string(),
+  numberOfLinesPerFileWithMetadata: z.number(),
 });
 
 export type Options = z.infer<typeof optionsSchema>;
@@ -16,10 +21,12 @@ export type Options = z.infer<typeof optionsSchema>;
 export async function fetchMetadataAndWriteToFile(options: Options) {
   const opts = optionsSchema.parse(options);
 
-  const {discoverer, writeStream} = opts;
+  const {discoverer, fileWithMetadata} = opts;
   const logger = getLogger();
 
-  // Before fetching changes, configure the output destination: a CSV file
+  // Before fetching changes, configure a temporary output destination: a CSV file
+  await mkdirp(dirname(fileWithMetadata));
+  const writeStream = createWriteStream(fileWithMetadata);
   const stringifier = stringify();
   stringifier.on('error', (err: Error) => logger.error(err));
 
@@ -72,4 +79,12 @@ export async function fetchMetadataAndWriteToFile(options: Options) {
   stringifier.end();
   writeStream.end();
   await finished(writeStream); // Wait until writing is done
+
+  // TODO: check whether existing files are NOT overwritten and new ones appended
+  // Split the CSV file into smaller ones, for queue-based processing
+  await splitFileByLines({
+    filename: fileWithMetadata,
+    numberOfLines: opts.numberOfLinesPerFileWithMetadata,
+    outputDir: opts.dirWithQueue,
+  });
 }
