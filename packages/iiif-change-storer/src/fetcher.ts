@@ -40,12 +40,14 @@ export async function run(options: RunOptions) {
   });
 
   const runStartedAt = new Date();
+
   await fetchMetadataAndWriteToFile({
     discoverer,
     fileWithMetadata: opts.fileWithMetadata,
     dirWithQueue: opts.dirWithQueue,
     numberOfLinesPerFileWithMetadata: opts.numberOfLinesPerFileWithMetadata,
   });
+
   const runEndedAt = new Date();
 
   // Only store the run if at least 1 change has been discovered

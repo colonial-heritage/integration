@@ -1,9 +1,10 @@
-import cp from 'child_process';
 import {mkdirp} from 'mkdirp';
-import util from 'util';
+import cp from 'node:child_process';
+import {basename} from 'node:path';
+import {promisify} from 'node:util';
 import {z} from 'zod';
 
-const execPromise = util.promisify(cp.exec);
+const execPromise = promisify(cp.exec);
 
 const splitFileByLinesOptionsSchema = z.object({
   filename: z.string(),
@@ -23,7 +24,10 @@ export async function splitFileByLines(options: SplitOptions) {
 
   await mkdirp(opts.outputDir);
 
+  const fileBasename = basename(opts.filename);
+
+  // Beware: this overwrites existing files, if any
   await exec(
-    `split -l ${opts.numberOfLines} "${opts.filename}" "${opts.outputDir}/metadata"`
+    `split -l ${opts.numberOfLines} "${opts.filename}" "${opts.outputDir}/${fileBasename}."`
   );
 }
