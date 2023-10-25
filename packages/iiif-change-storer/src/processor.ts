@@ -13,7 +13,7 @@ import {z} from 'zod';
 const runOptionsSchema = z
   .object({
     dirWithQueue: z.string(),
-    numberOfFilesToProcess: z.number().min(1),
+    numberOfFilesToProcess: z.number().min(1).optional(), // If undefined, process all files
   })
   .merge(workerRunOptionsSchema.omit({fileWithMetadata: true}));
 
@@ -33,7 +33,8 @@ export async function run(options: RunOptions) {
 
   allFiles.sort(); // Ensure consistent queue processing
 
-  const selectedFiles = allFiles.slice(0, opts.numberOfFilesToProcess);
+  const numberOfFilesToProcess = opts.numberOfFilesToProcess ?? allFiles.length;
+  const selectedFiles = allFiles.slice(0, numberOfFilesToProcess);
 
   // "It is better to fork no more child processes than there are physical cores" -
   // https://www.npmjs.com/package/physical-cpu-count-async

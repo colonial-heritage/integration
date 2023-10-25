@@ -21,13 +21,11 @@ describe('run', () => {
     await cp('./fixtures/queue', dirWithQueue, {recursive: true});
   });
 
-  it('processes changed resources', async () => {
+  it('processes a selection of changed resources', async () => {
     await run({
       dirWithQueue,
       numberOfFilesToProcess: 2,
       dirWithChanges,
-      waitBetweenRequests: 10,
-      numberOfConcurrentRequests: 1,
     });
 
     const changedResourceFiles = await glob(`${dirWithChanges}/**/*.nt`, {
@@ -48,6 +46,27 @@ describe('run', () => {
       'tmp/processor/queue/metadata-3.csv',
     ]);
   });
+
+  it('processes all changed resources', async () => {
+    await run({
+      dirWithQueue,
+      dirWithChanges,
+    });
+
+    const changedResourceFiles = await glob(`${dirWithChanges}/**/*.nt`, {
+      nodir: true,
+    });
+
+    // This outcome could fail at some point, if the owner of the collection
+    // makes the IRIs of its resources unresolvable
+    expect(changedResourceFiles.length).toBe(5); // 5x upsert, 5x delete
+
+    const filesRemainingInQueue = await glob(`${dirWithQueue}/**`, {
+      nodir: true,
+    });
+
+    expect(filesRemainingInQueue.length).toBe(0);
+  });
 });
 
 describe('run', () => {
@@ -60,10 +79,7 @@ describe('run', () => {
   it('handles an empty queue correctly', async () => {
     await run({
       dirWithQueue,
-      numberOfFilesToProcess: 2,
       dirWithChanges,
-      waitBetweenRequests: 10,
-      numberOfConcurrentRequests: 1,
     });
 
     const changedResourceFiles = await glob(`${dirWithChanges}/**/*.nt`, {
