@@ -52,7 +52,7 @@ export async function run(options: RunOptions) {
   const runs = selectedFiles.map(file => {
     const runOptions: WorkerRunOptions = {
       fileWithMetadata: file,
-      dirWithChanges: opts.dirWithChanges,
+      dirWithResources: opts.dirWithResources,
       waitBetweenRequests: opts.waitBetweenRequests,
       numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
       credentials: opts.credentials,

@@ -32,7 +32,7 @@ Or with additional settings:
     ./dist/cli.js process \
       --dir-with-queue "./tmp/bodleian/queue" \
       --number-of-files-to-process 1 \
-      --dir-with-changes "./tmp/bodleian/changes" \
+      --dir-with-resources "./tmp/bodleian/resources" \
       --wait-between-requests 0 \
       --number-of-concurrent-requests 25
 
@@ -41,7 +41,7 @@ Or with additional settings:
     ./dist/cli.js process \
       --dir-with-queue "./tmp/bodleian/queue" \
       --number-of-files-to-process 1 \
-      --dir-with-changes "./tmp/bodleian/changes" \
+      --dir-with-resources "./tmp/bodleian/resources" \
       --wait-between-requests 0 \
       --number-of-concurrent-requests 25 \
       --credentials.type "basic-auth" \

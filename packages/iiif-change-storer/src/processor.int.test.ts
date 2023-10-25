@@ -7,7 +7,7 @@ import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
 
 const outputDir = './tmp/processor';
-const dirWithChanges = join(outputDir, 'changes');
+const dirWithResources = join(outputDir, 'resources');
 
 beforeEach(async () => {
   await rimraf(outputDir);
@@ -25,10 +25,10 @@ describe('run', () => {
     await run({
       dirWithQueue,
       numberOfFilesToProcess: 2,
-      dirWithChanges,
+      dirWithResources,
     });
 
-    const changedResourceFiles = await glob(`${dirWithChanges}/**/*.nt`, {
+    const changedResourceFiles = await glob(`${dirWithResources}/**/*.nt`, {
       nodir: true,
     });
 
@@ -50,10 +50,10 @@ describe('run', () => {
   it('processes all changed resources', async () => {
     await run({
       dirWithQueue,
-      dirWithChanges,
+      dirWithResources,
     });
 
-    const changedResourceFiles = await glob(`${dirWithChanges}/**/*.nt`, {
+    const changedResourceFiles = await glob(`${dirWithResources}/**/*.nt`, {
       nodir: true,
     });
 
@@ -79,10 +79,10 @@ describe('run', () => {
   it('handles an empty queue correctly', async () => {
     await run({
       dirWithQueue,
-      dirWithChanges,
+      dirWithResources,
     });
 
-    const changedResourceFiles = await glob(`${dirWithChanges}/**/*.nt`, {
+    const changedResourceFiles = await glob(`${dirWithResources}/**/*.nt`, {
       nodir: true,
     });
 

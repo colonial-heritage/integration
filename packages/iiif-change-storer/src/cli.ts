@@ -45,7 +45,7 @@ cli
     'Number of files in the queue to process, e.g. 10 or 100'
   )
   .option(
-    '--dir-with-changes <string>',
+    '--dir-with-resources <string>',
     'Directory for storing the changed resources'
   )
   .option(

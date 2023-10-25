@@ -9,12 +9,12 @@ import {beforeEach, describe, expect, it} from 'vitest';
 
 describe('run', () => {
   const outputDir = './tmp/dereferencer';
-  const dirWithChanges = join(outputDir, 'changes');
+  const dirWithResources = join(outputDir, 'resources');
   const fileWithMetadata = join(outputDir, 'bodleian-metadata.csv');
 
   beforeEach(async () => {
     await rimraf(outputDir);
-    await mkdirp(dirWithChanges);
+    await mkdirp(dirWithResources);
 
     // 'fileWithMetadata' gets deleted at the end of the test, so work on a copy
     await copyFile('./fixtures/bodleian-metadata.csv', fileWithMetadata);
@@ -23,12 +23,12 @@ describe('run', () => {
   it('dereferences and stores changed resources', async () => {
     await run({
       fileWithMetadata,
-      dirWithChanges,
+      dirWithResources,
       waitBetweenRequests: 10,
       numberOfConcurrentRequests: 1,
     });
 
-    const changedResourceFiles = await glob(`${dirWithChanges}/**/*.nt`, {
+    const changedResourceFiles = await glob(`${dirWithResources}/**/*.nt`, {
       nodir: true,
     });
 

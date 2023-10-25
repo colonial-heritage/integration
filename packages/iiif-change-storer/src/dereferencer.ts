@@ -8,7 +8,7 @@ import {z} from 'zod';
 
 export const runOptionsSchema = z.object({
   fileWithMetadata: z.string(),
-  dirWithChanges: z.string(),
+  dirWithResources: z.string(),
   waitBetweenRequests: z.number().min(0).optional(),
   numberOfConcurrentRequests: z.number().min(1).optional(),
   credentials: z
@@ -77,7 +77,7 @@ export async function run(options: RunOptions) {
   };
 
   const storer = new FileStorer({
-    dir: opts.dirWithChanges,
+    dir: opts.dirWithResources,
     waitBetweenRequests: opts.waitBetweenRequests,
     numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
     credentials: opts.credentials,
