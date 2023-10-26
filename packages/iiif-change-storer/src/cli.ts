@@ -9,7 +9,7 @@ const cli = cac();
 cli
   .command('fetch', 'Fetch IRIs of changed resources')
   .option('--collection-iri <string>', 'Collection IRI')
-  .option('--dir-with-runs <string>', 'Directory for storing the runs')
+  .option('--file-with-run <string>', 'File for storing the run')
   .option(
     '--file-with-metadata <string>',
     'CSV file for storing the metadata of changed resources'

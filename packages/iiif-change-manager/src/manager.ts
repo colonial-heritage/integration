@@ -1,14 +1,13 @@
-import {getRdfFiles} from '@colonial-collections/common';
 import {mkdirp} from 'mkdirp';
 import {createReadStream, createWriteStream} from 'node:fs';
-import {join} from 'node:path';
+import {access} from 'node:fs/promises';
+import {dirname, resolve} from 'node:path';
 import {pipeline} from 'node:stream/promises';
 import {DataFactory} from 'rdf-data-factory';
 import rdfParser from 'rdf-parse';
 import rdfSerializer from 'rdf-serialize';
 import {storeStream} from 'rdf-store-stream';
 import {RdfStore} from 'rdf-stores';
-import {resolve} from 'node:path';
 import {z} from 'zod';
 
 // Required to use ESM in both TypeScript and JavaScript
@@ -23,7 +22,7 @@ const serializer =
 const DF = new DataFactory();
 
 const constructorOptionsSchema = z.object({
-  dir: z.string(),
+  path: z.string(),
 });
 
 export type ConstructorOptions = z.input<typeof constructorOptionsSchema>;
@@ -45,12 +44,12 @@ export type SaveRunOptions = z.input<typeof saveRunOptionsSchema>;
 const provPrefix = 'http://www.w3.org/ns/prov#';
 
 export class ChangeManager {
-  private dir: string;
+  private path: string;
 
   constructor(options: ConstructorOptions) {
     const opts = constructorOptionsSchema.parse(options);
 
-    this.dir = resolve(opts.dir);
+    this.path = resolve(opts.path);
   }
 
   private getRunFromStore(store: RdfStore) {
@@ -94,21 +93,17 @@ export class ChangeManager {
     return run;
   }
 
-  async getLastRun() {
-    const filenames = await getRdfFiles(this.dir);
-
-    // Sort by filename in descending order, from new to old
-    filenames.sort().reverse();
-
-    // Take the first file - this contains the last run
-    const lastRunFile = filenames.shift();
-    if (lastRunFile === undefined) {
-      return undefined; // No last run
+  async getRun() {
+    try {
+      await access(this.path);
+    } catch (err) {
+      // The run probably doesn't exist
+      return undefined;
     }
 
-    const quadStream = parser.parse(createReadStream(lastRunFile), {
-      contentType: parser.getContentTypeFromExtension(lastRunFile),
-    });
+    const readStream = createReadStream(this.path);
+    const contentType = parser.getContentTypeFromExtension(this.path);
+    const quadStream = parser.parse(readStream, {contentType});
     const store = (await storeStream(quadStream)) as RdfStore;
 
     return this.getRunFromStore(store);
@@ -148,11 +143,10 @@ export class ChangeManager {
       )
     );
 
-    await mkdirp(this.dir);
-    const filename = join(this.dir, opts.startedAt.getTime() + '.nt');
-    const writeStream = createWriteStream(filename);
+    await mkdirp(dirname(this.path));
+    const writeStream = createWriteStream(this.path);
     const quadStream = store.match(); // All quads
-    const dataStream = serializer.serialize(quadStream, {path: filename});
+    const dataStream = serializer.serialize(quadStream, {path: this.path});
     await pipeline(dataStream, writeStream);
   }
 }

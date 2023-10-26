@@ -9,7 +9,7 @@ import {z} from 'zod';
 
 const runOptionsSchema = z.object({
   collectionIri: z.string().url(),
-  dirWithRuns: z.string(),
+  fileWithRun: z.string(),
   fileWithMetadata: z.string(),
   dirWithQueue: z.string(),
   numberOfLinesPerFileWithMetadata: z.number(),
@@ -31,7 +31,7 @@ export async function run(options: RunOptions) {
   const startTime = Date.now();
   const logger = getLogger();
 
-  // Do not overwrite existing files in the queue, the result of a previous run
+  // Do not overwrite existing files in the queue - another run is then still ongoing
   const filesInQueue = await glob(`${opts.dirWithQueue}/**`, {nodir: true});
   if (filesInQueue.length > 0) {
     throw new Error(
@@ -39,8 +39,8 @@ export async function run(options: RunOptions) {
     );
   }
 
-  const changeManager = new ChangeManager({dir: opts.dirWithRuns});
-  const lastRun = await changeManager.getLastRun();
+  const changeManager = new ChangeManager({path: opts.fileWithRun});
+  const lastRun = await changeManager.getRun();
 
   const discoverer = new ChangeDiscoverer({
     collectionIri: opts.collectionIri,

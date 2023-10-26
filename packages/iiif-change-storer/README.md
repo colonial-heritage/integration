@@ -8,7 +8,7 @@ CLI for processing changes from a IIIF Change Discovery service
 
     ./dist/cli.js fetch \
       --collection-iri "https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes" \
-      --dir-with-runs "./tmp/bodleian/runs" \
+      --file-with-run "./tmp/bodleian/run.nt" \
       --file-with-metadata "./tmp/bodleian/metadata.csv" \
       --dir-with-queue "./tmp/bodleian/queue" \
       --number-of-lines-per-file-with-metadata 1000 \
@@ -18,7 +18,7 @@ Or with additional settings:
 
     ./dist/cli.js fetch \
       --collection-iri "https://iiif.bodleian.ox.ac.uk/iiif/activity/all-changes" \
-      --dir-with-runs "./tmp/bodleian/runs" \
+      --file-with-run "./tmp/bodleian/run.nt" \
       --file-with-metadata "./tmp/bodleian/metadata.csv" \
       --dir-with-queue "./tmp/bodleian/queue" \
       --number-of-lines-per-file-with-metadata 1000 \
