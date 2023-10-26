@@ -48,3 +48,14 @@ Or with additional settings:
       --credentials.username "my-username" \
       --credentials.password "my-password" \
       --headers.accept "application/ld+json"
+
+### Upload changed resources to data platform
+
+    ./dist/cli.js upload \
+      --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
+      --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_DEVELOPMENT" \
+      --triplydb-dataset "iiif-change-discovery-demo" \
+      --dir-with-resources "./tmp/bodleian/resources" \
+      --dir-temp "./tmp/bodleian" \
+      --graph-name "https://data.colonialcollections.nl/bodleian"

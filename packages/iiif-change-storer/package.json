@@ -17,6 +17,7 @@
     "@colonial-collections/file-storer": "*",
     "@colonial-collections/iiif-change-discoverer": "*",
     "@colonial-collections/iiif-change-manager": "*",
+    "@colonial-collections/triplydb": "*",
     "cac": "6.7.14",
     "csv": "6.3.5",
     "glob": "10.3.4",
