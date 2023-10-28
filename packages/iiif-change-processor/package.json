@@ -1,5 +1,5 @@
 {
-  "name": "@colonial-collections/iiif-change-storer",
+  "name": "@colonial-collections/iiif-change-processor",
   "version": "1.0.0",
   "type": "module",
   "private": true,

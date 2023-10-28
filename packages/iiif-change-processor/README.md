@@ -1,4 +1,4 @@
-# IIIF Change Storer
+# IIIF Change Processor
 
 CLI for processing changes from a IIIF Change Discovery service
 
