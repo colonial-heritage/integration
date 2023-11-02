@@ -1,3 +1,3 @@
-# SPARQL Endpoint Iterator
+# Iterator
 
-Collects IRIs from a SPARQL endpoint matching certain criteria
+Collects IRIs from a SPARQL endpoint matching certain criteria. Especially useful in conjunction with [sparql-generator](../sparql-generator/)

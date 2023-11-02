@@ -113,8 +113,8 @@ export class Generator extends EventEmitter {
   // TBD: make sure 'iris' has at least 1 IRI?
   async generate(iris: string[]) {
     // If this method gets called highly frequently, memory is filled
-    // with lots of tasks waiting to processed. If the tasks do not finish
-    // swiftly, OOM errors occur. To prevent this, drain the queue periodically
+    // with lots of tasks waiting to be processed. OOM errors occur if the tasks
+    // do not finish swiftly. To prevent this, drain the queue periodically
     // before accepting new tasks. This hinders throughput a bit, though.
     if (this.queue.length() > this.numberOfConcurrentRequests * 5) {
       await this.queue.drained();
