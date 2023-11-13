@@ -202,7 +202,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
     ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
       --query-file ./queries/aat/iterate.rq \
-      --number-of-iris-per-request 2 \
+      --number-of-iris-per-request 1000 \
       --wait-between-requests 500 \
       --iri-file ./tmp/aat.txt
 
@@ -228,6 +228,53 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --triplydb-service-type "virtuoso" \
       --rdf-file ./tmp/aat.nt \
       --graph-name "https://data.colonialcollections.nl/aat"
+
+#### GeoNames
+
+##### Collect IRIs of locations from a SPARQL endpoint
+
+    ./dist/cli.js sparql-iterate \
+      --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
+      --query-file ./queries/geonames/locations.rq \
+      --number-of-iris-per-request 1000 \
+      --wait-between-requests 500 \
+      --iri-file ./tmp/geonames/locations.txt
+
+##### Dereference IRIs of locations
+
+    ./dist/cli.js dereference \
+      --iri-file ./tmp/geonames/locations.txt \
+      --wait-between-requests 1000 \
+      --number-of-concurrent-requests 1 \
+      --output-dir ./tmp/geonames/locations
+
+##### Collect IRIs of countries from RDF files
+
+    ./dist/cli.js file-iterate \
+      --input-dir ./tmp/geonames/locations \
+      --query-file ./queries/geonames/countries.rq \
+      --iri-file ./tmp/geonames/countries.txt
+
+##### Dereference IRIs of countries
+
+    ./dist/cli.js dereference \
+      --iri-file ./tmp/geonames/countries.txt \
+      --wait-between-requests 1000 \
+      --number-of-concurrent-requests 1 \
+      --output-dir ./tmp/geonames/countries
+
+##### Upload RDF files to data platform
+
+    ./dist/cli.js upload \
+      --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
+      --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_PRODUCTION" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_KG_PRODUCTION" \
+      --triplydb-service-name "kg" \
+      --triplydb-service-type "virtuoso" \
+      --dir "./tmp/geonames" \
+      --dir-temp "./tmp" \
+      --graph-name "https://data.colonialcollections.nl/geonames"
 
 #### Datasets
 

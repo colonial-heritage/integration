@@ -17,7 +17,7 @@ export type ConstructorOptions = z.input<typeof constructorOptionsSchema>;
 export class Iterator extends EventEmitter {
   private dir: string;
   private query: string;
-  private writeStream: WriteStream;
+  private writeStream: WriteStream; // TBD: PassThrough stream?
   private queryEngine: QueryEngine;
 
   constructor(options: ConstructorOptions) {

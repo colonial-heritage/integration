@@ -6,7 +6,7 @@ PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
 CONSTRUCT {
-  ?object cc:name ?name ;
+  ?object cc:name ?name .
 }
 WHERE {
   VALUES ?object {
