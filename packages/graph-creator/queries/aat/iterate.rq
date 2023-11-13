@@ -1,17 +1,17 @@
-# A 'GROUP BY ?iri' does not produce the desired results on production
-SELECT DISTINCT ?iri
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+# It's impossible to retrieve all IRIs regardless of the
+# predicate - the SPARQL endpoint on production times out
+SELECT ?iri
 WHERE {
   {
     SELECT ?iri
     WHERE {
-      GRAPH ?g {
-        ?s ?p ?iri
-        FILTER(isIRI(?iri) && REGEX(STR(?iri), "^http://vocab.getty.edu/aat/\\d+$"))
-      }
-      # Exclude results from the AAT graph
-      FILTER(?g != <https://data.colonialcollections.nl/aat>)
+      [] crm:P2_has_type | crm:P72_has_language | crm:P91_has_unit ?iri
+      FILTER(REGEX(STR(?iri), "^http://vocab.getty.edu/aat/\\d+$"))
     }
   }
 }
+GROUP BY ?iri
 LIMIT ?_limit
 OFFSET ?_offset

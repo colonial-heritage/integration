@@ -2,6 +2,6 @@ PREFIX gn: <http://www.geonames.org/ontology#>
 
 SELECT ?iri
 WHERE {
-  ?s gn:parentCountry ?iri .
+  [] gn:parentCountry ?iri .
 }
 GROUP BY ?iri

@@ -19,7 +19,7 @@ jobs:
           ./packages/graph-creator/dist/cli.js sparql-iterate \
             --endpoint-url "${{ vars.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
             --query-file ./packages/graph-creator/queries/aat/iterate.rq \
-            --number-of-iris-per-request 10000 \
+            --number-of-iris-per-request 1000 \
             --wait-between-requests 500 \
             --iri-file ./data/aat.txt
       - name: Generate

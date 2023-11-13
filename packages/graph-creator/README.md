@@ -212,7 +212,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --endpoint-url "https://vocab.getty.edu/sparql" \
       --query-path ./queries/aat/generate.rq \
       --iri-file ./tmp/iris.txt \
-      --number-of-resources-per-request 10 \
+      --number-of-resources-per-request 25 \
       --wait-between-requests 500 \
       --number-of-concurrent-requests 1 \
       --rdf-file ./tmp/aat.nt
@@ -245,7 +245,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
     ./dist/cli.js dereference \
       --iri-file ./tmp/geonames/locations.txt \
       --wait-between-requests 1000 \
-      --number-of-concurrent-requests 1 \
+      --number-of-concurrent-requests 5 \
       --output-dir ./tmp/geonames/locations
 
 ##### Collect IRIs of countries from RDF files
@@ -260,7 +260,7 @@ Creates a graph from local RDF files or a SPARQL endpoint
     ./dist/cli.js dereference \
       --iri-file ./tmp/geonames/countries.txt \
       --wait-between-requests 1000 \
-      --number-of-concurrent-requests 1 \
+      --number-of-concurrent-requests 5 \
       --output-dir ./tmp/geonames/countries
 
 ##### Upload RDF files to data platform

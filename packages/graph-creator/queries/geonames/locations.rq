@@ -1,8 +1,8 @@
 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 
-# It's impossible to retrieve all GeoNames IRIs regardless of the
+# It's impossible to retrieve all IRIs regardless of the
 # predicate - the SPARQL endpoint on production times out
-SELECT DISTINCT ?iri
+SELECT ?iri
 WHERE {
   {
     SELECT ?iri
@@ -12,5 +12,6 @@ WHERE {
     }
   }
 }
+GROUP BY ?iri
 LIMIT ?_limit
 OFFSET ?_offset
