@@ -24,7 +24,7 @@ cc-measurements:6de3d568-c0c5-49e7-b056-7473c9469036
   a dqv:QualityMeasurement ;
   dqv:computedOn <https://colonial-heritage.triply.cc/nmvw/associations> ;
   dqv:isMeasurementOf cc-metrics:open-license ;
-  dqv:value "false"^^xsd:boolean .
+  dqv:value "true"^^xsd:boolean .
 
 <https://colonial-heritage.triply.cc/nmvw/associations/download.ttl.gz>
   dqv:hasQualityMeasurement cc-measurements:0bb3e883-3439-4bf7-93c2-2ba0f2e43c8a ,
