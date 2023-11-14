@@ -17,7 +17,7 @@
   a dcat:Dataset ;
   dct:title "NMVW Associations"@en ;
   dct:publisher <https://collectie.wereldculturen.nl> ;
-  dct:license cc-licences:no-license ;
+  dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
   dct:description """This dataset is published by a TriplyETL pipeline: [internal link](https://git.triply.cc/customers/nmvw/associations/-/pipelines)
 
 This is the dataset for NMVW."""@en ;
@@ -39,7 +39,7 @@ This is the dataset for NMVW."""@en ;
   a dcat:Dataset ;
   dct:title "Colonial Objects"@en ;
   dct:publisher <https://linkeddata.cultureelerfgoed.nl/colonialheritage> ;
-  dct:license <http://creativecommons.org/licenses/by-sa/3.0/> ;
+  dct:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
   dct:description "This dataset is published by a TriplyETL pipeline: [internal link](https://git.triply.cc/customers/colonial-heritage-data-hub/rce-colonialobjects/-/pipelines)"@en ;
   dct:created "2023-02-16"^^xsd:date ;
   dct:modified "2023-05-12"^^xsd:date ;
