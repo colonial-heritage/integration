@@ -8,7 +8,7 @@
 @prefix dqv: <http://www.w3.org/ns/dqv#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Dataset 'Associations Acceptance'
+# Dataset 'Associations'
 
 <https://colonial-heritage.triply.cc/nmvw/associations>
   dqv:hasQualityMeasurement cc-measurements:5adc4e7b-df31-482f-84ce-7c6e2251727c ,
@@ -57,24 +57,25 @@ cc-measurements:f94d44bd-9e27-4ad0-a361-70d5652b764f
   dqv:value "true"^^xsd:boolean .
 
 # Dataset 'Colonial Objects'
+# TBD: use https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects instead?
 
-<https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects>
+<https://colonial-heritage.triply.cc/rce-colonial-objects/colonialobjects>
   dqv:hasQualityMeasurement cc-measurements:9b4ae711-5b7d-4fe5-b6ce-bd6dea2a12b8 ,
                             cc-measurements:376043c7-5855-407e-9ab3-ab1192eaee6f .
 
 cc-measurements:9b4ae711-5b7d-4fe5-b6ce-bd6dea2a12b8
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects> ;
+  dqv:computedOn <https://colonial-heritage.triply.cc/rce-colonial-objects/colonialobjects> ;
   dqv:isMeasurementOf cc-metrics:languages ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:376043c7-5855-407e-9ab3-ab1192eaee6f
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects> ;
+  dqv:computedOn <https://colonial-heritage.triply.cc/rce-colonial-objects/colonialobjects> ;
   dqv:isMeasurementOf cc-metrics:open-license ;
   dqv:value "true"^^xsd:boolean .
 
-<https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/download.ttl.gz>
+<https://colonial-heritage.triply.cc/rce-colonial-objects/colonialobjects/download.ttl.gz>
   dqv:hasQualityMeasurement cc-measurements:98b72b74-7cea-4a34-ad8c-4877005ca085 ,
                             cc-measurements:ed4ded77-137a-48df-a9b6-e2c48c16fd42 ,
                             cc-measurements:e985c5e9-e5d3-43de-86bc-a50d5b601367 ,
@@ -82,25 +83,25 @@ cc-measurements:376043c7-5855-407e-9ab3-ab1192eaee6f
 
 cc-measurements:98b72b74-7cea-4a34-ad8c-4877005ca085
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/download.ttl.gz> ;
+  dqv:computedOn <https://colonial-heritage.triply.cc/rce-colonial-objects/colonialobjects/download.ttl.gz> ;
   dqv:isMeasurementOf cc-metrics:online ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:ed4ded77-137a-48df-a9b6-e2c48c16fd42
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/download.ttl.gz> ;
+  dqv:computedOn <https://colonial-heritage.triply.cc/rce-colonial-objects/colonialobjects/download.ttl.gz> ;
   dqv:isMeasurementOf cc-metrics:structured-format ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:e985c5e9-e5d3-43de-86bc-a50d5b601367
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/download.ttl.gz> ;
+  dqv:computedOn <https://colonial-heritage.triply.cc/rce-colonial-objects/colonialobjects/download.ttl.gz> ;
   dqv:isMeasurementOf cc-metrics:open-format ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:2d7cae82-6c7e-4ec6-891a-147235b553fa
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/download.ttl.gz> ;
+  dqv:computedOn <https://colonial-heritage.triply.cc/rce-colonial-objects/colonialobjects/download.ttl.gz> ;
   dqv:isMeasurementOf cc-metrics:rdf-format ;
   dqv:value "true"^^xsd:boolean .
 
