@@ -60,7 +60,7 @@ This is the dataset for NMVW."""@en ;
   dct:title "Stamboeken"@en ;
   dct:publisher <https://colonial-heritage.triply.cc/Bronbeek> ;
   dct:license cc-licences:no-license ;
-  dct:description "Dataset Stamboeken of organization Bronbeek on Colonial Heritage Hub."@en ;
+  dct:description "Dataset Stamboeken of organization Bronbeek. It contains objects from a colonial context."@en ;
   dct:created "2023-04-07"^^xsd:date ;
   dct:modified "2023-05-07"^^xsd:date ;
   dct:issued "2023-04-07"^^xsd:date ;
