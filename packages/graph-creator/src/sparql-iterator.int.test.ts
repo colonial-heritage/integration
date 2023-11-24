@@ -14,7 +14,7 @@ describe('run', () => {
       numberOfIrisPerRequest: 100,
     });
 
-    const data = await readFile(iriFile, {encoding: 'utf-8'});
+    const data = await readFile(iriFile, 'utf-8');
     const iris = data
       .split(EOL)
       .filter(iri => iri.length > 0) // Skip empty lines

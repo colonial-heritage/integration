@@ -71,7 +71,7 @@ describe('untilDone', () => {
     await generator.untilDone();
 
     // Basic string check. TODO: improve by parsing 'graphFile' to RDF
-    const data = await readFile(graphFile, {encoding: 'utf-8'});
+    const data = await readFile(graphFile, 'utf-8');
     const triples = data.split(EOL);
 
     expect(triples[0]).toBe(
@@ -120,7 +120,7 @@ describe('untilDone', () => {
     await generator.untilDone();
 
     // Basic string check. TODO: improve by parsing 'graphFile' to RDF
-    const data = await readFile(graphFile, {encoding: 'utf-8'});
+    const data = await readFile(graphFile, 'utf-8');
     const triples = data.split(EOL);
 
     expect(triples[0]).toBe(

@@ -1,8 +1,8 @@
 import {getLogger} from '@colonial-collections/common';
 import {Iterator} from '@colonial-collections/sparql-iterator';
 import {readFile} from 'node:fs/promises';
-import {mkdirp} from 'mkdirp';
 import {createWriteStream} from 'node:fs';
+import {mkdir} from 'node:fs/promises';
 import {dirname} from 'node:path';
 import {performance} from 'node:perf_hooks';
 import PrettyMilliseconds from 'pretty-ms';
@@ -26,9 +26,9 @@ export async function run(options: RunOptions) {
   const logger = getLogger();
   logger.info(`Collecting IRIs from SPARQL endpoint "${opts.endpointUrl}"`);
 
-  await mkdirp(dirname(opts.iriFile));
+  await mkdir(dirname(opts.iriFile), {recursive: true});
   const writeStream = createWriteStream(opts.iriFile);
-  const query = await readFile(opts.queryFile, {encoding: 'utf-8'});
+  const query = await readFile(opts.queryFile, 'utf-8');
 
   const iterator = new Iterator({
     endpointUrl: opts.endpointUrl,

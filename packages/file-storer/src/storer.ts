@@ -1,14 +1,13 @@
 import {md5} from './md5.js';
 import fastq from 'fastq';
 import type {queueAsPromised} from 'fastq';
-import {mkdirp} from 'mkdirp';
 import {Buffer} from 'node:buffer';
 import {EventEmitter} from 'node:events';
 import {createWriteStream} from 'node:fs';
-import {unlink} from 'node:fs/promises';
+import {mkdir, unlink} from 'node:fs/promises';
 import {dirname, join, resolve} from 'node:path';
 import {pipeline} from 'node:stream/promises';
-import {setTimeout as wait} from 'node:timers/promises';
+import {setTimeout} from 'node:timers/promises';
 import rdfDereferencer, {IDereferenceOptions} from 'rdf-dereference';
 import rdfSerializer from 'rdf-serialize';
 import {z} from 'zod';
@@ -154,13 +153,13 @@ export class FileStorer extends EventEmitter {
     }
 
     const filename = this.createFilenameFromIri(options.iri);
-    await mkdirp(dirname(filename));
+    await mkdir(dirname(filename), {recursive: true});
     const writeStream = createWriteStream(filename); // Overwrite an existing file, if any
     const dataStream = serializer.serialize(quadStream, {path: filename});
     await pipeline(dataStream, writeStream);
 
     // Try not to hurt the server or trigger its rate limiter
-    await wait(this.waitBetweenRequests);
+    await setTimeout(this.waitBetweenRequests);
 
     this.emit('upsert', options.iri, filename);
   }

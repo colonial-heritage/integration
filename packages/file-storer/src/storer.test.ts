@@ -1,67 +1,51 @@
 import {FileStorer} from './storer.js';
 import {setupServer} from 'msw/node';
-import {rest} from 'msw';
+import {http, HttpResponse} from 'msw';
 import {existsSync} from 'node:fs';
 import {readFile} from 'node:fs/promises';
 import {rimraf} from 'rimraf';
 import {afterAll, beforeAll, beforeEach, describe, expect, it} from 'vitest';
 
 const server = setupServer(
-  rest.get(
+  http.get(
     'http://localhost/resource-with-basic-auth.ttl',
-    async (req, res, ctx) => {
+    async ({request}) => {
       // Basic auth - base64-encoded representation of 'username' and 'password'
-      const authorization = req.headers.get('Authorization');
+      const authorization = request.headers.get('Authorization');
       if (authorization !== 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=') {
-        return res(ctx.status(401));
+        return new HttpResponse(null, {status: 401});
       }
-      const data = await readFile('./fixtures/resource.ttl', {
-        encoding: 'utf-8',
-      });
-      return res(
-        ctx.status(200),
-        ctx.set('Content-Type', 'text/turtle'),
-        ctx.body(data)
-      );
+
+      const data = await readFile('./fixtures/resource.ttl', 'utf-8');
+      return new HttpResponse(data, {headers: {'Content-Type': 'text/turtle'}});
     }
   ),
-  rest.get(
+  http.get(
     'http://localhost/resource-with-accept-header.ttl',
-    async (req, res, ctx) => {
+    async ({request}) => {
       // Simple string check, just for the test. The actual Accept header send by the client
       // is much richer (e.g. "application/n-quads,application/trig;q=0.95")
-      const accept = req.headers.get('Accept');
+      const accept = request.headers.get('Accept');
       if (!accept?.startsWith('text/turtle')) {
-        return res(ctx.status(406));
+        return new HttpResponse(null, {status: 406});
       }
-      const data = await readFile('./fixtures/resource.ttl', {
-        encoding: 'utf-8',
-      });
-      return res(
-        ctx.status(200),
-        ctx.set('Content-Type', 'text/turtle'),
-        ctx.body(data)
-      );
+
+      const data = await readFile('./fixtures/resource.ttl', 'utf-8');
+      return new HttpResponse(data, {headers: {'Content-Type': 'text/turtle'}});
     }
   ),
-  rest.get('http://localhost/resource.ttl', async (req, res, ctx) => {
-    const data = await readFile('./fixtures/resource.ttl', {encoding: 'utf-8'});
-    return res(
-      ctx.status(200),
-      ctx.set('Content-Type', 'text/turtle'),
-      ctx.body(data)
-    );
+  http.get('http://localhost/resource.ttl', async () => {
+    const data = await readFile('./fixtures/resource.ttl', 'utf-8');
+    return new HttpResponse(data, {headers: {'Content-Type': 'text/turtle'}});
   }),
-  rest.get('http://localhost/deleted.ttl', async (req, res, ctx) => {
-    return res(
-      ctx.status(410) // Gone
-    );
-  }),
-  rest.get('http://localhost/error.ttl', async (req, res, ctx) => {
-    return res(
-      ctx.status(500) // Internal server error
-    );
-  })
+  http.get(
+    'http://localhost/deleted.ttl',
+    async () => new HttpResponse(null, {status: 410})
+  ),
+  http.get(
+    'http://localhost/error.ttl',
+    async () => new HttpResponse(null, {status: 500})
+  )
 );
 
 beforeAll(() => server.listen());
@@ -215,7 +199,7 @@ describe('save', () => {
   it('deletes a resource that returns a 410 status code', async () => {
     expect.assertions(2);
 
-    // The 'upsert' event may not be called
+    // The 'upsert' event must not be called
     let upsertHasBeenEmitted = false;
     store.on('upsert', () => (upsertHasBeenEmitted = true));
 

@@ -1,6 +1,5 @@
-import {mkdirp} from 'mkdirp';
 import {createReadStream, createWriteStream} from 'node:fs';
-import {access} from 'node:fs/promises';
+import {access, mkdir} from 'node:fs/promises';
 import {dirname, resolve} from 'node:path';
 import {pipeline} from 'node:stream/promises';
 import {DataFactory} from 'rdf-data-factory';
@@ -143,7 +142,7 @@ export class ChangeManager {
       )
     );
 
-    await mkdirp(dirname(this.path));
+    await mkdir(dirname(this.path), {recursive: true});
     const writeStream = createWriteStream(this.path);
     const quadStream = store.match(); // All quads
     const dataStream = serializer.serialize(quadStream, {path: this.path});

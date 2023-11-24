@@ -12,7 +12,7 @@ export async function getQueryFiles(path: string) {
 export async function readQueries(path: string) {
   const filenames = await getQueryFiles(path);
   const readFileActions = filenames.map(filename =>
-    readFile(filename, {encoding: 'utf-8'})
+    readFile(filename, 'utf-8')
   );
   const queries = await Promise.all(readFileActions);
 

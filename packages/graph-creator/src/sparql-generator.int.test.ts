@@ -16,7 +16,7 @@ describe('run', () => {
     });
 
     // Basic string check. TODO: improve by parsing 'rdfFile' to RDF
-    const data = await readFile(rdfFile, {encoding: 'utf-8'});
+    const data = await readFile(rdfFile, 'utf-8');
     const triples = data.split(EOL);
 
     expect(triples[0]).toBe(

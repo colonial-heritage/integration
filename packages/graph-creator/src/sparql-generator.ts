@@ -1,8 +1,8 @@
 import {getLogger, getNumberOfLinesInFile} from '@colonial-collections/common';
 import {Generator} from '@colonial-collections/sparql-generator';
 import {readQueries} from './helpers.js';
-import {mkdirp} from 'mkdirp';
 import {createReadStream, createWriteStream} from 'node:fs';
+import {mkdir} from 'node:fs/promises';
 import {dirname} from 'node:path';
 import {performance} from 'node:perf_hooks';
 import readline from 'node:readline';
@@ -27,7 +27,7 @@ export async function run(options: RunOptions) {
   const startTime = performance.now();
   const logger = getLogger();
   const queries = await readQueries(opts.queryPath);
-  await mkdirp(dirname(opts.rdfFile));
+  await mkdir(dirname(opts.rdfFile), {recursive: true});
   const writeStream = createWriteStream(opts.rdfFile);
 
   const generator = new Generator({

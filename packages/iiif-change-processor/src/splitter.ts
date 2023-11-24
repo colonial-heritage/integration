@@ -1,5 +1,5 @@
-import {mkdirp} from 'mkdirp';
 import cp from 'node:child_process';
+import {mkdir} from 'node:fs/promises';
 import {basename} from 'node:path';
 import {promisify} from 'node:util';
 import {z} from 'zod';
@@ -22,7 +22,7 @@ async function exec(command: string) {
 export async function splitFileByLines(options: SplitOptions) {
   const opts = splitFileByLinesOptionsSchema.parse(options);
 
-  await mkdirp(opts.outputDir);
+  await mkdir(opts.outputDir, {recursive: true});
 
   const fileBasename = basename(opts.filename);
 

@@ -1,7 +1,6 @@
 import {getRdfFiles} from '@colonial-collections/common';
 import App from '@triply/triplydb';
-import {mkdirp} from 'mkdirp';
-import {stat, unlink} from 'node:fs/promises';
+import {mkdir, stat, unlink} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {pino} from 'pino';
@@ -112,7 +111,7 @@ export class TriplyDb {
     }
 
     const dirTemp = opts.dirTemp ?? tmpdir();
-    await mkdirp(dirTemp);
+    await mkdir(dirTemp, {recursive: true});
     const tarFilename = join(dirTemp, `${Date.now()}.tgz`);
 
     this.logger.info(

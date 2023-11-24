@@ -5,7 +5,7 @@ import {once, EventEmitter} from 'node:events';
 import {WriteStream} from 'node:fs';
 import {EOL} from 'node:os';
 import {finished} from 'node:stream/promises';
-import {setTimeout as wait} from 'node:timers/promises';
+import {setTimeout} from 'node:timers/promises';
 import rdfSerializer from 'rdf-serialize';
 import {z} from 'zod';
 
@@ -103,7 +103,7 @@ export class Generator extends EventEmitter {
     }
 
     // Try not to hurt the server or trigger its rate limiter
-    await wait(this.waitBetweenRequests);
+    await setTimeout(this.waitBetweenRequests);
 
     this.emit('generate-end', options.iris);
   }

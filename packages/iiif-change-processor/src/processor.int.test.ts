@@ -1,8 +1,7 @@
 import {run} from './processor.js';
 import {glob} from 'glob';
-import {cp} from 'node:fs/promises';
+import {cp, mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
-import {mkdirp} from 'mkdirp';
 import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
 
@@ -73,7 +72,7 @@ describe('run', () => {
   const dirWithQueue = join(outputDir, 'empty-queue');
 
   beforeEach(async () => {
-    await mkdirp(dirWithQueue);
+    await mkdir(dirWithQueue, {recursive: true});
   });
 
   it('handles an empty queue correctly', async () => {

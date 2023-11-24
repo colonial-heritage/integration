@@ -1,83 +1,83 @@
 import {ChangeDiscoverer} from './discoverer.js';
 import {setupServer} from 'msw/node';
-import {rest} from 'msw';
+import {http, HttpResponse} from 'msw';
 import {readFile} from 'node:fs/promises';
 import {afterAll, beforeAll, describe, expect, it} from 'vitest';
 
 async function readFileAsJson(fileName: string) {
-  const data = await readFile(fileName, {encoding: 'utf-8'});
+  const data = await readFile(fileName, 'utf-8');
   return JSON.parse(data);
 }
 
 const server = setupServer(
-  rest.get(
+  http.get(
     'http://localhost/collection-create-with-basic-auth.json',
-    async (req, res, ctx) => {
-      if (req.url.username !== 'username' || req.url.password !== 'password') {
-        return res(ctx.status(401));
+    async ({request}) => {
+      // Basic auth - base64-encoded representation of 'username' and 'password'
+      const authorization = request.headers.get('Authorization');
+      if (authorization !== 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=') {
+        return new HttpResponse(null, {status: 401});
       }
+
       const data = await readFileAsJson('./fixtures/collection-create.json');
-      return res(ctx.status(200), ctx.json(data));
+      return HttpResponse.json(data);
     }
   ),
-  rest.get('http://localhost/collection-add.json', async (req, res, ctx) => {
+  http.get('http://localhost/collection-add.json', async () => {
     const data = await readFileAsJson('./fixtures/collection-add.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/collection-update.json', async (req, res, ctx) => {
+  http.get('http://localhost/collection-update.json', async () => {
     const data = await readFileAsJson('./fixtures/collection-update.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/collection-delete.json', async (req, res, ctx) => {
+  http.get('http://localhost/collection-delete.json', async () => {
     const data = await readFileAsJson('./fixtures/collection-delete.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get(
-    'http://localhost/collection-refresh.json',
-    async (req, res, ctx) => {
-      const data = await readFileAsJson('./fixtures/collection-refresh.json');
-      return res(ctx.status(200), ctx.json(data));
-    }
-  ),
-  rest.get('http://localhost/collection-remove.json', async (req, res, ctx) => {
+  http.get('http://localhost/collection-refresh.json', async () => {
+    const data = await readFileAsJson('./fixtures/collection-refresh.json');
+    return HttpResponse.json(data);
+  }),
+  http.get('http://localhost/collection-remove.json', async () => {
     const data = await readFileAsJson('./fixtures/collection-remove.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/collection-create.json', async (req, res, ctx) => {
+  http.get('http://localhost/collection-create.json', async () => {
     const data = await readFileAsJson('./fixtures/collection-create.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/collection-move.json', async (req, res, ctx) => {
+  http.get('http://localhost/collection-move.json', async () => {
     const data = await readFileAsJson('./fixtures/collection-move.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/page-add.json', async (req, res, ctx) => {
+  http.get('http://localhost/page-add.json', async () => {
     const data = await readFileAsJson('./fixtures/page-add.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/page-create.json', async (req, res, ctx) => {
+  http.get('http://localhost/page-create.json', async () => {
     const data = await readFileAsJson('./fixtures/page-create.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/page-update.json', async (req, res, ctx) => {
+  http.get('http://localhost/page-update.json', async () => {
     const data = await readFileAsJson('./fixtures/page-update.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/page-delete.json', async (req, res, ctx) => {
+  http.get('http://localhost/page-delete.json', async () => {
     const data = await readFileAsJson('./fixtures/page-delete.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/page-refresh.json', async (req, res, ctx) => {
+  http.get('http://localhost/page-refresh.json', async () => {
     const data = await readFileAsJson('./fixtures/page-refresh.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/page-move.json', async (req, res, ctx) => {
+  http.get('http://localhost/page-move.json', async () => {
     const data = await readFileAsJson('./fixtures/page-move.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   }),
-  rest.get('http://localhost/page-remove.json', async (req, res, ctx) => {
+  http.get('http://localhost/page-remove.json', async () => {
     const data = await readFileAsJson('./fixtures/page-remove.json');
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data);
   })
 );
 

@@ -2,9 +2,9 @@ import {splitFileByLines} from './splitter.js';
 import {getLogger} from '@colonial-collections/common';
 import {ChangeDiscoverer} from '@colonial-collections/iiif-change-discoverer';
 import {stringify} from 'csv';
-import {mkdirp} from 'mkdirp';
 import {once} from 'node:events';
 import {createWriteStream} from 'node:fs';
+import {mkdir} from 'node:fs/promises';
 import {dirname} from 'node:path';
 import {finished} from 'node:stream/promises';
 import {z} from 'zod';
@@ -25,7 +25,7 @@ export async function fetchMetadataAndWriteToFile(options: Options) {
   const logger = getLogger();
 
   // Before fetching changes, configure a temporary output destination: a CSV file
-  await mkdirp(dirname(fileWithMetadata));
+  await mkdir(dirname(fileWithMetadata), {recursive: true});
   const writeStream = createWriteStream(fileWithMetadata);
   const stringifier = stringify();
   stringifier.on('error', (err: Error) => logger.error(err));

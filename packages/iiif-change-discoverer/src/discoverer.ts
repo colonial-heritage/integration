@@ -1,6 +1,6 @@
 import got, {Got} from 'got';
 import {EventEmitter} from 'node:events';
-import {setTimeout as wait} from 'node:timers/promises';
+import {setTimeout} from 'node:timers/promises';
 import {z} from 'zod';
 
 const constructorOptionsSchema = z.object({
@@ -231,7 +231,7 @@ export class ChangeDiscoverer extends EventEmitter {
       await this.processPage(pageIri);
 
       // Try not to hurt the server or trigger its rate limiter
-      await wait(this.waitBetweenRequests);
+      await setTimeout(this.waitBetweenRequests);
     } while (this.processablePages.length > 0);
   }
 

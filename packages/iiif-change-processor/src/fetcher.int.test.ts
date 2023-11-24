@@ -1,7 +1,6 @@
 import {run} from './fetcher.js';
 import {glob} from 'glob';
-import {mkdirp} from 'mkdirp';
-import {copyFile, cp} from 'node:fs/promises';
+import {copyFile, cp, mkdir} from 'node:fs/promises';
 import {dirname, join} from 'node:path';
 import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
@@ -17,7 +16,7 @@ beforeEach(async () => {
 
 describe('run', () => {
   beforeEach(async () => {
-    await mkdirp(dirname(fileWithRun));
+    await mkdir(dirname(fileWithRun), {recursive: true});
     await copyFile('./fixtures/run.nt', fileWithRun);
   });
 

@@ -12,7 +12,7 @@ describe('untilDone', () => {
   beforeEach(async () => {
     iriFile = './tmp/iris.txt';
     writeStream = createWriteStream(iriFile);
-    query = await readFile('./fixtures/iterate.rq', {encoding: 'utf-8'});
+    query = await readFile('./fixtures/iterate.rq', 'utf-8');
   });
 
   it('errors if the endpoint is invalid', async () => {
@@ -49,7 +49,7 @@ describe('untilDone', () => {
     // This can change if the source data changes
     expect(numberOfEmits).toBe(2);
 
-    const data = await readFile(iriFile, {encoding: 'utf-8'});
+    const data = await readFile(iriFile, 'utf-8');
     const iris = data
       .split(EOL)
       .filter(iri => iri.length > 0) // Skip empty lines

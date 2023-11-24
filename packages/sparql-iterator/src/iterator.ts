@@ -3,7 +3,7 @@ import {once, EventEmitter} from 'node:events';
 import {WriteStream} from 'node:fs';
 import {EOL} from 'node:os';
 import {finished} from 'node:stream/promises';
-import {setTimeout as wait} from 'node:timers/promises';
+import {setTimeout} from 'node:timers/promises';
 import {z} from 'zod';
 
 export const constructorOptionsSchema = z.object({
@@ -109,7 +109,7 @@ export class Iterator extends EventEmitter {
       }
 
       // Try not to hurt the server or trigger its rate limiter
-      await wait(this.waitBetweenRequests);
+      await setTimeout(this.waitBetweenRequests);
 
       offset += limit;
     } while (hasResults);

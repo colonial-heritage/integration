@@ -1,8 +1,7 @@
 import {run} from './dereferencer.js';
 import {glob} from 'glob';
-import {mkdirp} from 'mkdirp';
 import {existsSync} from 'node:fs';
-import {copyFile} from 'node:fs/promises';
+import {copyFile, mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
 import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
@@ -14,7 +13,7 @@ describe('run', () => {
 
   beforeEach(async () => {
     await rimraf(outputDir);
-    await mkdirp(dirWithResources);
+    await mkdir(dirWithResources, {recursive: true});
 
     // 'fileWithMetadata' gets deleted at the end of the test, so work on a copy
     await copyFile('./fixtures/bodleian-metadata.csv', fileWithMetadata);
