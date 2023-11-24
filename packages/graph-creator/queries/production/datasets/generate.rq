@@ -1,0 +1,60 @@
+###############################
+# Query for generating a graph with dataset descriptions from the NDE Dataset Register
+# Derived from https://triplestore.netwerkdigitaalerfgoed.nl/sparql?savedQueryName=Full%20dataset%20descriptions%20for%20publisher&owner=admin&execute
+###############################
+
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+CONSTRUCT {
+  ?dataset a dcat:Dataset ;
+    dct:title ?title ;
+    dct:license ?license ;
+    dct:publisher ?publisher ;
+    dct:description ?description ;
+    dcat:keyword ?keyword ;
+    dcat:landingPage ?landingPage ;
+    dct:created ?created ;
+    dct:modified ?modified ;
+    dct:issued ?issued ;
+    dct:language ?language ;
+    dcat:distribution ?distribution .
+
+  ?distribution dcat:accessURL ?distributionUrl ;
+    dct:format ?distributionFormat .
+
+  ?publisher a ?publisherType ;
+    foaf:name ?publisherName .
+}
+WHERE {
+  VALUES ?dataset {
+    <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects>
+    <https://colonial-heritage.triply.cc/nmvw/collection-archives>
+    <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken>
+  }
+
+  ?dataset a dcat:Dataset ;
+    dct:title ?title ;
+    dct:license ?license ;
+    dct:publisher ?publisher .
+
+  OPTIONAL { ?dataset dct:description ?description }
+  OPTIONAL { ?dataset dcat:keyword ?keyword }
+  OPTIONAL { ?dataset dcat:landingPage ?landingPage }
+  OPTIONAL { ?dataset dct:source ?source }
+  OPTIONAL { ?dataset dct:created ?created }
+  OPTIONAL { ?dataset dct:modified ?modified }
+  OPTIONAL { ?dataset dct:issued ?issued }
+  OPTIONAL { ?dataset dct:language ?language }
+
+  OPTIONAL {
+    ?dataset dcat:distribution ?distribution .
+    ?distribution dcat:accessURL ?distributionUrl
+  }
+  OPTIONAL { ?distribution dct:format ?distributionFormat }
+
+  ?publisher a ?publisherType ;
+    foaf:name ?publisherName .
+}

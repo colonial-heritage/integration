@@ -11,9 +11,7 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Dataset 'Associations'
-
-<https://colonial-heritage.triply.cc/nmvw/associations>
+<https://colonial-heritage.triply.cc/nmvw/collection-archives>
   a dcat:Dataset ;
   dct:title "NMVW Associations"@en ;
   dct:publisher <https://collectie.wereldculturen.nl> ;
@@ -24,18 +22,17 @@ This is the dataset for NMVW."""@en ;
   dct:created "2023-01-31"^^xsd:date ;
   dct:modified "2023-05-07"^^xsd:date ;
   dct:issued "2023-01-31"^^xsd:date ;
-  dcat:distribution <https://colonial-heritage.triply.cc/nmvw/associations/download.ttl.gz> .
+  dcat:distribution <https://colonial-heritage.triply.cc/nmvw/collection-archives/download.ttl.gz> .
 
-<https://colonial-heritage.triply.cc/nmvw/associations/download.ttl.gz>
+<https://colonial-heritage.triply.cc/nmvw/collection-archives/download.ttl.gz>
   a dcat:Distribution ;
   dct:title "Turtle distribution of the dataset" ;
-  dcat:downloadURL <https://colonial-heritage.triply.cc/nmvw/associations/download.ttl.gz> ;
+  dcat:downloadURL <https://colonial-heritage.triply.cc/nmvw/collection-archives/download.ttl.gz> ;
   dcat:mediaType "text/turtle" .
 
-# Dataset 'Colonial Objects'
+##################################################
 
-# TBD: use https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects instead?
-<https://colonial-heritage.triply.cc/rce-colonial-objects/colonialobjects>
+<https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects>
   a dcat:Dataset ;
   dct:title "Colonial Objects"@en ;
   dct:publisher <https://linkeddata.cultureelerfgoed.nl/colonialheritage> ;
@@ -53,7 +50,7 @@ This is the dataset for NMVW."""@en ;
   dcat:downloadURL <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/download.ttl.gz> ;
   dcat:mediaType "text/turtle" .
 
-# Dataset 'Stamboeken'
+##################################################
 
 <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken>
   a dcat:Dataset ;
