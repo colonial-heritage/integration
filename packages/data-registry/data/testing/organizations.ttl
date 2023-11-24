@@ -6,17 +6,42 @@
 
 <https://museum.example.org/>
   a schema:Organization ;
-  schema:name "Museum" .
+  schema:name "Museum" ;
+  schema:url <http://www.example.org> ;
+  schema:address [
+    a schema:PostalAddress ;
+    schema:streetAddress "Museum Street 1" ;
+    schema:postalCode "1234 AB" ;
+    schema:addressLocality "Museum Place" ;
+    schema:addressCountry "Nederland"@nl, "Netherlands"@en
+  ] .
 
 <https://archive.example.org/>
   a schema:Organization ;
-  schema:name "Archive"@en . # Only English
+  schema:name "Archive"@en ; # Only English
+  schema:url <http://www.example.org> ;
+  schema:address [
+    a schema:PostalAddress ;
+    schema:streetAddress "Archive Street 1" ;
+    schema:postalCode "5678 CD" ;
+    schema:addressLocality "Archive Place" ;
+    schema:addressCountry "Nederland"@nl, "Netherlands"@en
+  ] .
 
 <https://library.example.org/>
   a schema:Organization ;
-  schema:name "Library" . # No language indicator
+  schema:name "Library" ; # No language indicator
+  schema:url <http://www.example.org> ;
+  schema:address [
+    a schema:PostalAddress ;
+    schema:streetAddress "Library Street 1" ;
+    schema:postalCode "9012 EF" ;
+    schema:addressLocality "Library Place" ;
+    schema:addressCountry "Nederland"@nl, "Netherlands"@en
+  ] .
 
 <https://research.example.org/>
   a schema:Organization ;
   schema:name "Research Organisation"@en,
             "Onderzoeksinstelling"@nl .
+  # No further data - intentionally missing for testing
