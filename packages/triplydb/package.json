@@ -13,7 +13,7 @@
   "dependencies": {
     "@colonial-collections/common": "*",
     "@triply/triplydb": "6.1.1",
-    "pino": "8.16.1",
+    "pino": "8.16.2",
     "tar": "6.2.0",
     "zod": "3.22.4"
   },
