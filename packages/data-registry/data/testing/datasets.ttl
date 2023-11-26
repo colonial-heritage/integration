@@ -2,260 +2,256 @@
 # Datasets, for testing
 ###############################
 
-@prefix dcat: <http://www.w3.org/ns/dcat#> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix schema: <http://schema.org/> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <https://schema.org/> .
 
 <https://example.org/datasets/1>
-  a dcat:Dataset ;
-  dct:type <http://vocab.getty.edu/aat/300386957> ; # Man-made objects
-  dct:title "Dataset 1"@nl, "Dataset 1"@en ;
-  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
-  dct:publisher <https://museum.example.org/> ;
-  dct:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ultrices velit vitae vulputate tincidunt. Donec dictum tortor nec tempus mollis."@nl,
+  a schema:Dataset ;
+  schema:additionalType <http://vocab.getty.edu/aat/300386957> ; # Man-made objects
+  schema:name "Dataset 1"@nl, "Dataset 1"@en ;
+  schema:license <https://creativecommons.org/licenses/by/4.0/> ;
+  schema:publisher <https://museum.example.org/> ;
+  schema:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ultrices velit vitae vulputate tincidunt. Donec dictum tortor nec tempus mollis."@nl,
                   "Maecenas quis sem ante. Vestibulum mattis lorem in mauris pulvinar tincidunt. Sed nisi ligula, mattis id vehicula at, faucibus vel quam."@en ;
-  dcat:keyword "Hendrerit", "Suspendisse" ;
-  dcat:landingPage <https://example.org/> ;
-  dct:created "2019-03-12"^^xsd:date ;
-  dct:modified "2023-02-17"^^xsd:date ;
-  dct:issued "2023-02-17"^^xsd:date ;
-  dct:language "nl-NL", "en-GB" ;
-  dct:spatial <https://hdl.handle.net/20.500.11840/termmaster10063182> ;
-  dcat:distribution <https://example.org/datasets/1/distributions/1> .
+  schema:keywords "Hendrerit", "Suspendisse" ;
+  schema:mainEntityOfPage <https://example.org/> ;
+  schema:dateCreated "2019-03-12"^^schema:Date ;
+  schema:dateModified "2023-02-17"^^schema:Date ;
+  schema:datePublished "2023-02-17"^^schema:Date ;
+  schema:inLanguage "nl-NL", "en-GB" ;
+  schema:spatialCoverage <https://hdl.handle.net/20.500.11840/termmaster10063182> ;
+  schema:distribution <https://example.org/datasets/1/distributions/1> .
 
 <https://example.org/datasets/1/distributions/1>
-  a dcat:Distribution ;
-  dct:title "Turtle distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.ttl> ;
-  dcat:mediaType "text/turtle" .
+  a schema:DataDownload ;
+  schema:name "Turtle distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.ttl> ;
+  schema:encodingFormat "text/turtle" .
 
 <https://example.org/datasets/2>
-  a dcat:Dataset ;
-  dct:type <http://vocab.getty.edu/aat/300417586> , # Art
-           <http://vocab.getty.edu/aat/300043196> ; # Tableware
-  dct:title "Dataset 2" ;
-  dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
-  dct:publisher <https://museum.example.org/> ;
-  dct:description "Vivamus vitae elit eget ligula efficitur rhoncus. Donec ut urna consequat, tempor leo sed, iaculis erat. Fusce at quam nisi. Ut convallis quam pellentesque, euismod augue at, finibus nibh."@nl ;
-  dct:created "2019-03-12"^^schema:Date ;
-  dct:modified "2023-02-17"^^schema:Date ;
-  dct:issued "2023-02-17"^^schema:Date ;
-  dct:language "nl-NL" ;
-  dct:spatial <https://hdl.handle.net/20.500.11840/termmaster10055279> ;
-  dcat:distribution <https://example.org/datasets/2/distributions/1> .
+  a schema:Dataset ;
+  schema:additionalType <http://vocab.getty.edu/aat/300417586> , # Art
+                        <http://vocab.getty.edu/aat/300043196> ; # Tableware
+  schema:name "Dataset 2" ;
+  schema:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+  schema:publisher <https://museum.example.org/> ;
+  schema:description "Vivamus vitae elit eget ligula efficitur rhoncus. Donec ut urna consequat, tempor leo sed, iaculis erat. Fusce at quam nisi. Ut convallis quam pellentesque, euismod augue at, finibus nibh."@nl ;
+  schema:dateCreated "2019-03-12"^^schema:Date ;
+  schema:dateModified "2023-02-17"^^schema:Date ;
+  schema:datePublished "2023-02-17"^^schema:Date ;
+  schema:inLanguage "nl-NL" ;
+  schema:spatialCoverage <https://hdl.handle.net/20.500.11840/termmaster10055279> ;
+  schema:distribution <https://example.org/datasets/2/distributions/1> .
 
 <https://example.org/datasets/2/distributions/1>
-  a dcat:Distribution ;
-  dct:title "RDF/XML distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.rdf> ;
-  dcat:mediaType "application/rdf+xml" .
+  a schema:DataDownload ;
+  schema:name "RDF/XML distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.rdf> ;
+  schema:encodingFormat "application/rdf+xml" .
 
 <https://example.org/datasets/3>
-  a dcat:Dataset ;
-  dct:title "Dataset 3"@en ;
-  dct:license <http://opendatacommons.org/licenses/odbl/1.0/> ;
-  dct:publisher <https://archive.example.org/> .
+  a schema:Dataset ;
+  schema:name "Dataset 3"@en ;
+  schema:license <http://opendatacommons.org/licenses/odbl/1.0/> ;
+  schema:publisher <https://archive.example.org/> .
   # No distribution
 
 <https://example.org/datasets/4>
-  a dcat:Dataset ;
-  dct:type <http://vocab.getty.edu/aat/300043196> ; # Tableware
-  dct:title "Dataset 4" ;
-  dct:license <http://opendatacommons.org/licenses/by/1.0/> ;
-  dct:publisher <https://museum.example.org/> ;
-  dct:description "Donec placerat orci vel erat commodo suscipit. Morbi elementum nunc ut dolor venenatis, vel ultricies nisi euismod. Sed aliquet ultricies sapien, vehicula malesuada nunc tristique ac." ;
-  dcat:keyword "Hendrerit", "Suspendisse" ;
-  dct:modified "2023-02-01"^^xsd:date ;
-  dct:spatial <https://hdl.handle.net/20.500.11840/termmaster10058074> ;
-  dcat:distribution <https://example.org/datasets/4/distributions/1> ,
-                    <https://example.org/datasets/4/distributions/2> .
+  a schema:Dataset ;
+  schema:additionalType <http://vocab.getty.edu/aat/300043196> ; # Tableware
+  schema:name "Dataset 4" ;
+  schema:license <http://opendatacommons.org/licenses/by/1.0/> ;
+  schema:publisher <https://museum.example.org/> ;
+  schema:description "Donec placerat orci vel erat commodo suscipit. Morbi elementum nunc ut dolor venenatis, vel ultricies nisi euismod. Sed aliquet ultricies sapien, vehicula malesuada nunc tristique ac." ;
+  schema:keywords "Hendrerit", "Suspendisse" ;
+  schema:dateModified "2023-02-01"^^schema:Date ;
+  schema:spatialCoverage <https://hdl.handle.net/20.500.11840/termmaster10058074> ;
+  schema:distribution <https://example.org/datasets/4/distributions/1> ,
+                      <https://example.org/datasets/4/distributions/2> .
 
 <https://example.org/datasets/4/distributions/1>
-  a dcat:Distribution ;
-  dct:title "CSV distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.csv> ;
-  dcat:mediaType "text/csv" .
+  a schema:DataDownload ;
+  schema:name "CSV distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.csv> ;
+  schema:encodingFormat "text/csv" .
 
 <https://example.org/datasets/4/distributions/2>
-  a dcat:Distribution ;
-  dct:title "PDF distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.pdf> ;
-  dcat:mediaType "application/pdf" .
+  a schema:DataDownload ;
+  schema:name "PDF distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.pdf> ;
+  schema:encodingFormat "application/pdf" .
 
 <https://example.org/datasets/5>
-  a dcat:Dataset ;
-  dct:type <http://vocab.getty.edu/aat/300404198> ; # Digital media
-  dct:title "Dataset 5"@nl, "Dataset 5"@en ;
-  dct:license <http://rightsstatements.org/vocab/InC/1.0/> ;
-  dct:publisher <https://archive.example.org/> ;
-  dct:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ultrices velit vitae vulputate tincidunt. Donec dictum tortor nec tempus mollis."@nl,
+  a schema:Dataset ;
+  schema:additionalType <http://vocab.getty.edu/aat/300404198> ; # Digital media
+  schema:name "Dataset 5"@nl, "Dataset 5"@en ;
+  schema:license <http://rightsstatements.org/vocab/InC/1.0/> ;
+  schema:publisher <https://archive.example.org/> ;
+  schema:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ultrices velit vitae vulputate tincidunt. Donec dictum tortor nec tempus mollis."@nl,
                   "Maecenas quis sem ante. Vestibulum mattis lorem in mauris pulvinar tincidunt. Sed nisi ligula, mattis id vehicula at, faucibus vel quam."@en ;
-  dcat:keyword "Trefwoord"@nl, "Keyword"@en ;
-  dct:language "nl-NL", "en-GB" ;
-  dcat:distribution <https://example.org/datasets/5/distributions/1> .
+  schema:keywords "Trefwoord"@nl, "Keyword"@en ;
+  schema:inLanguage "nl-NL", "en-GB" ;
+  schema:distribution <https://example.org/datasets/5/distributions/1> .
 
 <https://example.org/datasets/5/distributions/1>
-  a dcat:Distribution ;
-  dct:title "Microsoft Excel distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.xls> ;
-  dcat:mediaType "application/vnd.ms-excel" .
+  a schema:DataDownload ;
+  schema:name "Microsoft Excel distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.xls> ;
+  schema:encodingFormat "application/vnd.ms-excel" .
 
 <https://example.org/datasets/6>
-  a dcat:Dataset ;
-  dct:title "Dataset 6" ;
-  dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
-  dct:publisher <https://archive.example.org/> ;
-  dct:description "Vivamus vitae elit eget ligula efficitur rhoncus. Donec ut urna consequat, tempor leo sed, iaculis erat. Fusce at quam nisi. Ut convallis quam pellentesque, euismod augue at, finibus nibh."@nl ;
-  dct:issued "2010-09-11T08:06:55Z"^^xsd:dateTime ;
-  dct:language "nl-NL" ;
-  dcat:distribution <https://example.org/datasets/6/distributions/1> .
+  a schema:Dataset ;
+  schema:name "Dataset 6" ;
+  schema:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+  schema:publisher <https://archive.example.org/> ;
+  schema:description "Vivamus vitae elit eget ligula efficitur rhoncus. Donec ut urna consequat, tempor leo sed, iaculis erat. Fusce at quam nisi. Ut convallis quam pellentesque, euismod augue at, finibus nibh."@nl ;
+  schema:datePublished "2010-09-11T08:06:55Z"^^schema:Date ;
+  schema:inLanguage "nl-NL" ;
+  schema:distribution <https://example.org/datasets/6/distributions/1> .
 
 <https://example.org/datasets/6/distributions/1>
-  a dcat:Distribution ;
-  dct:title "SPARQL distribution of the dataset" ;
-  dcat:accessURL <https://example.org/sparql> ;
-  dcat:mediaType "application/sparql-query" .
+  a schema:DataDownload ;
+  schema:name "SPARQL distribution of the dataset" ;
+  schema:accessURL <https://example.org/sparql> ;
+  schema:encodingFormat "application/sparql-query" .
 
 <https://example.org/datasets/7>
-  a dcat:Dataset ;
-  dct:type <http://vocab.getty.edu/aat/300431978> ; # Unidentified works
-  dct:title "Dataset 7"@en ;
-  dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
-  dct:publisher <https://archive.example.org/> ;
-  dcat:landingPage <https://example.org/> ;
-  dct:modified "2023-02-01T23:01:02Z"^^xsd:dateTime ;
-  dct:spatial <https://hdl.handle.net/20.500.11840/termmaster10058074> ;
-  dcat:distribution <https://example.org/datasets/7/distributions/1> ,
-                    <https://example.org/datasets/7/distributions/2> .
+  a schema:Dataset ;
+  schema:additionalType <http://vocab.getty.edu/aat/300431978> ; # Unidentified works
+  schema:name "Dataset 7"@en ;
+  schema:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+  schema:publisher <https://archive.example.org/> ;
+  schema:mainEntityOfPage <https://example.org/> ;
+  schema:dateModified "2023-02-01T23:01:02Z"^^schema:Date ;
+  schema:spatialCoverage <https://hdl.handle.net/20.500.11840/termmaster10058074> ;
+  schema:distribution <https://example.org/datasets/7/distributions/1> ,
+                      <https://example.org/datasets/7/distributions/2> .
 
 <https://example.org/datasets/7/distributions/1>
-  a dcat:Distribution ;
-  dct:title "SPARQL distribution of the dataset" ;
-  dcat:accessURL <https://example.org/sparql> ;
-  dcat:mediaType "application/sparql-query" .
+  a schema:DataDownload ;
+  schema:name "SPARQL distribution of the dataset" ;
+  schema:accessURL <https://example.org/sparql> ;
+  schema:encodingFormat "application/sparql-query" .
 
 <https://example.org/datasets/7/distributions/2>
-  a dcat:Distribution ;
-  dct:title "N-Triples distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.nt> ;
-  dcat:mediaType "application/n-triples" .
+  a schema:DataDownload ;
+  schema:name "N-Triples distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.nt> ;
+  schema:encodingFormat "application/n-triples" .
 
 <https://example.org/datasets/8>
-  a dcat:Dataset ;
-  dct:type <http://vocab.getty.edu/aat/300048715> ; # Articles
-  dct:title "Dataset 8" ;
-  dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
-  dct:publisher <https://archive.example.org/> ;
-  dct:description "Donec placerat orci vel erat commodo suscipit. Morbi elementum nunc ut dolor venenatis, vel ultricies nisi euismod. Sed aliquet ultricies sapien, vehicula malesuada nunc tristique ac." ;
-  dcat:keyword "Vestibulum", "Phasellus" ;
-  dct:spatial <https://hdl.handle.net/20.500.11840/termmaster10063351> ;
-  dcat:distribution <https://example.org/datasets/8/distributions/1> .
+  a schema:Dataset ;
+  schema:additionalType <http://vocab.getty.edu/aat/300048715> ; # Articles
+  schema:name "Dataset 8" ;
+  schema:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+  schema:publisher <https://archive.example.org/> ;
+  schema:description "Donec placerat orci vel erat commodo suscipit. Morbi elementum nunc ut dolor venenatis, vel ultricies nisi euismod. Sed aliquet ultricies sapien, vehicula malesuada nunc tristique ac." ;
+  schema:keywords "Vestibulum", "Phasellus" ;
+  schema:spatialCoverage <https://hdl.handle.net/20.500.11840/termmaster10063351> ;
+  schema:distribution <https://example.org/datasets/8/distributions/1> .
 
 <https://example.org/datasets/8/distributions/1>
-  a dcat:Distribution ;
-  dct:title "Turtle distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.ttl> ;
-  dcat:mediaType "text/turtle" .
+  a schema:DataDownload ;
+  schema:name "Turtle distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.ttl> ;
+  schema:encodingFormat "text/turtle" .
 
 <https://example.org/datasets/9>
-  a dcat:Dataset ;
-  dct:title "Dataset 9"@nl, "Dataset 9"@en ;
-  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
-  dct:publisher <https://library.example.org/> ;
-  dct:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ultrices velit vitae vulputate tincidunt. Donec dictum tortor nec tempus mollis."@nl,
+  a schema:Dataset ;
+  schema:name "Dataset 9"@nl, "Dataset 9"@en ;
+  schema:license <https://creativecommons.org/licenses/by/4.0/> ;
+  schema:publisher <https://library.example.org/> ;
+  schema:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ultrices velit vitae vulputate tincidunt. Donec dictum tortor nec tempus mollis."@nl,
                   "Maecenas quis sem ante. Vestibulum mattis lorem in mauris pulvinar tincidunt. Sed nisi ligula, mattis id vehicula at, faucibus vel quam."@en ;
-  dct:language "nl-NL", "en-GB" .
+  schema:inLanguage "nl-NL", "en-GB" .
   # No distribution
 
 <https://example.org/datasets/10>
-  a dcat:Dataset ;
-  dct:title "Dataset 10" ;
-  dct:license <https://example.org/custom-license> ;
-  dct:publisher <https://library.example.org/> ;
-  dct:description "Vivamus vitae elit eget ligula efficitur rhoncus. Donec ut urna consequat, tempor leo sed, iaculis erat. Fusce at quam nisi. Ut convallis quam pellentesque, euismod augue at, finibus nibh."@nl ;
-  dct:language "nl-NL" ;
-  dcat:distribution <https://example.org/datasets/10/distributions/1> .
+  a schema:Dataset ;
+  schema:name "Dataset 10" ;
+  schema:license <https://example.org/custom-license> ;
+  schema:publisher <https://library.example.org/> ;
+  schema:description "Vivamus vitae elit eget ligula efficitur rhoncus. Donec ut urna consequat, tempor leo sed, iaculis erat. Fusce at quam nisi. Ut convallis quam pellentesque, euismod augue at, finibus nibh."@nl ;
+  schema:inLanguage "nl-NL" ;
+  schema:distribution <https://example.org/datasets/10/distributions/1> .
 
 <https://example.org/datasets/10/distributions/1>
-  a dcat:Distribution ;
-  dct:title "PDF distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.pdf> ;
-  dcat:mediaType "application/pdf" .
+  a schema:DataDownload ;
+  schema:name "PDF distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.pdf> ;
+  schema:encodingFormat "application/pdf" .
 
 <https://example.org/datasets/11>
-  a dcat:Dataset ;
-  dct:type <http://vocab.getty.edu/aat/300027200> ; # Notes
-  dct:title "Dataset 11"@en ;
-  dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
-  dct:publisher <https://library.example.org/> ;
-  dct:created "2019-03-12"^^xsd:date ;
-  dct:spatial <https://hdl.handle.net/20.500.11840/termmaster10063401> ,
-              <https://hdl.handle.net/20.500.11840/termmaster10063351> ,
-              <https://hdl.handle.net/20.500.11840/termmaster10061190> ;
-  dcat:distribution <https://example.org/datasets/11/distributions/1> ,
-                    <https://example.org/datasets/11/distributions/2> .
+  a schema:Dataset ;
+  schema:additionalType <http://vocab.getty.edu/aat/300027200> ; # Notes
+  schema:name "Dataset 11"@en ;
+  schema:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+  schema:publisher <https://library.example.org/> ;
+  schema:dateCreated "2019-03-12"^^schema:Date ;
+  schema:spatialCoverage <https://hdl.handle.net/20.500.11840/termmaster10063401> ,
+                         <https://hdl.handle.net/20.500.11840/termmaster10063351> ,
+                         <https://hdl.handle.net/20.500.11840/termmaster10061190> ;
+  schema:distribution <https://example.org/datasets/11/distributions/1> ,
+                      <https://example.org/datasets/11/distributions/2> .
 
 <https://example.org/datasets/11/distributions/1>
-  a dcat:Distribution ;
-  dct:title "SPARQL distribution of the dataset" ;
-  dcat:accessURL <https://example.org/sparql> ;
-  dcat:mediaType "application/sparql-query" .
+  a schema:DataDownload ;
+  schema:name "SPARQL distribution of the dataset" ;
+  schema:accessURL <https://example.org/sparql> ;
+  schema:encodingFormat "application/sparql-query" .
 
 <https://example.org/datasets/11/distributions/2>
-  a dcat:Distribution ;
-  dct:title "N-Triples distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.nt> ;
-  dcat:mediaType "application/n-triples" .
+  a schema:DataDownload ;
+  schema:name "N-Triples distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.nt> ;
+  schema:encodingFormat "application/n-triples" .
 
 <https://example.org/datasets/12>
-  a dcat:Dataset ;
-  dct:title "Dataset 12" ;
-  dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
-  dct:publisher <https://library.example.org/> ;
-  dct:description "Donec placerat orci vel erat commodo suscipit. Morbi elementum nunc ut dolor venenatis, vel ultricies nisi euismod. Sed aliquet ultricies sapien, vehicula malesuada nunc tristique ac." ;
-  dcat:keyword "Hendrerit", "Vestibulum" ;
-  dct:spatial <https://hdl.handle.net/20.500.11840/termmaster10054875> ,
-              <https://hdl.handle.net/20.500.11840/termmaster10055279> ;
-  dcat:distribution <https://example.org/datasets/12/distributions/1> .
+  a schema:Dataset ;
+  schema:name "Dataset 12" ;
+  schema:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+  schema:publisher <https://library.example.org/> ;
+  schema:description "Donec placerat orci vel erat commodo suscipit. Morbi elementum nunc ut dolor venenatis, vel ultricies nisi euismod. Sed aliquet ultricies sapien, vehicula malesuada nunc tristique ac." ;
+  schema:keywords "Hendrerit", "Vestibulum" ;
+  schema:spatialCoverage <https://hdl.handle.net/20.500.11840/termmaster10054875> ,
+                         <https://hdl.handle.net/20.500.11840/termmaster10055279> ;
+  schema:distribution <https://example.org/datasets/12/distributions/1> .
 
 <https://example.org/datasets/12/distributions/1>
-  a dcat:Distribution ;
-  dct:title "Turtle distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.ttl> ;
-  dcat:mediaType "text/turtle" .
+  a schema:DataDownload ;
+  schema:name "Turtle distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.ttl> ;
+  schema:encodingFormat "text/turtle" .
 
 <https://example.org/datasets/13>
-  a dcat:Dataset ;
-  dct:type <http://vocab.getty.edu/aat/300048715> , # Articles
-           <http://vocab.getty.edu/aat/300111999> ; # Publications
-  dct:title "Dataset 13" ;
-  dct:license <http://rightsstatements.org/vocab/UND/1.0/> ;
-  dct:publisher <https://research.example.org/> ;
-  dct:description "Cras erat elit, finibus eget ipsum vel, gravida dapibus leo. Etiam sem erat, suscipit id eros sit amet, scelerisque ornare sem. Aenean commodo elementum neque ac accumsan." ;
-  dcat:keyword "Fringilla" ;
-  dct:created "2022-10-01T09:01:02Z"^^xsd:dateTime ;
-  dct:spatial <https://hdl.handle.net/20.500.11840/termmaster10058073> ;
-  dcat:distribution <https://example.org/datasets/13/distributions/1> .
+  a schema:Dataset ;
+  schema:additionalType <http://vocab.getty.edu/aat/300048715> , # Articles
+                        <http://vocab.getty.edu/aat/300111999> ; # Publications
+  schema:name "Dataset 13" ;
+  schema:license <http://rightsstatements.org/vocab/UND/1.0/> ;
+  schema:publisher <https://research.example.org/> ;
+  schema:description "Cras erat elit, finibus eget ipsum vel, gravida dapibus leo. Etiam sem erat, suscipit id eros sit amet, scelerisque ornare sem. Aenean commodo elementum neque ac accumsan." ;
+  schema:keywords "Fringilla" ;
+  schema:dateCreated "2022-10-01T09:01:02Z"^^schema:Date ;
+  schema:spatialCoverage <https://hdl.handle.net/20.500.11840/termmaster10058073> ;
+  schema:distribution <https://example.org/datasets/13/distributions/1> .
 
 <https://example.org/datasets/13/distributions/1>
-  a dcat:Distribution ;
-  dct:title "ZIP distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.zip> ;
-  dcat:mediaType "application/zip" .
+  a schema:DataDownload ;
+  schema:name "ZIP distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.zip> ;
+  schema:encodingFormat "application/zip" .
 
 <https://example.org/datasets/14>
-  a dcat:Dataset ;
-  dct:title "Dataset 14" ;
-  dct:license <http://creativecommons.org/publicdomain/zero/1.0/deed.nl> ;
-  dct:publisher <https://library.example.org/> ;
-  dct:description "Donec placerat orci vel erat commodo suscipit. Morbi elementum nunc ut dolor venenatis, vel ultricies nisi euismod. Sed aliquet ultricies sapien, vehicula malesuada nunc tristique ac." ;
-  dcat:keyword "Hendrerit", "Suspendisse" ;
-  dcat:distribution <https://example.org/datasets/14/distributions/1> .
+  a schema:Dataset ;
+  schema:name "Dataset 14" ;
+  schema:license <http://creativecommons.org/publicdomain/zero/1.0/deed.nl> ;
+  schema:publisher <https://library.example.org/> ;
+  schema:description "Donec placerat orci vel erat commodo suscipit. Morbi elementum nunc ut dolor venenatis, vel ultricies nisi euismod. Sed aliquet ultricies sapien, vehicula malesuada nunc tristique ac." ;
+  schema:keywords "Hendrerit", "Suspendisse" ;
+  schema:distribution <https://example.org/datasets/14/distributions/1> .
 
 <https://example.org/datasets/14/distributions/1>
-  a dcat:Distribution ;
-  dct:title "Microsoft Word distribution of the dataset" ;
-  dcat:downloadURL <https://example.org/files/dataset.doc> ;
-  dcat:mediaType "application/msword" .
+  a schema:DataDownload ;
+  schema:name "Microsoft Word distribution of the dataset" ;
+  schema:contentUrl <https://example.org/files/dataset.doc> ;
+  schema:encodingFormat "application/msword" .
