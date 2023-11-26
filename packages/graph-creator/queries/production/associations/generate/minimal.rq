@@ -4,7 +4,6 @@
 
 PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX la: <https://linked.art/ns/terms/>
 PREFIX schema: <https://schema.org/>
 
@@ -25,7 +24,7 @@ WHERE {
   ?object la:member_of ?dataset .
 
   OPTIONAL {
-    ?dataset dct:title ?datasetName
+    ?dataset schema:name ?datasetName
     FILTER(LANG(?datasetName) = "" || LANGMATCHES(LANG(?datasetName), "en"))
   }
 
@@ -34,7 +33,7 @@ WHERE {
   ####################
 
   OPTIONAL {
-    ?dataset dct:publisher [
+    ?dataset schema:publisher [
       schema:name ?publisherName ;
     ] .
   }

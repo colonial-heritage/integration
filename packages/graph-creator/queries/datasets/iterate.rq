@@ -1,4 +1,4 @@
-PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX schema: <https://schema.org/>
 
 # Use a 'scrollable cursor' - https://vos.openlinksw.com/owiki/wiki/VOS/VirtTipsAndTricksHowToHandleBandwidthLimitExceed
 SELECT *
@@ -6,7 +6,7 @@ WHERE {
   {
     SELECT ?iri
     WHERE {
-      ?iri a dcat:Dataset .
+      ?iri a schema:Dataset .
     }
   }
 }

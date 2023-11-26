@@ -4,24 +4,22 @@
 ###############################
 
 PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
-PREFIX dcat: <http://www.w3.org/ns/dcat#>
-PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX schema: <https://schema.org/>
 PREFIX skolem: <https://triplydb.com/.well-known/genid/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 CONSTRUCT {
   ?dataset a cc:Dataset ;
-    cc:name ?title ;
+    cc:name ?name ;
     cc:publisher ?publisherName ;
     cc:license ?licenseName ;
     cc:description ?description ;
-    cc:keyword ?keyword ;
-    cc:dateCreated ?created ;
-    cc:dateModified ?modified ;
-    cc:datePublished ?issued ;
+    cc:keyword ?keywords ;
+    cc:dateCreated ?dateCreated ;
+    cc:dateModified ?dateModified ;
+    cc:datePublished ?datePublished ;
     cc:genre ?genreName ;
-    cc:mainEntityOfPage ?landingPage . # TODO: remove later
+    cc:mainEntityOfPage ?mainEntityOfPage . # TODO: remove later
 }
 WHERE {
   VALUES ?dataset {
@@ -34,18 +32,18 @@ WHERE {
 
   # Required property, but it may not exist in a specific language
   OPTIONAL {
-    ?dataset dct:title ?tmpTitle
-    FILTER(LANG(?tmpTitle) = "" || LANGMATCHES(LANG(?tmpTitle), "en"))
+    ?dataset schema:name ?tmpName
+    FILTER(LANG(?tmpName) = "" || LANGMATCHES(LANG(?tmpName), "en"))
   }
 
   # TBD: add multi-language support?
-  BIND(COALESCE(?tmpTitle, "(No name)"@en) AS ?title)
+  BIND(COALESCE(?tmpName, "(No name)"@en) AS ?name)
 
   ####################
   # License
   ####################
 
-  ?dataset dct:license ?tmpLicense .
+  ?dataset schema:license ?tmpLicense .
 
   # Some licenses are provided as strings (!), not IRIs - convert
   BIND(IRI(?tmpLicense) AS ?license)
@@ -64,7 +62,7 @@ WHERE {
   # Publisher
   ####################
 
-  ?dataset dct:publisher ?publisher .
+  ?dataset schema:publisher ?publisher .
 
   # Required property, but the publisher name may not exist in a specific language
   OPTIONAL {
@@ -81,7 +79,7 @@ WHERE {
   ####################
 
   OPTIONAL {
-    ?dataset dct:description ?description
+    ?dataset schema:description ?description
     FILTER(LANG(?description) = "" || LANGMATCHES(LANG(?description), "en"))
   }
 
@@ -90,21 +88,21 @@ WHERE {
   ####################
 
   OPTIONAL {
-    ?dataset dcat:keyword ?keyword
-    FILTER(LANG(?keyword) = "" || LANGMATCHES(LANG(?keyword), "en"))
+    ?dataset schema:keywords ?keywords
+    FILTER(LANG(?keywords) = "" || LANGMATCHES(LANG(?keywords), "en"))
   }
 
-  OPTIONAL { ?dataset dct:created ?created }
-  OPTIONAL { ?dataset dct:modified ?modified }
-  OPTIONAL { ?dataset dct:issued ?issued }
+  OPTIONAL { ?dataset schema:dateCreated ?dateCreated }
+  OPTIONAL { ?dataset schema:dateModified ?dateModified }
+  OPTIONAL { ?dataset schema:datePublished ?datePublished }
 
   ####################
   # Genre
   ####################
 
   OPTIONAL {
-    ?dataset dct:type ?genre .
-    ?genre a skos:Concept ;
+    ?dataset schema:additionalType ?additionalType .
+    ?additionalType a skos:Concept ;
       skos:prefLabel ?genreName .
     FILTER(LANG(?genreName) = "" || LANGMATCHES(LANG(?genreName), "en"))
   }
@@ -114,9 +112,9 @@ WHERE {
   ####################
 
   OPTIONAL {
-    ?dataset dcat:landingPage ?landingPage
+    ?dataset schema:mainEntityOfPage ?mainEntityOfPage
     # The NDE Dataset Register allows blank nodes for the landing page.
     # TriplyDB turns these into skolemized IRIs. Remove these for Elasticsearch
-    FILTER(!STRSTARTS(STR(?landingPage), STR(skolem:)))
+    FILTER(!STRSTARTS(STR(?mainEntityOfPage), STR(skolem:)))
   }
 }
