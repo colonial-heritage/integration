@@ -10,6 +10,7 @@ import {z} from 'zod';
 
 const runOptionsSchema = z.object({
   endpointUrl: z.string().url(),
+  endpointMethod: z.string().optional(),
   queryFile: z.string(),
   iriFile: z.string(),
   numberOfIrisPerRequest: z.number().optional(),
@@ -32,6 +33,7 @@ export async function run(options: RunOptions) {
 
   const iterator = new Iterator({
     endpointUrl: opts.endpointUrl,
+    endpointMethod: opts.endpointMethod,
     waitBetweenRequests: opts.waitBetweenRequests,
     numberOfIrisPerRequest: opts.numberOfIrisPerRequest,
     query,

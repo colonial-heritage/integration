@@ -8,6 +8,7 @@ import {z} from 'zod';
 
 export const constructorOptionsSchema = z.object({
   endpointUrl: z.string().url(),
+  endpointMethod: z.enum(['GET', 'POST']).default('POST'),
   waitBetweenRequests: z.number().min(0).default(500),
   timeoutPerRequest: z.number().min(0).default(60000),
   query: z.string(),
@@ -36,6 +37,7 @@ export class Iterator extends EventEmitter {
     this.query = this.getAndValidateIterateQuery(opts.query);
     this.writeStream = opts.writeStream;
     this.fetcher = new SparqlEndpointFetcher({
+      method: opts.endpointMethod,
       timeout: opts.timeoutPerRequest,
     });
   }

@@ -11,6 +11,7 @@ import {z} from 'zod';
 
 const runOptionsSchema = z.object({
   endpointUrl: z.string().url(),
+  endpointMethod: z.string().optional(),
   queryPath: z.string(),
   iriFile: z.string(),
   numberOfResourcesPerRequest: z.number().min(1).default(1),
@@ -32,6 +33,7 @@ export async function run(options: RunOptions) {
 
   const generator = new Generator({
     endpointUrl: opts.endpointUrl,
+    endpointMethod: opts.endpointMethod,
     numberOfConcurrentRequests: opts.numberOfConcurrentRequests,
     waitBetweenRequests: opts.waitBetweenRequests,
     queries,

@@ -276,6 +276,40 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --dir-temp "./tmp" \
       --graph-name "https://data.colonialcollections.nl/geonames"
 
+#### Datasets from the NDE Dataset Register
+
+##### Collect IRIs from a SPARQL endpoint
+
+    ./dist/cli.js sparql-iterate \
+      --endpoint-url "https://triplestore.netwerkdigitaalerfgoed.nl/repositories/registry" \
+      --query-file ./queries/production/datasets/iterate.rq \
+      --number-of-iris-per-request 10000 \
+      --wait-between-requests 100 \
+      --iri-file ./tmp/datasets-from-nde.txt
+
+##### Generate graph from a SPARQL endpoint
+
+    ./dist/cli.js sparql-generate \
+      --endpoint-url "https://triplestore.netwerkdigitaalerfgoed.nl/repositories/registry" \
+      --query-path ./queries/production/datasets/generate.rq \
+      --number-of-resources-per-request 10 \
+      --number-of-concurrent-requests 1 \
+      --wait-between-requests 250 \
+      --iri-file ./tmp/datasets-from-nde.txt \
+      --rdf-file ./tmp/datasets-from-nde.nt
+
+##### Upload file to data platform
+
+    ./dist/cli.js upload \
+      --triplydb-instance-url "$TRIPLYDB_INSTANCE_URL" \
+      --triplydb-api-token "$TRIPLYDB_API_TOKEN" \
+      --triplydb-account "$TRIPLYDB_ACCOUNT_PRODUCTION" \
+      --triplydb-dataset "$TRIPLYDB_DATASET_KG_PRODUCTION" \
+      --triplydb-service-name "kg" \
+      --triplydb-service-type "virtuoso" \
+      --rdf-file ./tmp/datasets.nt \
+      --graph-name "https://data.colonialcollections.nl/datasets"
+
 #### Datasets
 
 ##### Collect IRIs from a SPARQL endpoint

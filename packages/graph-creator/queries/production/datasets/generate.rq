@@ -1,5 +1,6 @@
 ###############################
-# Query for generating a graph with dataset descriptions from the NDE Dataset Register
+# Query for generating a graph with dataset descriptions from the NDE Dataset Register using
+# Schema.org, the unified model of the knowledge graph for organizations and datasets
 # Derived from https://triplestore.netwerkdigitaalerfgoed.nl/sparql?savedQueryName=Full%20dataset%20descriptions%20for%20publisher&owner=admin&execute
 ###############################
 
@@ -7,32 +8,31 @@ PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX schema: <https://schema.org/>
 
 CONSTRUCT {
-  ?dataset a dcat:Dataset ;
-    dct:title ?title ;
-    dct:license ?license ;
-    dct:publisher ?publisher ;
-    dct:description ?description ;
-    dcat:keyword ?keyword ;
-    dcat:landingPage ?landingPage ;
-    dct:created ?created ;
-    dct:modified ?modified ;
-    dct:issued ?issued ;
-    dct:language ?language ;
-    dcat:distribution ?distribution .
+  ?dataset a schema:Dataset ;
+    schema:name ?title ;
+    schema:license ?license ;
+    schema:publisher ?publisher ;
+    schema:description ?description ;
+    schema:keywords ?keyword ;
+    schema:mainEntityOfPage ?landingPage ;
+    schema:dateCreated ?created ;
+    schema:dateModified ?modified ;
+    schema:datePublished ?issued ;
+    schema:inLanguage ?language ;
+    schema:distribution ?distribution .
 
-  ?distribution dcat:accessURL ?distributionUrl ;
-    dct:format ?distributionFormat .
+  ?distribution schema:contentUrl ?distributionUrl ;
+    schema:encodingFormat ?distributionFormat .
 
-  ?publisher a ?publisherType ;
-    foaf:name ?publisherName .
+  ?publisher a schema:Organization ;
+    schema:name ?publisherName .
 }
 WHERE {
   VALUES ?dataset {
-    <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects>
-    <https://colonial-heritage.triply.cc/nmvw/collection-archives>
-    <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken>
+    ?_iris
   }
 
   ?dataset a dcat:Dataset ;
@@ -51,10 +51,10 @@ WHERE {
 
   OPTIONAL {
     ?dataset dcat:distribution ?distribution .
-    ?distribution dcat:accessURL ?distributionUrl
+    ?distribution dcat:accessURL ?distributionUrl ;
+      dct:format ?distributionFormat .
   }
-  OPTIONAL { ?distribution dct:format ?distributionFormat }
 
-  ?publisher a ?publisherType ;
+  ?publisher a foaf:Organization ;
     foaf:name ?publisherName .
 }

@@ -16,6 +16,7 @@ const serializer =
 
 const constructorOptionsSchema = z.object({
   endpointUrl: z.string().url(),
+  endpointMethod: z.enum(['GET', 'POST']).default('POST'),
   waitBetweenRequests: z.number().min(0).default(500),
   timeoutPerRequest: z.number().min(0).default(60000),
   queries: z.array(z.string()),
@@ -50,6 +51,7 @@ export class Generator extends EventEmitter {
     this.queries = this.validateQueries(opts.queries);
     this.writeStream = opts.writeStream;
     this.fetcher = new SparqlEndpointFetcher({
+      method: opts.endpointMethod,
       timeout: opts.timeoutPerRequest,
     });
     this.queue = fastq.promise(
