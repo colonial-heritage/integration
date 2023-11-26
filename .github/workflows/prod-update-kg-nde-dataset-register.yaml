@@ -30,7 +30,7 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js sparql-generate \
             --endpoint-url "https://triplestore.netwerkdigitaalerfgoed.nl/repositories/registry" \
-            --query-file ./packages/graph-creator/queries/production/nde-dataset-register/generate.rq \
+            --query-path ./packages/graph-creator/queries/production/nde-dataset-register/generate.rq \
             --number-of-resources-per-request 25 \
             --number-of-concurrent-requests 1 \
             --wait-between-requests 500 \
