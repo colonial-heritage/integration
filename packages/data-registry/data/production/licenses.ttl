@@ -1,5 +1,5 @@
 ###############################
-# Licenses of datasets, currently in use by NDE's Dataset Register
+# Licenses of datasets, currently in use by the NDE Dataset Register
 # TODO: create a script that queries the Register for changes to these licenses
 ###############################
 

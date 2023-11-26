@@ -1,6 +1,6 @@
 ###############################
-# Query for generating a graph with dataset descriptions from the NDE Dataset Register using
-# Schema.org, the unified model of the knowledge graph for organizations and datasets
+# Query for generating a graph for the Knowledge Graph with dataset descriptions from the NDE Dataset Register.
+# It uses Schema.org, the unified model of the Knowledge Graph for organizations and datasets.
 # Derived from https://triplestore.netwerkdigitaalerfgoed.nl/sparql?savedQueryName=Full%20dataset%20descriptions%20for%20publisher&owner=admin&execute
 ###############################
 
