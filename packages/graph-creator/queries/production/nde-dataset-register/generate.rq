@@ -1,0 +1,60 @@
+###############################
+# Query for generating a graph for the Knowledge Graph with dataset descriptions from the NDE Dataset Register.
+# It uses Schema.org, the unified model of the Knowledge Graph for organizations and datasets.
+# Derived from https://triplestore.netwerkdigitaalerfgoed.nl/sparql?savedQueryName=Full%20dataset%20descriptions%20for%20publisher&owner=admin&execute
+###############################
+
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX schema: <https://schema.org/>
+
+CONSTRUCT {
+  ?dataset a schema:Dataset ;
+    schema:name ?title ;
+    schema:license ?license ;
+    schema:publisher ?publisher ;
+    schema:description ?description ;
+    schema:keywords ?keyword ;
+    schema:mainEntityOfPage ?landingPage ;
+    schema:dateCreated ?created ;
+    schema:dateModified ?modified ;
+    schema:datePublished ?issued ;
+    schema:inLanguage ?language ;
+    schema:distribution ?distribution .
+
+  ?distribution schema:contentUrl ?distributionUrl ;
+    schema:encodingFormat ?distributionFormat .
+
+  ?publisher a schema:Organization ;
+    schema:name ?publisherName .
+}
+WHERE {
+  VALUES ?dataset {
+    ?_iris
+  }
+
+  ?dataset a dcat:Dataset ;
+    dct:title ?title ;
+    dct:license ?license ;
+    dct:publisher ?publisher .
+
+  OPTIONAL { ?dataset dct:description ?description }
+  OPTIONAL { ?dataset dcat:keyword ?keyword }
+  OPTIONAL { ?dataset dcat:landingPage ?landingPage }
+  OPTIONAL { ?dataset dct:source ?source }
+  OPTIONAL { ?dataset dct:created ?created }
+  OPTIONAL { ?dataset dct:modified ?modified }
+  OPTIONAL { ?dataset dct:issued ?issued }
+  OPTIONAL { ?dataset dct:language ?language }
+
+  OPTIONAL {
+    ?dataset dcat:distribution ?distribution .
+    ?distribution dcat:accessURL ?distributionUrl ;
+      dct:format ?distributionFormat .
+  }
+
+  ?publisher a foaf:Organization ;
+    foaf:name ?publisherName .
+}

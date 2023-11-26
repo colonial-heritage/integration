@@ -1,0 +1,45 @@
+name: Production - update the Knowledge Graph with dataset descriptions from the NDE Dataset Registry
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  update-kg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - run: npm ci
+      - run: npm run build
+      - name: Iterate
+        run: |
+          ./packages/graph-creator/dist/cli.js sparql-iterate \
+            --endpoint-url "https://triplestore.netwerkdigitaalerfgoed.nl/repositories/registry" \
+            --query-file ./packages/graph-creator/queries/production/nde-dataset-register/iterate.rq \
+            --number-of-iris-per-request 1000 \
+            --wait-between-requests 500 \
+            --iri-file ./data/datasets-from-nde.txt
+      - name: Generate
+        run: |
+          ./packages/graph-creator/dist/cli.js sparql-generate \
+            --endpoint-url "https://triplestore.netwerkdigitaalerfgoed.nl/repositories/registry" \
+            --query-file ./packages/graph-creator/queries/production/nde-dataset-register/generate.rq \
+            --number-of-resources-per-request 25 \
+            --number-of-concurrent-requests 1 \
+            --wait-between-requests 500 \
+            --iri-file ./data/datasets-from-nde.txt \
+            --rdf-file ./data/datasets-from-nde.nt
+      - name: Upload
+        run: |
+          ./packages/graph-creator/dist/cli.js upload \
+            --triplydb-instance-url "${{ vars.TRIPLYDB_INSTANCE_URL }}" \
+            --triplydb-api-token "${{ secrets.TRIPLYDB_API_TOKEN }}" \
+            --triplydb-account "${{ vars.TRIPLYDB_ACCOUNT_PRODUCTION }}" \
+            --triplydb-dataset "${{ vars.TRIPLYDB_DATASET_KG_PRODUCTION }}" \
+            --triplydb-service-name "kg" \
+            --triplydb-service-type "virtuoso" \
+            --rdf-file ./data/datasets-from-nde.nt \
+            --graph-name "https://data.colonialcollections.nl/datasets"

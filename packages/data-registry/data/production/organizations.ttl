@@ -1,19 +1,42 @@
 ###############################
-# Organizations, e.g. data providers
-# This data will eventually come from NDE's Dataset Register.
-# It's here because not all dataset descriptions are being accepted by the Register yet (e.g due to missing licenses)
+# Information about organizations, e.g. data providers
+# This dataset contains information that cannot be extracted from other sources, e.g. the NDE Dataset Register
 ###############################
 
 @prefix schema: <https://schema.org/> .
 
-<https://collectie.wereldculturen.nl>
+<https://colonial-heritage.triply.cc/nmvw>
   a schema:Organization ;
-  schema:name "Nationaal Museum van Wereldculturen" .
+  # schema:name "Nationaal Museum van Wereldculturen" .
+  schema:url <http://www.wereldculturen.nl> ;
+  schema:address [
+    a schema:PostalAddress ;
+    schema:streetAddress "Steenstraat 1" ;
+    schema:postalCode "2312 BS" ;
+    schema:addressLocality "Leiden" ;
+    schema:addressCountry "Nederland"@nl, "Netherlands"@en
+  ] .
 
 <https://linkeddata.cultureelerfgoed.nl/colonialheritage>
   a schema:Organization ;
-  schema:name "Rijksdienst voor het Cultureel Erfgoed" .
+  # schema:name "Rijksdienst voor het Cultureel Erfgoed" .
+  schema:url <https://www.cultureelerfgoed.nl/> ;
+  schema:address [
+    a schema:PostalAddress ;
+    schema:streetAddress "Smallepad 5" ;
+    schema:postalCode "3811 MG" ;
+    schema:addressLocality "Amersfoort" ;
+    schema:addressCountry "Nederland"@nl, "Netherlands"@en
+  ] .
 
 <https://colonial-heritage.triply.cc/Bronbeek>
   a schema:Organization ;
-  schema:name "Museum Bronbeek" .
+  # schema:name "Museum Bronbeek" .
+  schema:url <http://museumbronbeek.nl/> ;
+  schema:address [
+    a schema:PostalAddress ;
+    schema:streetAddress "Velperweg 147" ;
+    schema:postalCode "6824 MB" ;
+    schema:addressLocality "Arnhem" ;
+    schema:addressCountry "Nederland"@nl, "Netherlands"@en
+  ] .
