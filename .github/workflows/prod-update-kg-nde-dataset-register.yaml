@@ -4,6 +4,10 @@ on:
   push:
     branches: ["main"]
 
+# on:
+#   schedule:
+#     - cron: "5 20 * * *"
+
 jobs:
   update-kg:
     runs-on: ubuntu-latest
