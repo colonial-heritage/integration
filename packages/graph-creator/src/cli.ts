@@ -12,7 +12,6 @@ const cli = cac();
 cli
   .command('sparql-iterate', 'Collect IRIs from a SPARQL endpoint')
   .option('--endpoint-url <string>', 'SPARQL endpoint URL')
-  .option('--endpoint-method [string]', 'SPARQL endpoint method: GET or POST')
   .option('--query-file <string>', 'File with a SPARQL query')
   .option(
     '--number-of-iris-per-request [number]',
@@ -34,7 +33,6 @@ cli
 cli
   .command('sparql-generate', 'Generate graph from a SPARQL endpoint')
   .option('--endpoint-url <string>', 'SPARQL endpoint URL')
-  .option('--endpoint-method [string]', 'SPARQL endpoint method: GET or POST')
   .option(
     '--query-path <string>',
     'File with a SPARQL query or a directory containing SPARQL queries'
