@@ -106,7 +106,9 @@ WHERE {
   # Part of dataset
   ####################
 
-  ?object la:member_of ?dataset .
+  # TODO: 'la:member_of' does not point to the source dataset
+  # ?object la:member_of ?dataset .
+  BIND(<https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects> AS ?dataset)
 
   OPTIONAL {
     ?dataset schema:name ?datasetName
