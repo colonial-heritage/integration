@@ -21,7 +21,9 @@ WHERE {
   # Part of dataset
   ####################
 
-  ?object la:member_of ?dataset .
+  # TODO: 'la:member_of' does not point to the dataset but to a graph
+  # ?object la:member_of ?dataset .
+  BIND(<https://colonial-heritage.triply.cc/nmvw/collection-archives> AS ?dataset)
 
   OPTIONAL {
     ?dataset schema:name ?datasetName

@@ -90,7 +90,9 @@ WHERE {
   # Part of dataset
   ####################
 
-  ?person schema:isPartOf ?dataset .
+  # TODO: 'schema:isPartOf' does not point to the dataset but to a graph
+  # ?person schema:isPartOf ?dataset .
+  BIND(<https://colonial-heritage.triply.cc/Bronbeek/Stamboeken> AS ?dataset)
 
   OPTIONAL {
     ?dataset schema:name ?datasetName
