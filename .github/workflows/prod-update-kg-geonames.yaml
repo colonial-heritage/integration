@@ -2,7 +2,7 @@ name: Production - update the Knowledge Graph with data from dataset 'GeoNames',
 
 on:
   schedule:
-    - cron: "35 2 * * *"
+    - cron: "35 1 * * *"
 
 jobs:
   update-kg:
