@@ -1,8 +1,12 @@
 name: Production - update the Search Graph with data from dataset 'Collection Archives' in the Knowledge Graph
 
+# on:
+#   schedule:
+#     - cron: "5 4 * * *"
+
 on:
-  schedule:
-    - cron: "5 4 * * *"
+  push:
+    branches: ["main"]
 
 jobs:
   update-sg:
