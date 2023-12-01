@@ -1,5 +1,5 @@
 ###############################
-# Query for generating a search graph from object descriptions in dataset in dataset 'Associations'
+# Query for generating a search graph from object descriptions in dataset in dataset 'Collection Archives'
 ###############################
 
 PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology

@@ -1,4 +1,4 @@
-name: Production - update the Search Graph with data from dataset 'Associations' in the Knowledge Graph
+name: Production - update the Search Graph with data from dataset 'Collection Archives' in the Knowledge Graph
 
 on:
   schedule:
@@ -18,20 +18,20 @@ jobs:
         run: |
           ./packages/graph-creator/dist/cli.js sparql-iterate \
             --endpoint-url "${{ vars.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
-            --query-file ./packages/graph-creator/queries/production/associations/iterate.rq \
+            --query-file ./packages/graph-creator/queries/production/collection-archives/iterate.rq \
             --number-of-iris-per-request 10000 \
             --wait-between-requests 500 \
-            --iri-file ./data/associations.txt
+            --iri-file ./data/collection-archives.txt
       - name: Generate
         run: |
           ./packages/graph-creator/dist/cli.js sparql-generate \
             --endpoint-url "${{ vars.SPARQL_ENDPOINT_KG_PRODUCTION }}" \
-            --query-path ./packages/graph-creator/queries/production/associations/generate \
+            --query-path ./packages/graph-creator/queries/production/collection-archives/generate \
             --number-of-resources-per-request 50 \
             --number-of-concurrent-requests 10 \
             --wait-between-requests 500 \
-            --iri-file ./data/associations.txt \
-            --rdf-file ./data/associations.nt
+            --iri-file ./data/collection-archives.txt \
+            --rdf-file ./data/collection-archives.nt
       - name: Upload
         run: |
           ./packages/graph-creator/dist/cli.js upload \
@@ -41,5 +41,5 @@ jobs:
             --triplydb-dataset "${{ vars.TRIPLYDB_DATASET_SG_PRODUCTION }}" \
             --triplydb-service-name "search" \
             --triplydb-service-type "elasticsearch" \
-            --rdf-file ./data/associations.nt \
-            --graph-name "https://data.colonialcollections.nl/associations"
+            --rdf-file ./data/collection-archives.nt \
+            --graph-name "https://data.colonialcollections.nl/collection-archives"

@@ -1,5 +1,5 @@
 ###############################
-# Query for generating a search graph from object descriptions in dataset in dataset 'Associations'
+# Query for generating a search graph from object descriptions in dataset in dataset 'Collection Archives'
 ###############################
 
 PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
@@ -7,7 +7,7 @@ PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 CONSTRUCT {
-  ?object cc:material ?materialName .
+  ?object cc:creator ?creatorName .
 }
 WHERE {
   VALUES ?object {
@@ -15,10 +15,10 @@ WHERE {
   }
 
   ####################
-  # Material
+  # Creator
   ####################
 
-  ?object crm:P45_consists_of [
-    rdfs:label ?materialName
+  ?object crm:P108i_was_produced_by/crm:P14_carried_out_by [
+    rdfs:label ?creatorName
   ] .
 }

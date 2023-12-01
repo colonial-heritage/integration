@@ -344,27 +344,27 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --rdf-file ./tmp/datasets.nt \
       --graph-name "https://data.colonialcollections.nl/datasets"
 
-#### Associations
+#### Collection Archives
 
 ##### Collect IRIs from a SPARQL endpoint
 
     ./dist/cli.js sparql-iterate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
-      --query-file ./queries/production/associations/iterate.rq \
+      --query-file ./queries/production/collection-archives/iterate.rq \
       --number-of-iris-per-request 10000 \
       --wait-between-requests 100 \
-      --iri-file ./tmp/associations.txt
+      --iri-file ./tmp/collection-archives.txt
 
 ##### Generate graph from a SPARQL endpoint
 
     ./dist/cli.js sparql-generate \
       --endpoint-url "$SPARQL_ENDPOINT_KG_PRODUCTION" \
-      --query-path ./queries/production/associations/generate \
+      --query-path ./queries/production/collection-archives/generate \
       --number-of-resources-per-request 50 \
       --number-of-concurrent-requests 10 \
       --wait-between-requests 250 \
-      --iri-file ./tmp/associations.txt \
-      --rdf-file ./tmp/associations.nt
+      --iri-file ./tmp/collection-archives.txt \
+      --rdf-file ./tmp/collection-archives.nt
 
 ##### Upload file to data platform
 
@@ -375,8 +375,8 @@ Creates a graph from local RDF files or a SPARQL endpoint
       --triplydb-dataset "$TRIPLYDB_DATASET_SG_PRODUCTION" \
       --triplydb-service-name "search" \
       --triplydb-service-type "elasticsearch" \
-      --rdf-file ./tmp/associations.nt \
-      --graph-name "https://data.colonialcollections.nl/associations"
+      --rdf-file ./tmp/collection-archives.nt \
+      --graph-name "https://data.colonialcollections.nl/collection-archives"
 
 #### Colonial objects
 
