@@ -1,6 +1,6 @@
 import {shouldDoNewRun} from './checker.js';
 import {fetchIrisAndWriteToFile} from './iterator.js';
-import {getLogger} from '@colonial-collections/common';
+import {getLogger, splitFileByLines} from '@colonial-collections/common';
 import {ChangeManager} from '@colonial-collections/iiif-change-manager';
 import PrettyMilliseconds from 'pretty-ms';
 import {z} from 'zod';
@@ -13,6 +13,8 @@ const runOptionsSchema = z.object({
   iriFile: z.string(),
   numberOfIrisPerRequest: z.number().optional(),
   waitBetweenRequests: z.number().min(0).optional(),
+  dirWithQueue: z.string(),
+  numberOfLinesPerFileWithIris: z.number(),
 });
 
 export type RunOptions = z.infer<typeof runOptionsSchema>;
@@ -45,6 +47,13 @@ export async function run(options: RunOptions) {
     iriFile: opts.iriFile,
     numberOfIrisPerRequest: opts.numberOfIrisPerRequest,
     waitBetweenRequests: opts.waitBetweenRequests,
+  });
+
+  // Split the file into smaller ones, for queue-based processing
+  await splitFileByLines({
+    filename: opts.iriFile,
+    numberOfLines: opts.numberOfLinesPerFileWithIris,
+    outputDir: opts.dirWithQueue,
   });
 
   const runEndedAt = new Date();

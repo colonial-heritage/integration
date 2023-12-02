@@ -1,16 +1,16 @@
 import {SparqlEndpointFetcher} from 'fetch-sparql-endpoint';
 import {z} from 'zod';
 
-const shouldDoNewRunOptionsSchema = z.object({
+const optionsSchema = z.object({
   endpointUrl: z.string().url(),
   datasetId: z.string(),
   dateLastRun: z.date().optional(), // Undefined if not run before
 });
 
-export type ShouldDoNewRunOptions = z.input<typeof shouldDoNewRunOptionsSchema>;
+export type Options = z.input<typeof optionsSchema>;
 
-export async function shouldDoNewRun(options: ShouldDoNewRunOptions) {
-  const opts = shouldDoNewRunOptionsSchema.parse(options);
+export async function shouldDoNewRun(options: Options) {
+  const opts = optionsSchema.parse(options);
 
   const fetcher = new SparqlEndpointFetcher();
   const dateLastRun = opts.dateLastRun ?? new Date();

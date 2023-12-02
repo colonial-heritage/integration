@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "glob": "10.3.4",
-    "pino": "8.16.2"
+    "pino": "8.16.2",
+    "zod": "3.22.4"
   },
   "tsup": {
     "entry": [

@@ -80,7 +80,7 @@ export async function fetchMetadataAndWriteToFile(options: Options) {
   writeStream.end();
   await finished(writeStream); // Wait until writing is done
 
-  // Split the CSV file into smaller ones, for queue-based processing
+  // Split the file into smaller ones, for queue-based processing
   await splitFileByLines({
     filename: fileWithMetadata,
     numberOfLines: opts.numberOfLinesPerFileWithMetadata,

@@ -1,18 +1,19 @@
-import {run} from './processor.js';
+import {run} from './fetcher.js';
 import {copyFile, mkdir} from 'node:fs/promises';
 import {dirname, join} from 'node:path';
 import {env} from 'node:process';
 import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
 
-const outputDir = './tmp/processor';
+const outputDir = './tmp/fetcher';
+const iriFile = join(outputDir, 'iris.txt');
+const dirWithQueue = join(outputDir, 'queue');
 
 beforeEach(async () => {
   await rimraf(outputDir);
 });
 
 describe('run', () => {
-  const iriFile = join(outputDir, 'iris.txt');
   const fileWithRun = join(outputDir, 'recent-run.nt');
 
   beforeEach(async () => {
@@ -27,12 +28,13 @@ describe('run', () => {
       datasetId: 'https://example.org/datasets/1',
       queryFile: './fixtures/iterate.rq',
       iriFile,
+      dirWithQueue,
+      numberOfLinesPerFileWithIris: 1,
     });
   });
 });
 
 describe('run', () => {
-  const iriFile = join(outputDir, 'iris.txt');
   const fileWithRun = join(outputDir, 'old-run.nt');
 
   beforeEach(async () => {
@@ -47,6 +49,8 @@ describe('run', () => {
       datasetId: 'https://example.org/datasets/1',
       queryFile: './fixtures/iterate.rq',
       iriFile,
+      dirWithQueue,
+      numberOfLinesPerFileWithIris: 1,
     });
   });
 });

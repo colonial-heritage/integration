@@ -1,4 +1,4 @@
-import {deleteObsoleteResoures} from './deleter.js';
+import {deleteObsoleteFiles} from './deleter.js';
 import {glob} from 'glob';
 import {existsSync} from 'node:fs';
 import {cp, mkdir} from 'node:fs/promises';
@@ -6,7 +6,7 @@ import {join} from 'node:path';
 import {rimraf} from 'rimraf';
 import {beforeEach, describe, expect, it} from 'vitest';
 
-describe('deleteObsoleteResoures', () => {
+describe('deleteObsoleteFiles', () => {
   const iriFile = './fixtures/iris.txt';
   const outputDir = './tmp/deleter';
   const dirWithResources = join(outputDir, 'resources');
@@ -18,8 +18,8 @@ describe('deleteObsoleteResoures', () => {
     await cp('./fixtures/resources', dirWithResources, {recursive: true});
   });
 
-  it('deletes obsolete resources if IRIs match', async () => {
-    await deleteObsoleteResoures({
+  it('deletes obsolete files if IRIs match', async () => {
+    await deleteObsoleteFiles({
       dirWithResources,
       iriFile,
     });

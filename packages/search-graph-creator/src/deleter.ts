@@ -42,11 +42,11 @@ async function getIrisFromFile(iriFile: string) {
   return iris;
 }
 
-export async function deleteObsoleteResoures(options: Options) {
+export async function deleteObsoleteFiles(options: Options) {
   const opts = optionsSchema.parse(options);
 
   const logger = getLogger();
-  logger.info(`Deleting obsolete resources in "${opts.dirWithResources}"`);
+  logger.info(`Deleting obsolete files in "${opts.dirWithResources}"`);
 
   // This can be a huge file - be mindful of the memory consumption
   const iris = await getIrisFromFile(opts.iriFile);
