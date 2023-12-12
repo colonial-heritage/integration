@@ -60,7 +60,7 @@
     a crm:E21_Person ;
     rdfs:label "Jan de Vries" ;
   ] ;
-  crm:P23_transferred_title_from [
+  crm:P22_transferred_title_to [
     a crm:E21_Person ;
     rdfs:label "Jonathan Hansen" ;
   ] ;
@@ -98,7 +98,7 @@
     a crm:E21_Person ;
     rdfs:label "Jonathan Hansen" ;
   ] ;
-  crm:P22_transferred_title_to <https://museum.nl> ; # Buyer
+  crm:P22_transferred_title_to <https://museum.example.org/> ; # Buyer
   crm:P9i_forms_part_of <https://example.org/objects/1/provenance/event/5> .
 
 <https://example.org/objects/1/provenance/event/5>
