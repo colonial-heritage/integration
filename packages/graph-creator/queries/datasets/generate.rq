@@ -5,8 +5,6 @@
 
 PREFIX cc: <https://colonialcollections.nl/schema#> # Internal ontology
 PREFIX schema: <https://schema.org/>
-PREFIX skolem: <https://triplydb.com/.well-known/genid/>
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 CONSTRUCT {
   ?dataset a cc:Dataset ;
@@ -14,12 +12,7 @@ CONSTRUCT {
     cc:publisher ?publisherName ;
     cc:license ?licenseName ;
     cc:description ?description ;
-    cc:keyword ?keywords ;
-    cc:dateCreated ?dateCreated ;
-    cc:dateModified ?dateModified ;
-    cc:datePublished ?datePublished ;
-    cc:genre ?genreName ;
-    cc:mainEntityOfPage ?mainEntityOfPage . # TODO: remove later
+    cc:keywords ?keywords .
 }
 WHERE {
   VALUES ?dataset {
@@ -30,7 +23,6 @@ WHERE {
   # Title
   ####################
 
-  # Required property, but it may not exist in a specific language
   OPTIONAL {
     ?dataset schema:name ?tmpName
     FILTER(LANG(?tmpName) = "" || LANGMATCHES(LANG(?tmpName), "en"))
@@ -48,10 +40,8 @@ WHERE {
   # Some licenses are provided as strings (!), not IRIs - convert
   BIND(IRI(?tmpLicense) AS ?license)
 
-  # Required property, but it may not exist in a specific language
   OPTIONAL {
-    ?license a schema:DigitalDocument ;
-      schema:name ?tmpLicenseName .
+    ?license schema:name ?tmpLicenseName .
     FILTER(LANG(?tmpLicenseName) = "" || LANGMATCHES(LANG(?tmpLicenseName), "en"))
   }
 
@@ -64,10 +54,8 @@ WHERE {
 
   ?dataset schema:publisher ?publisher .
 
-  # Required property, but the publisher name may not exist in a specific language
   OPTIONAL {
-    ?publisher a schema:Organization ;
-      schema:name ?tmpPublisherName .
+    ?publisher schema:name ?tmpPublisherName .
     FILTER(LANG(?tmpPublisherName) = "" || LANGMATCHES(LANG(?tmpPublisherName), "en"))
   }
 
@@ -84,37 +72,11 @@ WHERE {
   }
 
   ####################
-  # Keyword
+  # Keywords
   ####################
 
   OPTIONAL {
     ?dataset schema:keywords ?keywords
     FILTER(LANG(?keywords) = "" || LANGMATCHES(LANG(?keywords), "en"))
-  }
-
-  OPTIONAL { ?dataset schema:dateCreated ?dateCreated }
-  OPTIONAL { ?dataset schema:dateModified ?dateModified }
-  OPTIONAL { ?dataset schema:datePublished ?datePublished }
-
-  ####################
-  # Genre
-  ####################
-
-  OPTIONAL {
-    ?dataset schema:additionalType ?additionalType .
-    ?additionalType a skos:Concept ;
-      skos:prefLabel ?genreName .
-    FILTER(LANG(?genreName) = "" || LANGMATCHES(LANG(?genreName), "en"))
-  }
-
-  ####################
-  # Landing page
-  ####################
-
-  OPTIONAL {
-    ?dataset schema:mainEntityOfPage ?mainEntityOfPage
-    # The NDE Dataset Register allows blank nodes for the landing page.
-    # TriplyDB turns these into skolemized IRIs. Remove these for Elasticsearch
-    FILTER(!STRSTARTS(STR(?mainEntityOfPage), STR(skolem:)))
   }
 }
