@@ -121,7 +121,7 @@
     crm:P2_has_type <http://vocab.getty.edu/aat/300444174> ; # "Provenance statement"
   ] ;
   crm:P9_consists_of <https://example.org/objects/1/provenance/event/5/activity/1> ;
-  crm:P183i_starts_after_the_end_of <https://example.org/objects/1/provenance/event/1> ;
+  crm:P183i_starts_after_the_end_of <https://example.org/objects/1/provenance/event/2> ;
   crm:P183_ends_before_the_start_of <https://example.org/objects/1/provenance/event/3> .
 
 <https://example.org/objects/1/provenance/event/3/activity/1>
