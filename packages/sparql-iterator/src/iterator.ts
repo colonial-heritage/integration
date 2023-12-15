@@ -34,7 +34,7 @@ export class Iterator extends EventEmitter {
     this.endpointUrl = opts.endpointUrl;
     this.numberOfIrisPerRequest = opts.numberOfIrisPerRequest;
     this.waitBetweenRequests = opts.waitBetweenRequests;
-    this.query = this.getAndValidateIterateQuery(opts.query);
+    this.query = this.validateQuery(opts.query);
     this.writeStream = opts.writeStream;
     this.fetcher = new SparqlEndpointFetcher({
       method: opts.endpointMethod,
@@ -42,12 +42,12 @@ export class Iterator extends EventEmitter {
     });
   }
 
-  private getAndValidateIterateQuery(query: string) {
+  private validateQuery(query: string) {
     // Some sanity checks - can be optimized
     // TBD: use sparqljs for validation?
     const bindings = ['?_limit', '?_offset']; // Basil notation
     const hasBindings = bindings.every(
-      binding => query.indexOf(binding) !== undefined
+      binding => query.indexOf(binding) !== -1
     );
     if (!hasBindings) {
       throw new Error(
