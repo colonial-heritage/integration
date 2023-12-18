@@ -19,7 +19,7 @@
     "@colonial-collections/iiif-change-manager": "*",
     "@colonial-collections/triplydb": "*",
     "cac": "6.7.14",
-    "csv": "6.3.5",
+    "csv": "6.3.6",
     "glob": "10.3.4",
     "mkdirp": "3.0.1",
     "physical-cpu-count-async": "1.0.0",
