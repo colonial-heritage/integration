@@ -6,7 +6,8 @@ WHERE {
   {
     SELECT ?iri
     WHERE {
-      ?iri a schema:Person
+      ?iri a schema:Person ;
+        schema:isPartOf <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken> .
     }
   }
 }
