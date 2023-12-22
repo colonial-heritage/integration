@@ -11,9 +11,9 @@ WHERE {
     SELECT ?iri
     WHERE {
       VALUES ?iri {
-        <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects>
-        <https://colonial-heritage.triply.cc/nmvw/collection-archives>
-        <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken>
+        <https://linkeddata.cultureelerfgoed.nl/rce/colonialobjects>
+        <https://data.colonialcollections.nl/nmvw/collection-archives>
+        <https://data.colonialcollections.nl/Bronbeek/Stamboeken>
       }
       ?iri a dcat:Dataset
     }
