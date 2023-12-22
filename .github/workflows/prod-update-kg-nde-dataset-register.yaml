@@ -1,8 +1,12 @@
 name: Production - update the Knowledge Graph with dataset descriptions from the NDE Dataset Registry
 
+# on:
+  # schedule:
+  #   - cron: "5 20 * * *"
+
 on:
-  schedule:
-    - cron: "5 20 * * *"
+  push:
+    branches: ["main"]
 
 jobs:
   update-kg:
