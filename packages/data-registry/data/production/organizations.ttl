@@ -5,7 +5,7 @@
 
 @prefix schema: <https://schema.org/> .
 
-<https://colonial-heritage.triply.cc/nmvw>
+<https://data.colonialcollections.nl/nmvw>
   a schema:Organization ;
   schema:url <http://www.wereldculturen.nl> ;
   schema:address [
@@ -16,7 +16,7 @@
     schema:addressCountry "Nederland"@nl, "Netherlands"@en
   ] .
 
-<https://linkeddata.cultureelerfgoed.nl/colonialheritage>
+<https://linkeddata.cultureelerfgoed.nl/rce>
   a schema:Organization ;
   schema:url <https://www.cultureelerfgoed.nl/> ;
   schema:address [
@@ -27,7 +27,7 @@
     schema:addressCountry "Nederland"@nl, "Netherlands"@en
   ] .
 
-<https://colonial-heritage.triply.cc/Bronbeek>
+<https://data.colonialcollections.nl/Bronbeek>
   a schema:Organization ;
   schema:url <http://museumbronbeek.nl/> ;
   schema:address [
