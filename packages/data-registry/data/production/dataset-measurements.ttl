@@ -8,23 +8,23 @@
 @prefix dqv: <http://www.w3.org/ns/dqv#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://colonial-heritage.triply.cc/nmvw/collection-archives>
+<https://data.colonialcollections.nl/nmvw/collection-archives>
   dqv:hasQualityMeasurement cc-measurements:5adc4e7b-df31-482f-84ce-7c6e2251727c ,
                             cc-measurements:6de3d568-c0c5-49e7-b056-7473c9469036 .
 
 cc-measurements:5adc4e7b-df31-482f-84ce-7c6e2251727c
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/nmvw/collection-archives> ;
+  dqv:computedOn <https://data.colonialcollections.nl/nmvw/collection-archives> ;
   dqv:isMeasurementOf cc-metrics:languages ;
   dqv:value "false"^^xsd:boolean .
 
 cc-measurements:6de3d568-c0c5-49e7-b056-7473c9469036
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/nmvw/collection-archives> ;
+  dqv:computedOn <https://data.colonialcollections.nl/nmvw/collection-archives> ;
   dqv:isMeasurementOf cc-metrics:open-license ;
   dqv:value "true"^^xsd:boolean .
 
-<https://colonial-heritage.triply.cc/nmvw/collection-archives/sparql/Virtuoso>
+<https://data.colonialcollections.nl/nmvw/collection-archives/sparql/Virtuoso>
   dqv:hasQualityMeasurement cc-measurements:0bb3e883-3439-4bf7-93c2-2ba0f2e43c8a ,
                             cc-measurements:4a452a07-534c-44d2-afbc-3c1321f5b4f6 ,
                             cc-measurements:20095c7d-7259-4419-9ec0-5ddd86d10da5 ,
@@ -32,47 +32,47 @@ cc-measurements:6de3d568-c0c5-49e7-b056-7473c9469036
 
 cc-measurements:0bb3e883-3439-4bf7-93c2-2ba0f2e43c8a
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/nmvw/collection-archives/sparql/Virtuoso> ;
+  dqv:computedOn <https://data.colonialcollections.nl/nmvw/collection-archives/sparql/Virtuoso> ;
   dqv:isMeasurementOf cc-metrics:online ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:4a452a07-534c-44d2-afbc-3c1321f5b4f6
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/nmvw/collection-archives/sparql/Virtuoso> ;
+  dqv:computedOn <https://data.colonialcollections.nl/nmvw/collection-archives/sparql/Virtuoso> ;
   dqv:isMeasurementOf cc-metrics:structured-format ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:20095c7d-7259-4419-9ec0-5ddd86d10da5
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/nmvw/collection-archives/sparql/Virtuoso> ;
+  dqv:computedOn <https://data.colonialcollections.nl/nmvw/collection-archives/sparql/Virtuoso> ;
   dqv:isMeasurementOf cc-metrics:open-format ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:f94d44bd-9e27-4ad0-a361-70d5652b764f
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/nmvw/collection-archives/sparql/Virtuoso> ;
+  dqv:computedOn <https://data.colonialcollections.nl/nmvw/collection-archives/sparql/Virtuoso> ;
   dqv:isMeasurementOf cc-metrics:rdf-format ;
   dqv:value "true"^^xsd:boolean .
 
 ##################################################
 
-<https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects>
+<https://linkeddata.cultureelerfgoed.nl/rce/colonialobjects>
   dqv:hasQualityMeasurement cc-measurements:9b4ae711-5b7d-4fe5-b6ce-bd6dea2a12b8 ,
                             cc-measurements:376043c7-5855-407e-9ab3-ab1192eaee6f .
 
 cc-measurements:9b4ae711-5b7d-4fe5-b6ce-bd6dea2a12b8
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects> ;
+  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/rce/colonialobjects> ;
   dqv:isMeasurementOf cc-metrics:languages ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:376043c7-5855-407e-9ab3-ab1192eaee6f
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects> ;
+  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/rce/colonialobjects> ;
   dqv:isMeasurementOf cc-metrics:open-license ;
   dqv:value "true"^^xsd:boolean .
 
-<https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/sparql/colonialobjects>
+<https://linkeddata.cultureelerfgoed.nl/rce/colonialobjects/sparql/colonialobjects>
   dqv:hasQualityMeasurement cc-measurements:98b72b74-7cea-4a34-ad8c-4877005ca085 ,
                             cc-measurements:ed4ded77-137a-48df-a9b6-e2c48c16fd42 ,
                             cc-measurements:e985c5e9-e5d3-43de-86bc-a50d5b601367 ,
@@ -80,47 +80,47 @@ cc-measurements:376043c7-5855-407e-9ab3-ab1192eaee6f
 
 cc-measurements:98b72b74-7cea-4a34-ad8c-4877005ca085
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/sparql/colonialobjects> ;
+  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/rce/colonialobjects/sparql/colonialobjects> ;
   dqv:isMeasurementOf cc-metrics:online ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:ed4ded77-137a-48df-a9b6-e2c48c16fd42
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/sparql/colonialobjects> ;
+  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/rce/colonialobjects/sparql/colonialobjects> ;
   dqv:isMeasurementOf cc-metrics:structured-format ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:e985c5e9-e5d3-43de-86bc-a50d5b601367
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/sparql/colonialobjects> ;
+  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/rce/colonialobjects/sparql/colonialobjects> ;
   dqv:isMeasurementOf cc-metrics:open-format ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:2d7cae82-6c7e-4ec6-891a-147235b553fa
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/colonialheritage/colonialobjects/sparql/colonialobjects> ;
+  dqv:computedOn <https://linkeddata.cultureelerfgoed.nl/rce/colonialobjects/sparql/colonialobjects> ;
   dqv:isMeasurementOf cc-metrics:rdf-format ;
   dqv:value "true"^^xsd:boolean .
 
-<https://colonial-heritage.triply.cc/Bronbeek/Stamboeken>
+<https://data.colonialcollections.nl/Bronbeek/Stamboeken>
   dqv:hasQualityMeasurement cc-measurements:4ad3d49e-7b0d-43c0-a356-c5f7c9a044e7 ,
                             cc-measurements:7e17d901-4dce-496d-a24d-653b16f14c3c .
 
 cc-measurements:4ad3d49e-7b0d-43c0-a356-c5f7c9a044e7
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken> ;
+  dqv:computedOn <https://data.colonialcollections.nl/Bronbeek/Stamboeken> ;
   dqv:isMeasurementOf cc-metrics:languages ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:7e17d901-4dce-496d-a24d-653b16f14c3c
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken> ;
+  dqv:computedOn <https://data.colonialcollections.nl/Bronbeek/Stamboeken> ;
   dqv:isMeasurementOf cc-metrics:open-license ;
   dqv:value "true"^^xsd:boolean .
 
 ##################################################
 
-<https://colonial-heritage.triply.cc/Bronbeek/Stamboeken/sparql/Stamboeken>
+<https://data.colonialcollections.nl/Bronbeek/Stamboeken/sparql/Stamboeken>
   dqv:hasQualityMeasurement cc-measurements:843b69ed-ae98-4769-840c-6e45cc7076a0 ,
                             cc-measurements:a5bfe798-7573-454a-8a4d-f04f02fc2a9e ,
                             cc-measurements:e1627408-2941-47e8-a495-c3002bc28636 ,
@@ -128,24 +128,24 @@ cc-measurements:7e17d901-4dce-496d-a24d-653b16f14c3c
 
 cc-measurements:843b69ed-ae98-4769-840c-6e45cc7076a0
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken/sparql/Stamboeken> ;
+  dqv:computedOn <https://data.colonialcollections.nl/Bronbeek/Stamboeken/sparql/Stamboeken> ;
   dqv:isMeasurementOf cc-metrics:online ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:a5bfe798-7573-454a-8a4d-f04f02fc2a9e
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken/sparql/Stamboeken> ;
+  dqv:computedOn <https://data.colonialcollections.nl/Bronbeek/Stamboeken/sparql/Stamboeken> ;
   dqv:isMeasurementOf cc-metrics:structured-format ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:e1627408-2941-47e8-a495-c3002bc28636
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken/sparql/Stamboeken> ;
+  dqv:computedOn <https://data.colonialcollections.nl/Bronbeek/Stamboeken/sparql/Stamboeken> ;
   dqv:isMeasurementOf cc-metrics:open-format ;
   dqv:value "true"^^xsd:boolean .
 
 cc-measurements:06c06df2-b809-4cd7-ae7e-36b711345dc5
   a dqv:QualityMeasurement ;
-  dqv:computedOn <https://colonial-heritage.triply.cc/Bronbeek/Stamboeken/sparql/Stamboeken> ;
+  dqv:computedOn <https://data.colonialcollections.nl/Bronbeek/Stamboeken/sparql/Stamboeken> ;
   dqv:isMeasurementOf cc-metrics:rdf-format ;
   dqv:value "true"^^xsd:boolean .
