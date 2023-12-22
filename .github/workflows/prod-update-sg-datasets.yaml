@@ -1,8 +1,12 @@
 name: Production - update the Search Graph with data from dataset 'Datasets' in the Knowledge Graph
 
+# on:
+#   schedule:
+#     - cron: "5 2 * * *"
+
 on:
-  schedule:
-    - cron: "5 2 * * *"
+  push:
+    branches: ["main"]
 
 jobs:
   update-sg:
